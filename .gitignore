@@ -4,7 +4,7 @@ mumu/settings.py
 gunicorn/
 nginx/
 supervisor/
-supervisor.conf
+supervisord.conf
 quizzer.geany
 assets/
 *.db
