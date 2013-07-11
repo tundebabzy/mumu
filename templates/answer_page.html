@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load render_table from django_tables2 %}
+{% block main-container %}
+            <div class="large-10 large-centered columns">                
+                <div class="show-for-large-up large-6 columns"><span class="label">Category: {{ selection }}</span></div>
+                <div class="show-for-large-up large-6 columns"><span class="secondary label right"><a href="{% url quiz_selection %}">Change Category</a></span></div>
+                <div class="hide-for-large-up small-6"><span class="label">Category: {{ selection|truncatechars:10 }}</span></div>
+                <div class="hide-for-large-up small-6"><br /><span class="secondary label"><a href="{% url quiz_selection %}">Change Category</a></span></div>
+                <br /><br />
+
+                <div class="large-8 columns">
+                    <h3>The Question</h3>
+                    <p><em>{{ question }}</em></p>
+                    
+                    {% if explanation %}
+                    <h3>Here's the explanation</h3>
+                        {% for explan in explanation %}
+                            <p>{{ explan|truncatechars:120 }}</p>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if links %}
+                    <h3>Links</h3>
+                        <ul class="inline-list">
+                        {% for link in links %}
+                            <li><a href="{{ link }}">{{ link }}</a></li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <h3>Assessment</h3>
+                    {% if is_correct %}
+                        <p>You were <em>correct</em></p>
+                    {% else %}
+                        <p>You were <em>wrong</em></p>
+                    {% endif %}
+                    
+                    <p><a href="{{ next }}">Next Question</a></p>                    
+                </div>  <!-- large-9 -->
+                <div class="large-4 columns">
+                    <!--<h5 class="subheader">Previously on this question</h5>-->
+                    {% render_table report %}
+                </div>  <!-- large-3 -->
+            </div>  <!-- large-12 -->
+{% endblock %}

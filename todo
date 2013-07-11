@@ -1,0 +1,66 @@
+========
+FEATURES
+========
+3. Create a test suite or tests.
+
+4. Add Report links on the answer page
+
+6. Create an app for rewarding customers
+        
+9. The quiz select screen for staff is empty. Allow them any quiz of their liking.
+        
+19. 
+    
+    
+=========
+COMPLETED
+=========
+1. Rewrite all the views
+    changes:
+1.    It now subclasses FormView.
+2.    Methods that are not part of FormView were moved to mixins
+3.    When GradeQuestionView is called, it no longer a recreation of an AnswerLogs
+      object for every refresh. Instead it will know if the request is a refresh by
+      checking for the availability of a session variable.
+
+2. Add a page where the user can see his/her payment history
+
+7. Change the user creation flow to be
+    i. Create user and send confirmation email
+    ii. When the user customer cofirms account, put a button to link the customer
+        to the pricing page.
+
+10. Add account creation link to navigation bar.
+
+8. Create Buy forms
+iv. If an AnnonymousUser is trying to pay, redirect to account creation page
+i. Free session
+ii. Standard Lite
+iii. Standard
+
+12. Things would be less complex if customers are immediately given a free
+    session upon account creation. This will invalidate item 7.
+    
+5. Add a change account details page
+
+11. In the pricing page, the START button should link to the select page if
+    user is an account holder with an active subsription else it should link
+    to pricing page
+
+15. Put the user's subscription status on each page
+
+14. Payment history table should include the type of subscription
+
+13. Show a message in previous performance table if the table is empty
+
+18. Add an extra field, effective_date to Payment so that the time of payment can be
+    saved and the time the payment takes effect can be saved.
+
+16. Inform users with active subscription if they try to pay for another package
+    doing so will show them only questions from the latest payment even though
+    the former package will show as active in their payment logs.
+    
+17. When a user does an account settings change or is redirected back to the pricing
+    page for trying to activate a free subscription twice, use the message framework
+    to post a message.
+

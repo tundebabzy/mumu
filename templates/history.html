@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Mumu| History {% endblock %}
+{% block main-container %}
+            <div class="large-8 large-centered columns">
+            {% with objects=object_list %}
+                <p>Hi {{ user }}.</p>
+                {% if not user.is_staff %}
+                <p>
+                Thanks for choosing to study with mumu.com.ng. Your subscription
+                is presently {% if last_payment %} active 
+                {% else %}expired. 
+                <a class="button tiny" href="{% url pricing %}">Renew</a>{% endif %}
+                {% endif %}
+                </p>
+                <p>
+                Here's your payment history below.
+                </p>
+                {% if objects %}
+                <table class="large-10 large-centered">
+                    <thead>
+                        <tr>
+                            <th>Payment Date</th>
+                            <th>Effective Date</th>
+                            <th>Subscription Type</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for object in objects %}
+                        <tr>
+                            <td>{{ object.time }}</td>
+                            <td>{{ object.effective_time }}</td>
+                            <td>{{ object.get_subscription_type }}</td>
+                            <td>
+                            {% if object.has_free %}Free Trial
+                            {% elif object.has_not_expired %}Active
+                            {% elif not object.has_not_expired %}Expired 
+                                {%if forloop.first %}&nbsp;&nbsp;&nbsp; {% endif %}
+                            {% else %}Staff Free Session
+                            {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p>There's nothing here....</p>
+                
+                <a class="button" href="{% url pricing %}">Try For Free</a>
+                {% endif %}
+            </div>
+        {% endwith %}
+{% endblock main-container %}

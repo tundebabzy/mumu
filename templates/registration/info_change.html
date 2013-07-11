@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Mumu| Change Personal Details {% endblock %}
+{% block main-container %}
+            <div class="large-6 large-centered columns">
+                <form method="POST">{% csrf_token %}
+                {{ form }}
+                <input class="button" type="submit" value="Change" />
+                </form>
+            </div>
+{% endblock main-container %}

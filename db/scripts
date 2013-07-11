@@ -1,0 +1,36 @@
+CREATE OR REPLACE FUNCTION get_random_id(category TEXT, identifier TEXT) RETURNS INT4 AS $BODY$
+DECLARE
+    id_range    RECORD;
+    reply       INT4;
+    try         INT4 := 0;
+BEGIN
+    IF category = 'exam' THEN
+        SELECT MIN(id), MAX(id) - MIN(id) + 1 AS range INTO id_range FROM quizzer_question WHERE exam_id = (SELECT id FROM quizzer_exam WHERE slug=identifier);
+                    
+    ELSIF category = 'level' THEN
+        SELECT MIN(id), MAX(id) - MIN(id) + 1 AS range INTO id_range FROM quizzer_question WHERE level_id = (SELECT id FROM quizzer_level WHERE slug=identifier);
+                    
+    ELSIF category = 'paper' THEN
+        SELECT MIN(id), MAX(id) - MIN(id) + 1 AS range INTO id_range FROM quizzer_question WHERE paper_id = (SELECT id FROM quizzer_paper WHERE slug=identifier);
+                    
+    ELSIF category = 'topic' THEN
+        SELECT MIN(id), MAX(id) - MIN(id) + 1 AS range INTO id_range FROM quizzer_question WHERE topic_id = (SELECT id FROM quizzer_topic WHERE slug=identifier);
+                    
+    ELSE
+        RAISE EXCEPTION 'Invalid variables';
+        
+    END IF;
+    
+    WHILE ( try < 100 ) LOOP
+        try := try + 1;
+        reply := FLOOR( RANDOM() * id_range.range ) + id_range.min;
+        PERFORM id FROM quizzer_question WHERE id = reply AND approved = TRUE ;
+        
+        IF found THEN
+            RETURN reply;
+        END IF;
+    END LOOP;
+    
+    RAISE EXCEPTION 'No record found after % attempts.', try;
+END;
+$BODY$ LANGUAGE plpgsql STABLE;

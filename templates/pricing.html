@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Mumu| Pricing {% endblock %}
+{% block main-container %}
+            <div class="large-8 large-centered columns">
+                <ul class="pricing-table">
+                    <li class="title">Standard</li>
+                    <li class="price">N1,000</li>
+                    <li class="description">This package gives you unlimited
+                    access to all the quizzes under one level.</li>
+                    <li class="bullet-item">Unlimited access to only one level</li>
+                    <li class="bullet-item">Valid for thirty days</li>
+                    <li class="bullet-item">Performance based prices</li>
+                    <li class="cta-button"><a class="button" href="{% url standard_session %}">Buy</a></li>
+                </ul>
+                <ul class="pricing-table">
+                    <li class="title">Standard Lite</li>
+                    <li class="price">N500</li>
+                    <li class="description">This package gives you access to all
+                    the quizzes under one paper. Particularly useful for those
+                    with only one reference.</li>
+                    <li class="bullet-item">Unlimited access to only one paper</li>
+                    <li class="bullet-item">Valid for thirty days</li>
+                    <li class="bullet-item">Performance based prices</li>
+                    <li class="cta-button"><a class="button" href="{% url standard_lite_session %}">Buy</a></li>
+                </ul>
+                <ul class="pricing-table">
+                    <li class="title">Free</li>
+                    <li class="price">0.00</li>
+                    <li class="description">You can call it a free trial</li>
+                    <li class="bullet-item">Same as `Standard` but....</li>
+                    <li class="bullet-item">Valid for 60 minutes</li>
+                    <li class="bullet-item">Can be used only once</li>
+                    <li class="cta-button"><a class="button" href="{% url free_session %}">Start</a></li>
+                </ul>
+            </div>
+{% endblock main-container %}

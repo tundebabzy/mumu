@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block main-container %}
+    {% if random_question %}
+            <div class="large-8 large-centered columns">
+                <div class="show-for-large-up large-6 columns"><span class="label">Category: {{ selection }}</span></div>
+                <div class="show-for-large-up large-6 columns"><span class="secondary label right"><a href="{% url quiz_selection %}">Change Category</a></span></div>
+                <div class="hide-for-large-up small-6"><span class="label">Category: {{ selection|truncatechars:10 }}</span></div>
+                <div class="hide-for-large-up small-6"><br /><span class="secondary label"><a href="{% url quiz_selection %}">Change Category</a></span></div>
+                <br />
+                <br />
+                <div class="large-12 columns">
+                    <p>{{ random_question }}</p>
+                    <hr />
+                
+                    <form action="" method="POST">{% csrf_token %}
+                        {% with form_options=options.options %}
+                            {% if error %}
+                            <div class="panel callout">{{ error }}</div>
+                            {% endif %}
+                            {% for option in form_options %}
+                                {{ option }}
+                            {% endfor %}
+                        {% endwith %}
+                        {% comment %} The hidden field is nothing more than
+                        just a flag to show if the form has been  submitted
+                        {% endcomment %}
+                        <input type="submit" value="Submit" />
+                    </form> <!-- form -->
+                </div>  <!-- large-12 columns -->
+            </div>  <!-- large-8 large-centered columns -->
+    {% endif %}
+{% endblock main-container %}

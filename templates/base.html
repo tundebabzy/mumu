@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="author" content="Babatunde Akinyanmi" />
+        
+        <title>{% block title %}Mumu.com.ng{% endblock %}</title>
+
+        {% block css %}<link rel="stylesheet" href="{{ STATIC_URL }}css/foundation.css" />{% endblock css %}
+
+        <script src="{{ STATIC_URL }}js/vendor/custom.modernizr.js"></script>
+
+    </head>
+    
+    <body>
+
+        {% if messages %}
+        <div data-alert class="alert-box ">
+            {% for message in messages %}
+            <p>{{ message }}<br /></p>
+            <a href="#" class="close">&times;</a>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Navigation things -------->
+        <nav class="top-bar">
+          <ul class="title-area">
+            <!-- Title Area -->
+            <li class="name">
+              <h1><a href="{% url quiz_selection %}">Mumu.com.ng</a></h1>
+            </li>
+            <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+            <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+          </ul>
+
+          <section class="top-bar-section">
+            <!-- Left Nav Section -->
+            <ul class="left">
+              <li class="divider"></li>
+              <li><a href="{% url how_it_works %}">How it works</a></li>
+              <li class="divider"></li>
+              <li><a href="{% url pricing %}">Pricing</a></li>
+              <li class="divider"></li>
+            </ul>
+            <!-- Left Nav Section End -->
+
+            <!-- Right Nav Section -->
+            {% if user.is_authenticated %}
+            <ul class="right">
+              <li class="divider"></li>
+              <li class="has-dropdown"><a href="#">{{ user }} {% if status %}on {{ status }}{% else %}| Inactive {% endif %}</a>
+
+                <ul class="dropdown">
+                  <li><label>ACCOUNT SETTINGS</label></li>
+                  <li class="has-dropdown"><a href="#" class="">Account Settings</a>
+
+                    <ul class="dropdown">
+                      <li><a href="{% url change_details %}">Change Personal Details</a></li>
+                      <li><a href="{% url auth_password_change %}">Change Password</a></li>
+                      <li><a href="{% url pricing %}">Change Package</a></li>
+                      <li><a href="{% url history %}">View Payment History</a></li>
+                    </ul>
+                  </li>
+                  <li class="divider"></li>
+                  <li><a href="{% url auth_logout %}">Sign Out</a></li>
+                </ul>
+              </li>
+              <li class="divider"></li>
+            </ul>
+            {% else %}
+            <ul class="right">
+                <li class="divider"></li>
+                <li><a href="{% url registration_register %}">Register</a></li>
+                <li class="divider"></li>
+                <li><a href="{% url auth_login %}">Sign In</a></li>
+            </ul>
+            {% endif %}
+          </section>
+        </nav>
+        <!-- End of navigation things -------->
+                
+        <div class="row">
+            {% block main-container %}{% endblock main-container %}
+        </div>
+
+        <!-- Check for Zepto support, load jQuery if necessary -->
+        <script>
+          document.write('<script src={{ STATIC_URL }}js/vendor/'
+            + ('__proto__' in {} ? 'zepto' : 'jquery')
+            + '.js><\/script>');
+        </script>
+        <script src="{{ STATIC_URL }}js/foundation.min.js"></script>
+        <script>
+        {% block load-foundation-plugin %}
+          $(function(){
+            $(document).foundation();    
+          })
+        {% endblock %}
+        </script>
+    </body>
+</html>

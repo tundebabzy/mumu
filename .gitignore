@@ -1,0 +1,10 @@
+*~
+*.pyc
+mumu/settings.py
+gunicorn/
+nginx/
+supervisor/
+supervisor.conf
+quizzer.geany
+assets/
+*.db

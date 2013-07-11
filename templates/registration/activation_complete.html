@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block main-container %}
+            <div class="large-9 large-centered columns">
+                <p><strong>
+                Congratulations. Your account is now activated and you can now
+                now have access to our vast database of preparatory quizzes to
+                help you prepare for your exams.
+                </strong></p>
+                <p><strong>
+                We are going to give you a free one hour session to start with
+                so you can have a feel of MuMu.com.ng's awesome goodness. Just
+                click the "START" button, sign in and select the level you are
+                preparing for.
+                </strong></p>
+            </div>
+            <div class="large-9 large-centered columns">
+                <a class="button" href="{% url free_session %}">START</a>
+            </div>
+{% endblock main-container %}

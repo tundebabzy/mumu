@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Mumu| History {% endblock %}
+{% block main-container %}
+    {% if status.has_not_expired and not status.get_subscription_type == 'Free'%}
+            <div data-alert class="alert-box alert large-12 columns">
+                <p><strong>Before you go further:<br /></strong>
+                <strong>
+                If you just need to change the level or paper
+                you are subscribed, abort this transaction and send an email
+                to <a href="mailto:help@mumu.com.ng">help@mumu.com.ng</a>. You 
+                will be promptly attended to by one of our customer care reps.<br />
+                However, If you go ahead to complete the transaction, we will
+                assume that your intention is to pay ahead and your payment will
+                be effective from the day your last subscription expires.<br />
+                </strong>
+                </p>
+                <a href="#" class="close">&times;</a>
+            </div>
+    {% endif %}
+            <div class="large-3 large-centered columns">
+                <form method="POST">{% csrf_token %}
+                    {{ form }}
+                    <input class="button" type="submit" value="Confirm" />
+                </form>
+            </div>
+{% endblock main-container %}

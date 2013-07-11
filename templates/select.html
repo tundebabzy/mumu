@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load quiz_listing %}
+{% block title %}Mumu | ICAN Preparation Testing{% endblock title %}
+
+{% block main-container %}
+            <div class="large-11 large-centered columns">
+                <p>Select a quiz:</p>
+                {% quiz_listing user %}
+            </div>  <!-- large-11 large-centered columns -->
+{% endblock main-container %}

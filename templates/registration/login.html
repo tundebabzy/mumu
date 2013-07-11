@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title%}Sign In{% endblock title %}
+
+{% block main-container %}
+            <div class="large-6 large-centered columns">
+                <form action="" method="post">
+                  {% csrf_token %}
+                  <fieldset>
+                    <legend>Signin</legend>
+                    {{ form.non_field_errors }}
+                    {% for field in form %}
+                        {{ field.errors }}
+                        {{ field.label_tag }}
+                        {{ field }}
+                    {% endfor %}
+                  </fieldset>
+                  <input type="submit" value="Signin" />
+                  <a href="{% url registration_register %}" title="Signup"> Get an account</a> | 
+                  <a href="{% url auth_password_reset %}" title="Forgot your password?">Forgot your password?</a>
+                  {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+                </form>
+            </div>
+{% endblock main-container %}
