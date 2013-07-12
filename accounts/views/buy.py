@@ -34,7 +34,7 @@ class BaseBuySessionView(CreateView, SubscriptionStatusMixin):
         last_payment = get_last_payment(request)
         if last_payment:
             if last_payment.get_subscription_type() == 'Free':
-                last_payment_expiry = last_payment.effective_time + datetime.timedelta(minutes=30)
+                last_payment_expiry = last_payment.effective_time + datetime.timedelta(hours=24)
             else:
                 last_payment_expiry = last_payment.effective_time + datetime.timedelta(days=30)
             self.object = Payment(user=request.user, effective_time=last_payment_expiry)

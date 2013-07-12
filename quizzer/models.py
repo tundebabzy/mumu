@@ -204,7 +204,7 @@ class Payment(models.Model):
 
     def has_not_expired(self):
         if 'free' in self.get_subscription():
-            return self.effective_time + datetime.timedelta(minutes=30) >= timezone.now()
+            return self.effective_time + datetime.timedelta(hours=24) >= timezone.now()
         return self.effective_time + datetime.timedelta(days=30) >= timezone.now()
 
     def get_payment_date(self):
