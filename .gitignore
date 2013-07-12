@@ -8,9 +8,3 @@ supervisord.conf
 quizzer.geany
 assets/
 *.db
-*.sw[po]
-*.bak
-*.orig
-*~
-.project
-.pydevproject
