@@ -15,7 +15,7 @@
                     <form action="" method="POST">{% csrf_token %}
                         {% with form_options=options.options %}
                             {% if error %}
-                            <div class="panel callout">{{ error }}</div>
+                            <small class="error">{{ error }}</small>
                             {% endif %}
                             {% for option in form_options %}
                                 {{ option }}
