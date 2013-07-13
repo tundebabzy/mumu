@@ -1,10 +1,10 @@
 Hi,
-You are getting this email because someone registered on http://MuMu.com
+You are getting this email because someone registered on {{ site }}
 with this email address. If you didn't do such an action, please ignore
 this email.
 
-If not, click http://127.0.0.1:8000/accounts/activate/{{ activation_key }}/ to
+If not, click {{ site }}/accounts/activate/{{ activation_key }}/ to
 activate your account. The link will be valid for {{ expiration_days }}
 days.
 
-MuMu.com
+MuMu.com.ng
