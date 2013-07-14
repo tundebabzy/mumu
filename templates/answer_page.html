@@ -10,8 +10,8 @@
                         {% for explan in explanation %}
                             <p>{{ explan|truncatechars:120 }}</p>
                         {% endfor %}
-                    {% endif %}
                     </div>  <!-- panel -->
+                    {% endif %}
 
                     <h5 class="text-center subheader">...so you were <em>{% if is_correct %}correct{% else %}wrong{% endif %}</em></h5>
 
@@ -23,8 +23,8 @@
                             <li><a href="{{ link }}">{{ link }}</a></li>
                         {% endfor %}
                         </ul>
-                    {% endif %}
                     </div>  <!-- panel -->
+                    {% endif %}
 
                     <ul class="inline-list">
                         <li><a class="button" href="{{ next }}">Next Question</a></li>
