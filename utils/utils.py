@@ -1,4 +1,7 @@
 from django.utils import timezone
+from django.forms.util import ErrorList
+from django.utils.safestring import mark_safe
+
 import datetime
 
 def sanitize(word):
@@ -24,3 +27,11 @@ def get_last_payment(request):
         return user.payment_set.all().order_by('-effective_time')[0]
     except IndexError:
         return None
+
+class FormError(ErrorList):
+    def __unicode__(self):
+        return self.error_html()
+
+    def error_html(self):
+        if not self: return u''
+        return mark_safe(u'<div class="error">%s</div>' % ''.join([u'<small>%s</small>' % e for e in self]))
