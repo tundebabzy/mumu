@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import utils
 
 from lib.mixins import SubscriptionStatusMixin, SessionMixin, FormExtrasMixin
+from utils.utils import FormError
 
 from quizzer.models import Option, AnswerLogs
 from quizzer.forms import OptionForm
@@ -56,7 +57,8 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin, SubscriptionStat
             return self.need_to_pay()
 
     def form_invalid(self, question_obj, form):
-        return self.render_to_response(self.get_context_data(random_question=question_obj, options=form, error='You have to select an option'))
+        return self.render_to_response(self.get_context_data(random_question=question_obj, 
+            options=form))
 
     def get_form(self, form_class, question_obj=None):
         """
@@ -70,7 +72,10 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin, SubscriptionStat
         """
         kwargs = super(GenerateQuizView, self).get_form_kwargs()
         if question_obj:
-            kwargs.update({'random_question':question_obj})
+            kwargs.update({
+                'random_question':question_obj,
+                'error_class': FormError
+            })
         return kwargs
             
     def get_template_names(self):
