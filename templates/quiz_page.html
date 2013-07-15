@@ -13,10 +13,8 @@
                     <hr />
                 
                     <form action="" method="POST">{% csrf_token %}
+                        {{ options.options.errors }}
                         {% with form_options=options.options %}
-                            {% if error %}
-                            <small class="error">{{ error }}</small>
-                            {% endif %}
                             {% for option in form_options %}
                                 {{ option }}
                             {% endfor %}

@@ -43,7 +43,6 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin, SubscriptionStat
         """
         if self.subscription_is_ok(**kwargs):
             self.__category = kwargs['category']
-            print self.__category
             self.__identifier = kwargs['identifier']
             question = self.get_session_var('question')
             form_class = self.get_form_class()
