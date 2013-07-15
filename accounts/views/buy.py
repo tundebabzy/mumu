@@ -9,6 +9,7 @@ from django.utils import timezone
 from django.contrib import messages
 
 from lib.mixins import SubscriptionStatusMixin
+from utils.utils import FormError
 
 from accounts.forms import PurchaseLevelForm, PurchasePaperForm
 from quizzer.models import Payment
@@ -60,8 +61,13 @@ class BaseBuySessionView(CreateView, SubscriptionStatusMixin):
     
     def get_context_data(self, **kwargs):
         context = super(BaseBuySessionView, self).get_context_data(**kwargs)
-        context.update({'status': self.account_status()})
+        context.update({'status': self.account_status(),})
         return context
+        
+    def get_form_kwargs(self):
+        kwargs = super(BaseBuySessionView, self).get_form_kwargs()
+        kwargs.update({'error_class': FormError })
+        return kwargs
 
 
 class FreeSessionView(BaseBuySessionView):
