@@ -203,6 +203,8 @@ class Payment(models.Model):
             return ('paper', self.paper)
 
     def has_not_expired(self):
+        if self.get_subscription() == None:
+            return
         if 'free' in self.get_subscription():
             return self.effective_time + datetime.timedelta(hours=24) >= timezone.now()
         return self.effective_time + datetime.timedelta(days=30) >= timezone.now()
