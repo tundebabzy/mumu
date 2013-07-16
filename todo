@@ -10,7 +10,21 @@ FEATURES
 9. The quiz select screen for staff is empty. Allow them any quiz of their liking.
         
 19. Add flashcards
+
+20. On the how-it-works page, don't let the buttons link to the quiz selection
+    page if the user is subscribed
     
+21. Let the user account status be present in request always.
+
+22. Create home page.
+
+23. Logo
+
+25. Rewrite models to make use of django-treebeard for tree representation in db
+    
+27. Make admin site mobile friendly
+
+28.
     
 =========
 COMPLETED
@@ -64,3 +78,4 @@ iii. Standard
     page for trying to activate a free subscription twice, use the message framework
     to post a message.
 
+24. In the activation email, ask folks to copy and paste the email link
