@@ -67,11 +67,9 @@ class FormExtrasMixin(object):
             return True
             
         last_payment = self._get_last_active_payment()
-        print get_last_active_payment(self.request)
         if last_payment:
             return last_payment.has_not_expired()
         else:
-            print '1'
             return False
 
     def is_valid_category(self, category):

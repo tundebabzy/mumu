@@ -54,6 +54,7 @@ class NavigationNode(template.Node):
             html += self._close_div()
             html += self._open_div('PAPERS')
             if last_payment.get_category_paid_for() == 'level':
+                distinct_quests = distinct_quests.filter(level=last_payment.level)
                 for obj in distinct_quests:
                     html += self._gen_html('h3', obj.paper)
             html += self._close_div()
