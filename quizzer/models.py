@@ -223,6 +223,7 @@ class Payment(models.Model):
             return 'Standard'
         if self.paper:
             return 'Standard Lite'
+        return None
             
     def get_status(self):
         if self.has_not_expired():

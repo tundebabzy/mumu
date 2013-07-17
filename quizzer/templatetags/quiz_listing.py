@@ -37,32 +37,59 @@ class NavigationNode(template.Node):
         
     def _close_div(self):
         return u'</div>'
+        
+    def _error_html(self):
+        return u"""
+        <div class="panel">
+            <h5 class="subheader">ACCESS DENIED</h5>
+            <h6>This message normally appears when your subscription has 
+            expired or if you don't have a subscription. If none of these
+            apply to you, please contact us immediately and we will fix
+            the issue for you.
+            """
 
     def make_html(self, context):
         user = self.get_user_from_node(context)
         last_payment = self.get_user_last_payment(user)
-        distinct_quests = Question.objects.select_related().distinct('topic')
+        
+        if not user.is_staff and last_payment is None:
+            return self._error_html()
+        elif not last_payment is None and not last_payment.has_not_expired():
+            return self._error_html()
+            
+        distinct_quests = Question.objects.select_related().order_by('topic').distinct('topic')
         html = ''
         
-        if last_payment:
-            if last_payment.get_category_paid_for() == 'level':
-                html += self._open_div('LEVEL')
-                html += self._gen_html('h2', last_payment.level)
-            elif last_payment.get_category_paid_for() == 'paper':
-                html += self._open_div('PAPER')
-                html += self._gen_html('h3', last_payment.paper)
-            html += self._close_div()
-            html += self._open_div('PAPERS')
-            if last_payment.get_category_paid_for() == 'level':
-                distinct_quests = distinct_quests.filter(level=last_payment.level)
-                for obj in distinct_quests:
-                    html += self._gen_html('h3', obj.paper)
-            html += self._close_div()
-            html += self._open_div('TOPICS')
+        for category in ['LEVEL', 'PAPER', 'TOPIC']:
+            temp = []
+            if not last_payment is None and last_payment.get_category_paid_for() == 'paper':
+                distinct_quests = distinct_quests.order_by('level', 'paper').distinct('paper').filter(paper=last_payment.paper)
+                continue
+            if not last_payment is None and last_payment.get_category_paid_for() == 'level':
+                distinct_quests = distinct_quests.order_by('level', 'paper').distinct('level', 'paper').filter(level=last_payment.level)
+            html += self._open_div(category)
             for obj in distinct_quests:
-                html += self._gen_html('h4', obj.topic)
+                temp2 = None
+                if category == 'LEVEL':
+                    if obj.level in temp:
+                        continue
+                    else:
+                        temp.append(obj.level)
+                    html += self._gen_html('h4', obj.level)
+                elif category == 'PAPER':
+                    if obj.paper in temp:
+                        continue
+                    else:
+                        temp.append(obj.paper)
+                    html += self._gen_html('h4', obj.paper)
+                elif category == 'TOPIC': 
+                    if obj.topic in temp:
+                        continue
+                    else:
+                        temp2 = obj.topic
+                    html += self._gen_html('h4', obj.topic)                
             html += self._close_div()
-            return html
+        return html
 
     def render(self, context):
         if not self in context.render_context:

@@ -1,5 +1,4 @@
 from django.views.generic.edit import FormView
-from django.http import Http404
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.db import utils

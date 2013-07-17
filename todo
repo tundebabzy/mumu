@@ -7,8 +7,6 @@ FEATURES
 
 6. Create an app for rewarding customers
         
-9. The quiz select screen for staff is empty. Allow them any quiz of their liking.
-        
 19. Add flashcards
 
 20. On the how-it-works page, don't let the buttons link to the quiz selection
@@ -19,8 +17,6 @@ FEATURES
 22. Create home page.
 
 23. Logo
-
-25. Rewrite models to make use of django-treebeard for tree representation in db
     
 27. Make admin site mobile friendly
 
@@ -81,3 +77,5 @@ iii. Standard
     to post a message.
 
 24. In the activation email, ask folks to copy and paste the email link
+
+9. The quiz select screen for staff is empty. Allow them any quiz of their liking.
