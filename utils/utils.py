@@ -14,6 +14,8 @@ def sanitize(word):
     
 def get_last_active_payment(request):
     user = request.user
+    if user.is_anonymous():
+        return None
     
     try:
         return user.payment_set.all().order_by('-effective_time').filter(effective_time__lte=timezone.now())[0]
