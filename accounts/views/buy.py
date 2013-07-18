@@ -5,10 +5,8 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import BaseCreateView
 from django.core.exceptions import ImproperlyConfigured
-from django.utils import timezone
 from django.contrib import messages
 
-from lib.mixins import SubscriptionStatusMixin
 from utils.utils import FormError
 
 from accounts.forms import PurchaseLevelForm, PurchasePaperForm
@@ -18,11 +16,10 @@ from utils.utils import get_last_payment
 
 import datetime
 
-class BaseBuySessionView(CreateView, SubscriptionStatusMixin):
+class BaseBuySessionView(CreateView):
     """
     Subclass to specify form_class
     """
-    template_name = 'buy.html'
     success_url_view_name = 'quiz_selection'
     
     @method_decorator(login_required)
@@ -34,11 +31,8 @@ class BaseBuySessionView(CreateView, SubscriptionStatusMixin):
         # expiry time for the user's last payment
         last_payment = get_last_payment(request)
         if last_payment:
-            if last_payment.get_subscription_type() == 'Free':
-                last_payment_expiry = last_payment.effective_time + datetime.timedelta(hours=24)
-            else:
-                last_payment_expiry = last_payment.effective_time + datetime.timedelta(days=30)
-            self.object = Payment(user=request.user, effective_time=last_payment_expiry)
+            self.object = Payment(user=request.user, 
+                effective_time=last_payment.get_expiry_date())
         else:
             self.object = Payment(user=request.user)
         # BaseCreateView which is next in the MRO will set self.object to None
@@ -58,12 +52,7 @@ class BaseBuySessionView(CreateView, SubscriptionStatusMixin):
                         "No URL to redirect to. Either provide a url view name"
                         " or define a get_absolute_url method on the Model.")
         return url
-    
-    def get_context_data(self, **kwargs):
-        context = super(BaseBuySessionView, self).get_context_data(**kwargs)
-        context.update({'status': self.account_status(),})
-        return context
-        
+
     def get_form_kwargs(self):
         kwargs = super(BaseBuySessionView, self).get_form_kwargs()
         kwargs.update({'error_class': FormError })
@@ -72,6 +61,7 @@ class BaseBuySessionView(CreateView, SubscriptionStatusMixin):
 
 class FreeSessionView(BaseBuySessionView):
     form_class = PurchaseLevelForm
+    template_name = 'buy_level.html'
 
     def post(self, request, *args, **kwargs):
         # Check if the user has already had a free session in the past
@@ -87,6 +77,8 @@ class FreeSessionView(BaseBuySessionView):
         
 class StandardSessionView(BaseBuySessionView):
     form_class = PurchaseLevelForm
+    template_name = 'buy_level.html'
         
 class StandardLiteSessionView(BaseBuySessionView):
     form_class = PurchasePaperForm
+    template_name = 'buy_paper.html'

@@ -8,12 +8,7 @@ FEATURES
 6. Create an app for rewarding customers
         
 19. Add flashcards
-
-20. On the how-it-works page, don't let the buttons link to the quiz selection
-    page if the user is subscribed
     
-21. Let the user account status be present in request always.
-
 22. Create home page.
 
 23. Logo
@@ -22,7 +17,9 @@ FEATURES
 
 28. Sessions dont adjust when you press back
 
-29. 
+29. Optimize quiz listing code.
+    
+31. 
     
 =========
 COMPLETED
@@ -79,3 +76,11 @@ iii. Standard
 24. In the activation email, ask folks to copy and paste the email link
 
 9. The quiz select screen for staff is empty. Allow them any quiz of their liking.
+
+21. Let the user account status be present in request always.
+
+20. On the how-it-works page, don't let the buttons link to the quiz selection
+    page if the user is subscribed
+    
+30. Now that payment object persists in request, optimise all the views and 
+    templates accordingly

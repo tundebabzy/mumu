@@ -5,14 +5,6 @@ from django.shortcuts import Http404
 import datetime
 
 from utils.utils import get_last_active_payment, get_last_payment
-
-class SubscriptionStatusMixin(object):
-    """
-    This mixin simply tries to retrieve the last payment object tied to the
-    logged in user. Returns None if it fails.
-    """
-    def account_status(self):
-        return get_last_active_payment(self.request)
             
 class SessionMixin(object):
     """

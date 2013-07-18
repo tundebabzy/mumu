@@ -52,8 +52,7 @@
             {% if user.is_authenticated %}
             <ul class="right">
               <li class="divider"></li>
-              <li class="has-dropdown"><a href="#">{{ user }} {% if status %}on {{ status }}{% else %}| Inactive {% endif %}</a>
-
+              <li class="has-dropdown"><a href="#">{{ user }} {% if not user.is_staff %}on {% if status %} {{ status }}{% else %}Limited Access{% endif%}{% endif %} </a>
                 <ul class="dropdown">
                   <li><label>ACCOUNT SETTINGS</label></li>
                   <li class="has-dropdown"><a href="#" class="">Account Settings</a>

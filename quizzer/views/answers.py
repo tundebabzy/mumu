@@ -5,12 +5,12 @@ from django.contrib.auth.decorators import login_required
 
 from django_tables2 import RequestConfig
 
-from lib.mixins import SubscriptionStatusMixin, SessionMixin
+from lib.mixins import SessionMixin
 
 from quizzer.tables import ReportTable
 from quizzer.models import Option, AnswerLogs
 
-class GradeQuestionView(TemplateView, SessionMixin, SubscriptionStatusMixin):
+class GradeQuestionView(TemplateView, SessionMixin):
     """
     Processes a form which is submitted with a GET.
     """
@@ -33,7 +33,6 @@ class GradeQuestionView(TemplateView, SessionMixin, SubscriptionStatusMixin):
         'links': question.link_set.all(), 'report': table,
         'selection': self.get_session_var('category'),
         'next': self.request.META.get('HTTP_REFERER', '/quiz/select/'),
-        'status': self.account_status(),
         })
         if not self.get_session_var('last_answer'):
             last_answer = AnswerLogs.objects.create(user=self.request.user, question=question, answer=answer)

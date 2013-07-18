@@ -3,13 +3,13 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.db import utils
 
-from lib.mixins import SubscriptionStatusMixin, SessionMixin, FormExtrasMixin
+from lib.mixins import SessionMixin, FormExtrasMixin
 from utils.utils import FormError
 
 from quizzer.models import Option, AnswerLogs
 from quizzer.forms import OptionForm
 
-class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin, SubscriptionStatusMixin):
+class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
     """
     This works by querying the database for a Question and presenting it along
     with an OptionForm
@@ -92,5 +92,5 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin, SubscriptionStat
             
     def get_context_data(self, **kwargs):
         selection = self.get_selection(kwargs.get('random_question'))
-        kwargs.update({'selection':selection, 'status': self.account_status()})
+        kwargs.update({'selection':selection})
         return kwargs

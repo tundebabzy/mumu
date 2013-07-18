@@ -193,6 +193,14 @@ class Payment(models.Model):
     
     def __unicode__(self):
         return '%s: %s' %(self.get_subscription_type(), self.get_status())
+        
+    def get_active_period(self, key):
+        period = {
+            'Free': datetime.timedelta(hours=24),
+            'Standard': datetime.timedelta(days=30),
+            'Standard Lite': datetime.timedelta(days=30),
+        }
+        return period.get(key, None)
 
     def get_subscription(self):
         if self.has_used_free:
@@ -202,16 +210,15 @@ class Payment(models.Model):
         if self.paper:
             return ('paper', self.paper)
 
+    def get_expiry_date(self):
+        return self.effective_time + self.get_active_period(self.get_subscription_type())
+
     def has_not_expired(self):
-        if self.get_subscription() == None:
-            return
-        if 'free' in self.get_subscription():
-            return self.effective_time + datetime.timedelta(hours=24) >= timezone.now()
-        return self.effective_time + datetime.timedelta(days=30) >= timezone.now()
+        return self.get_expiry_date() >= timezone.now()
 
     def get_payment_date(self):
         return self.time.strftime("%A, %d. %B %Y %I:%M%p")
-
+        
     def get_category_paid_for(self):
         if self.level: return 'level'
         elif self.paper: return 'paper'

@@ -5,11 +5,11 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
-from lib.mixins import SubscriptionStatusMixin, SessionMixin
+from lib.mixins import SessionMixin
 
 from quizzer.models import Login
 
-class QuizSelectionView(TemplateView, SessionMixin, SubscriptionStatusMixin):
+class QuizSelectionView(TemplateView, SessionMixin):
     template_name = 'select.html'
 
     @method_decorator(login_required)
@@ -27,11 +27,6 @@ class QuizSelectionView(TemplateView, SessionMixin, SubscriptionStatusMixin):
         """
         self.reset_quiz_session()
         return super(QuizSelectionView, self).get(request, *args, **kwargs)
-        
-    def get_context_data(self, **kwargs):
-        context = super(QuizSelectionView, self).get_context_data(**kwargs)
-        context.update({'status': self.account_status()})
-        return context
 
     # SIGNAL FIRED methods
     @receiver(user_logged_in)

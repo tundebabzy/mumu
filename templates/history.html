@@ -4,16 +4,8 @@
             <div class="large-8 large-centered columns">
             {% with objects=object_list %}
                 <p>Hi {{ user }}.</p>
-                {% if not user.is_staff %}
-                <p>
-                Thanks for choosing to study with mumu.com.ng. Your subscription
-                is presently {% if last_payment %} active 
-                {% else %}expired. 
-                <a class="button tiny" href="{% url pricing %}">Renew</a>{% endif %}
-                {% endif %}
-                </p>
-                <p>
-                Here's your payment history below.
+                <p>Here's your payment history below.
+                {% if not status %}<a class="button tiny" href="{% url pricing %}">Renew</a>{% endif %}
                 </p>
                 {% if objects %}
                 <table class="large-10 large-centered">

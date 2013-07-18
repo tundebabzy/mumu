@@ -25,13 +25,19 @@
                     <p> We have different <a href="{% url pricing %}">packages</a>
                     to choose including a free package. Oh, and our most
                     expensive package is just a mere <em>N1,000</em></p>
+                    {% if not status or not status.has_not_expired %}
                     <a class="button" href="{% url pricing %}">Pricing</a>
+                    {% endif %}
                 </div>
                 <div class="small-6 large-6 columns">
                     <h3>2. Start Testing Yourself</h3>
                     <p> After you have selected a package, log in and
                     answer the questions any time, any where.</p>
+                    {% if status and status.has_not_expired %}
+                    <a class="button" href="{% url quiz_selection %}">Start</a>
+                    {% else %}
                     <a class="button" href="{% url pricing %}">Start</a>
+                    {% endif %}
                 </div>
             </div>
 {% endblock main-container %}

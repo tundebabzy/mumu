@@ -4,9 +4,7 @@ from django.contrib import messages
 
 from accounts.forms import UserNamesChangeForm
 
-from lib.mixins import SubscriptionStatusMixin
-
-class UpdateUserNamesView(UpdateView, SubscriptionStatusMixin):
+class UpdateUserNamesView(UpdateView):
     form_class = UserNamesChangeForm
     template_name = 'registration/info_change.html'
     success_url_view_name = 'quiz_selection'
@@ -30,8 +28,3 @@ class UpdateUserNamesView(UpdateView, SubscriptionStatusMixin):
         Simply returns the logged in user object
         """
         return self.request.user
-        
-    def get_context_data(self, **kwargs):
-        context = super(UpdateUserNamesView, self).get_context_data(**kwargs)
-        context.update({'status': self.account_status()})
-        return context

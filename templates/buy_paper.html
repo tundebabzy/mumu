@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Mumu| Purchase Standard Lite {% endblock %}
+{% block main-container %}
+            <div class="large-8 large-centered columns">
+                <div class="panel">
+                    <form method="POST">{% csrf_token %}
+                        {{ form.non_field_errors }}
+                        <h4 class="subheader">Select From One of These Available Papers</h4>
+
+                        {% for radio in form.paper %}
+                            {% if not forloop.first %}
+                            {{ radio }}
+                            {% endif %}
+                        {% endfor %}
+                    <input class="tiny button" type="submit" value="Confirm" />
+                    
+                        {% if status.has_not_expired and not status.get_subscription_type == 'Free'%}
+                                <div data-alert class="alert-box alert">
+                                    <p><strong>Before you go further:<br /></strong>
+                                    If you just need to change the level or paper
+                                    you are subscribed, abort this transaction and send an email
+                                    to <a href="mailto:help@mumu.com.ng">help@mumu.com.ng</a>. You 
+                                    will be promptly attended to by one of our customer care reps.<br />
+                                    However, If you go ahead to complete the transaction, we will
+                                    assume that your intention is to pay ahead and your payment will
+                                    be effective from the day your last subscription expires.<br />
+                                    </p>
+                                    <a href="#" class="close">&times;</a>
+                                </div>
+                        {% endif %}
+                    </form>
+                </div>  <!-- panel -->
+            </div>  <!--large-6 large-centered columns -->
+{% endblock main-container %}
