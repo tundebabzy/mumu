@@ -5,8 +5,6 @@
 
 {% block main-container %}
             <div class="large-11 large-centered columns">
-                {% cache 86400 quiz_list %}
-                    {% quiz_listing user %}
-                {% endcache %}
+                    {% quiz_listing user status %}
             </div>  <!-- large-11 large-centered columns -->
 {% endblock main-container %}
