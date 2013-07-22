@@ -21,7 +21,11 @@ FEATURES
     
 31. Template isn't caching right
 
-32. 
+32. Implement a more efficient random row selection
+
+33. Put indexes for faster home page queries.
+
+34. 
     
 =========
 COMPLETED

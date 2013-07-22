@@ -1,8 +1,9 @@
 from quizzer.models import Question
 from django.utils.timezone import make_aware, get_current_timezone
-from django.db import utils
+from django.db import utils, models
 from django.shortcuts import Http404
 import datetime
+from random import randint
 
 from utils.utils import get_last_active_payment, get_last_payment
             
@@ -41,10 +42,10 @@ class FormExtrasMixin(object):
     def user_is_staff(self):
         return self.request.user.is_staff
         
-    def _get_last_payment(self):
-        if not self.__last_payment:
-            self.__last_payment = get_last_payment(self.request)
-        return self.__last_payment
+#    def _get_last_payment(self):
+#        if not self.__last_payment:
+#            self.__last_payment = get_last_payment(self.request)
+#        return self.__last_payment
         
     def _get_last_active_payment(self):
         if not self.__last_active_payment:
@@ -58,7 +59,7 @@ class FormExtrasMixin(object):
         if self.user_is_staff():
             return True
             
-        last_payment = self._get_last_active_payment()
+        last_payment = self.request.status
         if last_payment:
             return last_payment.has_not_expired()
         else:
@@ -68,28 +69,46 @@ class FormExtrasMixin(object):
         allowed_categories = ('exam','level','paper','topic')
         return category in allowed_categories
 
-    def query_database(self, category, identifier):
-        try:
-            if self.model is not None:
-                question = self.model._default_manager.raw("""
-                SELECT *
-                FROM quizzer_question
-                WHERE id = get_random_id(%s, %s)
-                """,[category, identifier])[0]
-                self.set_session_var('question', question)
-            else:
-                raise ImproperlyConfigured(u"'%s' must define 'model'"
-                                       % self.__class__.__name__)
-        except utils.DatabaseError:
+    def query_database(self, category, slug):
+        # 2ms if you are lucky but could possibly make never return
+        TIMES = 1
+        max_ = self.model.objects.aggregate(models.Max('id'))['id__max']
+        i = 0
+        while i < TIMES:
+            try:
+                if category == 'exam':
+                    yield self.model.objects.get(pk=randint(1, max_), exam__slug=slug)
+                elif category == 'level':
+                    yield self.model.objects.get(pk=randint(1, max_), level__slug=slug)
+                elif category == 'paper':
+                    yield self.model.objects.get(pk=randint(1, max_), paper__slug=slug)
+                elif category == 'topic':
+                    yield self.model.objects.get(pk=randint(1, max_), topic__slug=slug)
+                i += 1
+            except self.model.DoesNotExist:
+                pass
+        #try:
+#        if self.model is not None and category == 'level':
+#            question = self.model._default_manager.raw("""
+                
+#                SELECT *
+#                FROM quizzer_question
+#                WHERE id = get_random_id(%s, %s, %s)
+#                """,[category, identifier, obj_id])[0]
+#            self.set_session_var('question', question)
+#        else:
+#            raise ImproperlyConfigured(u"'%s' must define 'model'"
+#                                   % self.__class__.__name__)
+        #except utils.DatabaseError:
             # log this as critical and send email to admin here
-            raise Http404
-        return question
+        #    raise Http404
+        #return question
 
     def can_show(self, obj, category):
         if self.user_is_staff():
             return True
 
-        last_payment = self._get_last_active_payment()
+        last_payment = self.request.status
         if last_payment:
             if last_payment.get_category_paid_for() == 'level':
                 try:
@@ -105,16 +124,17 @@ class FormExtrasMixin(object):
 
     def get_random_question(self, **kwargs):
         user = self.request.user
+        last_payment = self.request.status
         self.__category = kwargs['category']
         self.__identifier = kwargs['identifier']
         
         if not self.is_valid_category(self.__category):
             # Log this incidence then....
             raise Http404
-
-        random_question = self.query_database(self.__category, self.__identifier)
+        random_question = list(self.query_database(self.__category, self.__identifier))[0]
         if not self.can_show(random_question, self.__category):
             raise Http404
+        self.set_session_var('question', random_question)
         return random_question
         
     def get_selection(self, random_question):
