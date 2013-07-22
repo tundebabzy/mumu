@@ -3,19 +3,19 @@
 {% block main-container %}
             <div class="large-8 large-centered columns">
                 <div class="panel">
-                    <form method="POST">{% csrf_token %}
+                    <form class="custom" method="POST">{% csrf_token %}
                         {{ form.non_field_errors }}
                         <h4 class="subheader">Select From One of These Available Levels</h4>
 
                         {% for radio in form.level %}
                             {% if not forloop.first %}
                             {{ radio }}
+                            <br />
                             {% endif %}
                         {% endfor %}
-                    <input class="tiny button" type="submit" value="Confirm" />
                     
                         {% if status.has_not_expired and not status.get_subscription_type == 'Free'%}
-                                <div data-alert class="alert-box alert">
+                                <div data-alert class="alert-box secondary">
                                     <p><strong>Before you go further:<br /></strong>
                                     If you just need to change the level or paper
                                     you are subscribed, abort this transaction and send an email
@@ -28,6 +28,7 @@
                                     <a href="#" class="close">&times;</a>
                                 </div>
                         {% endif %}
+                    <input class="tiny button" type="submit" value="Confirm" />
                     </form>
                 </div>  <!-- panel -->
             </div>  <!--large-8 large-centered columns -->

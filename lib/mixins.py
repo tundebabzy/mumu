@@ -30,7 +30,6 @@ class FormExtrasMixin(object):
     """
     model = Question
     template_list_index = 0
-    __last_payment =  None
     __last_active_payment = None
     __category = None
     __identifier = None
@@ -47,10 +46,10 @@ class FormExtrasMixin(object):
 #            self.__last_payment = get_last_payment(self.request)
 #        return self.__last_payment
         
-    def _get_last_active_payment(self):
-        if not self.__last_active_payment:
-            self.__last_active_payment = get_last_active_payment(self.request)
-        return self.__last_active_payment
+#    def _get_last_active_payment(self):
+#        if not self.__last_active_payment:
+#            self.__last_active_payment = get_last_active_payment(self.request)
+#        return self.__last_active_payment
         
     def subscription_is_ok(self, **kwargs):
         """
