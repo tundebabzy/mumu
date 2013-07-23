@@ -2,7 +2,8 @@
 {% block main-container %}
         <div class="large-6 large-centered columns">
             <div class="panel">
-                {{ object.answer }}
+                {{ object.answer }}<br /><br />
+                <a href="{% url next_flashcard topic_slug %}" class="tiny button">Next</a>
             </div>  <!-- panel -->
         </div>  <!-- large-6 large-centered -->
 {% endblock main-container %}
