@@ -56,11 +56,15 @@ class TopicAdmin(admin.ModelAdmin):
     fields = ['name']
 admin.site.register(Topic, TopicAdmin)
 
+class FlashCardAdmin(admin.ModelAdmin):
+    exclude = ['slug']
+
 admin.site.register(Payment)
 admin.site.register(Login)
 admin.site.register(AnswerLogs)
 admin.site.register(EditorComment)
 admin.site.register(QuestionReference)
+admin.site.register(FlashCard, FlashCardAdmin)
 
 class OptionInline(admin.StackedInline):
     model = Option

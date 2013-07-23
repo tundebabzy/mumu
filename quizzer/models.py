@@ -137,6 +137,35 @@ class Question(models.Model, mixin.ModelDiffMixin):
 
     def __unicode__(self):
         return self.text
+        
+class FlashCard(models.Model, mixin.ModelDiffMixin):
+    exam = models.ForeignKey(Exam)
+    level = models.ForeignKey(Level)
+    paper = models.ForeignKey(Paper)
+    topic = models.ForeignKey(Topic)
+    text = models.TextField()
+    answer = models.TextField()
+    created_by = models.ForeignKey(Researcher)
+    created_on = models.DateTimeField(auto_now_add=True)
+    approved = models.BooleanField()
+    approved_by = models.ForeignKey(Editor, blank=True, null=True)
+    slug = models.SlugField(max_length=300)
+    
+    class Meta:
+        verbose_name = 'Flash Card'
+        
+    def save(self, *args, **kwargs):
+        if not self.id:
+            # Means not already existing
+            self.slug = slugify(self.text)
+        super(FlashCard, self).save(*args, **kwargs)
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('next_flashcard', (), {
+                'topic_slug': self.topic.slug,
+                #'slug': self.slug
+                })
 
 class Option(models.Model):
     text = models.CharField(max_length=90)

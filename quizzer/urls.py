@@ -3,7 +3,7 @@ from django.views.generic import TemplateView, ListView
 #from django.views.decorators.cache import cache_page
 
 from quizzer.views import (QuizSelectionView, GenerateQuizView, 
-    GradeQuestionView)
+    GradeQuestionView, GenerateFlashCardView, FlipFlashCardView)
 
 urlpatterns = patterns('',
     #url('^select/$', cache_page(60*15)(direct_to_template),
@@ -25,4 +25,10 @@ urlpatterns = patterns('',
     url('^(?P<category>[a-zA-Z]+)/(?P<identifier>[a-zA-Z-]+)/$',
         GenerateQuizView.as_view(), name='next_question'
     ),
+    url('^flashcard/show/(?P<topic_slug>[-a-zA-Z]+)/$',
+        GenerateFlashCardView.as_view(), name='next_flashcard'
+    ),
+    url('^flashcard/flip/(?P<slug>[-a-zA-Z]+)/$',
+        FlipFlashCardView.as_view(), name='flashcard_flip'
+    )
 )
