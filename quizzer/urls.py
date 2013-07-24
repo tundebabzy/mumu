@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, include, url
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView
 #from django.views.decorators.cache import cache_page
 
 from quizzer.views import (QuizSelectionView, GenerateQuizView, 

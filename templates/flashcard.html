@@ -5,7 +5,10 @@
                 {{ object.text }}
                 <br />
                 <br />
-                <a href="{% url flashcard_flip object.slug %}" class="tiny button">Check Answer</a>
+                <ul class="button-group even-3">
+                    <li><a href="{% url home %}" class="tiny button">Go Home</a></li>
+                    <li><a href="{% url flashcard_list %}" class="tiny button">New Topic</a></li>
+                    <li><a href="{% url flashcard_flip object.slug %}" class="tiny button">Check Answer</a></li>
             </div>  <!-- panel -->
         </div>  <!-- large-6 large-centered -->
 {% endblock main-container %}

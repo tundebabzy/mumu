@@ -5,7 +5,8 @@
 
 {% block main-container %}
             <div class="large-11 large-centered columns">
-                <h4 class="subheader">You can memorise definitions with our <a href="#" class="button">Flash Cards</a></h4>
+                <h4 class="subheader">You can memorise definitions with our <a href="{% url flashcard_list %}">Flash Cards</a></h4><hr />
+                <h2 class="subheader">Select a quiz</h2>
                     {% quiz_listing user status %}
             </div>  <!-- large-11 large-centered columns -->
 {% endblock main-container %}

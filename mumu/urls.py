@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic.simple import direct_to_template
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.views.generic import TemplateView
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -21,6 +22,9 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
+    url('^$', TemplateView.as_view(template_name='home.html'),
+        name='home'
+    ),
 )
 
 urlpatterns += staticfiles_urlpatterns()
