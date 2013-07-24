@@ -13,3 +13,4 @@ supervisord.conf
 quizzer.geany
 assets/
 *.db
+todo
