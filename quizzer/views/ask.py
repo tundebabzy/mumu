@@ -34,7 +34,7 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
             self.set_session_var('option', form)
             return self.render_to_response(self.get_context_data(random_question=question, options=form))
         else:
-            return self.need_to_pay()
+            return self.need_to_pay(2)
             
     def post(self, request, *args, **kwargs):
         """

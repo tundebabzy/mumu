@@ -34,22 +34,12 @@ class FormExtrasMixin(object):
     __category = None
     __identifier = None
     
-    def need_to_pay(self):
-        self.template_list_index = 2
+    def need_to_pay(self, index):
+        self.template_list_index = index
         return self.render_to_response({})
         
     def user_is_staff(self):
         return self.request.user.is_staff
-        
-#    def _get_last_payment(self):
-#        if not self.__last_payment:
-#            self.__last_payment = get_last_payment(self.request)
-#        return self.__last_payment
-        
-#    def _get_last_active_payment(self):
-#        if not self.__last_active_payment:
-#            self.__last_active_payment = get_last_active_payment(self.request)
-#        return self.__last_active_payment
         
     def subscription_is_ok(self, **kwargs):
         """
@@ -155,3 +145,17 @@ class FormExtrasMixin(object):
             selection = self.request.session['selection'] = eval(lazy_query[self.__category])
             self.set_session_var('category', self.__category)
         return selection
+
+    def get_template_names(self):
+        """
+        Overrides the default by using self.template_list_index to return a
+        template to be used. self.template_list_index contains an int which 
+        signifies the index of the template name in self.template_name that
+        should be returned.
+        """
+        if self.template_name is None:
+            raise ImproperlyConfigured(
+                "TemplateResponseMixin requires either a definition of "
+                "'template_name' or an implementation of 'get_template_names()'")
+        else:
+            return [self.template_name[self.template_list_index]]

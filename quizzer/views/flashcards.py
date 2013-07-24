@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import models
 
 from quizzer.models import FlashCard, Topic
-from lib.mixins import SessionMixin
+from lib.mixins import SessionMixin, FormExtrasMixin
 
 from random import randint
 
@@ -53,9 +53,19 @@ class FlipFlashCardView(DetailView, SessionMixin):
         context.update({'topic_slug': self.get_session_var('topic_slug')})
         return context
 
-class FlashCardListView(ListView):
-    template_name = 'topic_list.html'
-    
+class FlashCardListView(ListView, FormExtrasMixin):
+    template_name = ['topic_list.html', 'upgrade-package.html']
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(FlashCardListView, self).dispatch(*args, **kwargs)
+
+    def get(self, request, *args, **kwargs):
+        if self.subscription_is_ok(**kwargs):
+            return super(FlashCardListView, self).get(request, *args, **kwargs)
+        else:
+            return self.need_to_pay(1)
+
     def get_queryset(self):
         if self.request.user.is_staff:
             qs = FlashCard.objects.all()
@@ -64,7 +74,23 @@ class FlashCardListView(ListView):
                 qs = FlashCard.objects.filter(paper=self.request.status.paper)
             elif self.request.status.get_category_paid_for() == 'level':
                 qs = FlashCard.objects.filter(level=self.request.status.level)
+        else:
+            return None
         qs = qs.order_by('topic').distinct('topic')
         qs = qs.values_list('topic_id', flat=True)
         queryset = Topic.objects.filter(id__in=qs)
         return queryset
+
+    def get_template_names(self):
+        """
+        Overrides the default by using self.template_list_index to return a
+        template to be used. self.template_list_index contains an int which 
+        signifies the index of the template name in self.template_name that
+        should be returned.
+        """
+        if self.template_name is None:
+            raise ImproperlyConfigured(
+                "TemplateResponseMixin requires either a definition of "
+                "'template_name' or an implementation of 'get_template_names()'")
+        else:
+            return [self.template_name[self.template_list_index]]
