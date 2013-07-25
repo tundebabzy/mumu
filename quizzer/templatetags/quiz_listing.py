@@ -57,7 +57,7 @@ class NavigationNode(template.Node):
             elif last_payment.get_category_paid_for() == 'paper':
                 distinct_quests = distinct_quests.filter(paper=last_payment.paper)
 
-        html, level_html, paper_html, topic_html = '', '', '', ''
+        level_html, paper_html, topic_html = 'Nothing Here'*3
         temp_level, temp_paper = [], []
                         
         for obj in distinct_quests:
