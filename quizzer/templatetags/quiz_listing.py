@@ -76,7 +76,6 @@ class NavigationNode(template.Node):
         topic_html = self._open_div('TOPIC') + topic_html + self._close_div()
         
         html = level_html + paper_html + topic_html
-        print html
         return html
 
     def render(self, context):
