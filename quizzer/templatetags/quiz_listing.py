@@ -20,7 +20,7 @@ class NavigationNode(template.Node):
 
     def _gen_html(self, tag_type, obj):
         return u"""
-                <%s><a href="%s">%s</a><%s>
+                <%s><a href="%s">%s</a></%s>
         """ %(tag_type, obj.get_absolute_url(), obj, tag_type)
         
     def _open_div(self, marker):
@@ -76,6 +76,7 @@ class NavigationNode(template.Node):
         topic_html = self._open_div('TOPIC') + topic_html + self._close_div()
         
         html = level_html + paper_html + topic_html
+        print html
         return html
 
     def render(self, context):
