@@ -14,3 +14,4 @@ quizzer.geany
 assets/
 *.db
 todo
+db/
