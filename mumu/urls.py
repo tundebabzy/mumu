@@ -20,11 +20,12 @@ urlpatterns = patterns('',
 
     url(r'^grappelli/', include('grappelli.urls')),
 
-    # Uncomment the next line to enable the admin:
-    url(r'^admin/', include(admin.site.urls)),
     url('^$', TemplateView.as_view(template_name='home.html'),
         name='home'
     ),
+
+    # Uncomment the next line to enable the admin:
+    url(r'^admin/', include(admin.site.urls)),
 )
 
 urlpatterns += staticfiles_urlpatterns()

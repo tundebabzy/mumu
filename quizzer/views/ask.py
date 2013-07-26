@@ -28,6 +28,9 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
         """
         self.remove_session_var(['last_answer'])
         if self.subscription_is_ok(**kwargs):
+            # Just in case the user uses the browser back button and session
+            # vars are already set
+            self.remove_session_var(['selection', 'question', 'last_answer'])
             question = self.get_random_question(**kwargs)
             form_class = self.get_form_class()
             form = self.get_form(form_class, question)
