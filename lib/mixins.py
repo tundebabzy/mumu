@@ -59,39 +59,40 @@ class FormExtrasMixin(object):
         return category in allowed_categories
 
     def query_database(self, category, slug):
-        # 2ms if you are lucky but could possibly make never return
+        """
+        This works with this algorithm:
+        1.  Estimate a pk gap i.e an estimate of the highest possible gap 
+            in the db pks.
+        2.  Find the max pk value for the table.
+        3.  Retrieve a queryset of objects with pk that falls in between
+            a random number and the random number + gap.
+        4.  If the queryset is not empty, slice the first object or else
+            try again from step 3.
+        """
         TIMES = 1
+        GAP = 20
         max_ = self.model.objects.aggregate(models.Max('id'))['id__max']
         i = 0
         while i < TIMES:
+            # circuit breaker
+            if i == 20: break
             try:
+                random_pk = randint(1, max_)
                 if category == 'exam':
-                    yield self.model.objects.get(pk=randint(1, max_), exam__slug=slug)
+                    yield self.model.objects.filter(pk__range=(random_pk,
+                        random_pk + GAP), exam__slug=slug)[0]
                 elif category == 'level':
-                    yield self.model.objects.get(pk=randint(1, max_), level__slug=slug)
+                    yield self.model.objects.filter(pk__range=(random_pk,
+                        random_pk + GAP), level__slug=slug)[0]
                 elif category == 'paper':
-                    yield self.model.objects.get(pk=randint(1, max_), paper__slug=slug)
+                    yield self.model.objects.filter(pk__range=(random_pk,
+                        random_pk + GAP), paper__slug=slug)[0]
                 elif category == 'topic':
-                    yield self.model.objects.get(pk=randint(1, max_), topic__slug=slug)
+                    yield self.model.objects.filter(pk__range=(random_pk,
+                        random_pk + GAP), topic__slug=slug)[0]
                 i += 1
-            except self.model.DoesNotExist:
+            except IndexError:
                 pass
-        #try:
-#        if self.model is not None and category == 'level':
-#            question = self.model._default_manager.raw("""
-                
-#                SELECT *
-#                FROM quizzer_question
-#                WHERE id = get_random_id(%s, %s, %s)
-#                """,[category, identifier, obj_id])[0]
-#            self.set_session_var('question', question)
-#        else:
-#            raise ImproperlyConfigured(u"'%s' must define 'model'"
-#                                   % self.__class__.__name__)
-        #except utils.DatabaseError:
-            # log this as critical and send email to admin here
-        #    raise Http404
-        #return question
 
     def can_show(self, obj, category):
         if self.user_is_staff():
@@ -120,7 +121,7 @@ class FormExtrasMixin(object):
         if not self.is_valid_category(self.__category):
             # Log this incidence then....
             raise Http404
-        random_question = list(self.query_database(self.__category, self.__identifier))[0]
+        random_question = self.query_database(self.__category, self.__identifier).next()
         if not self.can_show(random_question, self.__category):
             raise Http404
         self.set_session_var('question', random_question)
