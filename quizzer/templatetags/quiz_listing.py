@@ -57,7 +57,7 @@ class NavigationNode(template.Node):
             elif last_payment.get_category_paid_for() == 'paper':
                 distinct_quests = distinct_quests.filter(paper=last_payment.paper)
 
-        level_html, paper_html, topic_html = 'Nothing Here'*3
+        level_html, paper_html, topic_html = '', '', ''
         temp_level, temp_paper = [], []
                         
         for obj in distinct_quests:
@@ -84,10 +84,10 @@ class NavigationNode(template.Node):
             context.render_context[self] = {
                 'user': self.user_obj, 'payment_obj': self.payment_obj
             }
-        try:
-            return self.make_html(context)
-        except:
-            return ''
+        #try:
+        return self.make_html(context)
+        #except:
+        #    return ''
 
 @register.tag(name="quiz_listing")
 def get_categories(parser, token):
