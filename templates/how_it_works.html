@@ -7,37 +7,52 @@
                 for the Institute of Chartered Accountants of Nigeria (ICAN)
                 examinations.</p>
                 <p> The quiz presents you with questions based on the
-                category you select so if you like, you can test
+                category you select so you can test
                 yourself on a topic or you can test yourself on a whole
                 paper or even better, you can test yourself on a whole
                 level.</p>
-                <p> You get prizes when you reach certain milestones.
-                For example, you get a prize for every 500th correct
-                answer.</p>
                 <p> Our website is optimised for mobile. Infact, the
                 website incoporates a mobile first philosophy so you can
                 easily have access to mumu.com from your phone. This
                 means you can continue with your preparations in traffic,
                 during boring meetings and all the oddest places.</p>
                 <hr />
-                <div class="small-6 large-6 columns">
-                    <h3>1. Choose A Package</h3>
-                    <p> We have different <a href="{% url pricing %}">packages</a>
-                    to choose including a free package. Oh, and our most
-                    expensive package is just a mere <em>N1,000</em></p>
-                    {% if not status or not status.has_not_expired %}
-                    <a class="button" href="{% url pricing %}">Pricing</a>
-                    {% endif %}
-                </div>
-                <div class="small-6 large-6 columns">
-                    <h3>2. Start Testing Yourself</h3>
-                    <p> After you have selected a package, log in and
-                    answer the questions any time, any where.</p>
-                    {% if status and status.has_not_expired %}
-                    <a class="button" href="{% url quiz_selection %}">Start</a>
-                    {% else %}
-                    <a class="button" href="{% url pricing %}">Start</a>
-                    {% endif %}
-                </div>
+                <div class="row">
+                    <div class="small-6 large-6 columns">
+                        <h3>1. Choose A Package</h3>
+                        <p> We have different <a href="{% url pricing %}">packages</a>
+                        to choose including a free package. Oh, and our most
+                        expensive package is just a mere <em>N1,000</em></p>
+                        {% if not status or not status.has_not_expired %}
+                        <a class="button" href="{% url pricing %}">Pricing</a>
+                        {% endif %}
+                    </div>
+                    <div class="small-6 large-6 columns">
+                        <h3>2. Start Testing Yourself</h3>
+                        <p> After you have selected a package, log in and
+                        answer the questions any time, any where.</p>
+                        {% if status and status.has_not_expired %}
+                        <a class="button" href="{% url quiz_selection %}">Start</a>
+                        {% else %}
+                        <a class="button" href="{% url pricing %}">Start</a>
+                        {% endif %}
+                    </div>
+                </div>  <!-- row -->
+                <div class="row">
+                    <div class="small-6 large-6 columns">
+                        <h3>Or..</h3>
+                    </div>
+                    <div class="small-6 large-6 columns">
+                        <h3>3. Memorize with Flash cards</h3>
+                        <p> Use our flash cards to help you memorize terms,
+                        advantages and disadvantages, types and all those things
+                        you know you will definitely need to write out in the exam.</p>
+                        {% if status and status.has_not_expired %}
+                        <a class="button" href="{% url flashcard_list %}">Start</a>
+                        {% else %}
+                        <a class="button" href="{% url pricing %}">Start</a>
+                        {% endif %}
+                    </div>
+                </div>  <!-- row -->
             </div>
 {% endblock main-container %}
