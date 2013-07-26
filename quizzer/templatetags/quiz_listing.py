@@ -84,10 +84,10 @@ class NavigationNode(template.Node):
             context.render_context[self] = {
                 'user': self.user_obj, 'payment_obj': self.payment_obj
             }
-        #try:
-        return self.make_html(context)
-        #except:
-        #    return ''
+        try:
+            return self.make_html(context)
+        except:
+            return ''
 
 @register.tag(name="quiz_listing")
 def get_categories(parser, token):
