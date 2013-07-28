@@ -14,11 +14,6 @@ import datetime
 class Exam(models.Model):
     """
     An exam.
-    
-    >>> exam = Exam.objects.create(name='ICAN', slug='exam')
-    >>> exam
-    'ICAN'
-
     """
     name = models.CharField(max_length=30)
     slug = models.SlugField(max_length=80)
@@ -42,12 +37,6 @@ class Exam(models.Model):
 class Level(models.Model):
     """
     An exam level.
-    
-    >>> level = Level.objects.create(name='Foundation', slug='foundation')
-    >>> level.save()
-    >>> level
-    'Foundation'
-
     """
     name = models.CharField(max_length=30)
     slug = models.SlugField(max_length=80)
@@ -71,11 +60,6 @@ class Level(models.Model):
 class Paper(models.Model):
     """
     An exam level paper.
-    
-    >>> paper = Paper.objects.create(name='Financial Accounting', slug='financial-accounting')
-    >>> paper
-    'Financial Accounting'
-
     """
     name = models.CharField(max_length=50)
     slug = models.SlugField(max_length=80)
@@ -99,11 +83,6 @@ class Paper(models.Model):
 class Topic(models.Model):
     """
     An exam level paper topic.
-    
-    >>> topic = Paper.objects.create(name='Accounting Framework', slug='accounting-framework')
-    >>> topic
-    'Accounting Framework'
-
     """
     name = models.CharField(max_length=50)
     slug = models.SlugField(max_length=150)
@@ -153,6 +132,9 @@ class FlashCard(models.Model, mixin.ModelDiffMixin):
     
     class Meta:
         verbose_name = 'Flash Card'
+
+    def __unicode__(self):
+        return self.text
         
     def save(self, *args, **kwargs):
         if not self.id:
