@@ -3,11 +3,8 @@ from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
-from django_tables2 import RequestConfig
-
 from lib.mixins import SessionMixin
 
-from quizzer.tables import ReportTable
 from quizzer.models import Option, AnswerLogs
 
 class GradeQuestionView(TemplateView, SessionMixin):
@@ -24,15 +21,16 @@ class GradeQuestionView(TemplateView, SessionMixin):
         question = self.get_session_var('question')
         option_id = self.get_session_var('option_id')
         answer = get_object_or_404(Option, id=option_id)
-        table = ReportTable(self.request.user.answerlogs_set.all().filter(question=question))
-        RequestConfig(self.request, paginate={'per_page':10}).configure(table)
+        last_answers = AnswerLogs.objects.filter(user=self.request.user,
+            question=question).order_by('-time')[:4]
         
         kwargs.update({
         'question': question, 'is_correct': answer.is_true,
         'explanation': question.optionexplanation_set.all(),
-        'links': question.link_set.all(), 'report': table,
+        'links': question.link_set.all(),
         'selection': self.get_session_var('category'),
         'next': self.request.META.get('HTTP_REFERER', '/quiz/select/'),
+        'last_answers': last_answers,
         })
         if not self.get_session_var('last_answer'):
             last_answer = AnswerLogs.objects.create(user=self.request.user, question=question, answer=answer)

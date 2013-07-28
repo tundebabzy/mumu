@@ -2,7 +2,16 @@
 {% load render_table from django_tables2 %}
 {% block main-container %}
                 <div class="large-8 columns">
-                    <h5 class="subheader"><span class="label">{% if is_correct %}correct{% else %}wrong!{% endif %}</span></h5>
+                    <h5 class="subheader">
+                    {% for answer in last_answers %}
+                        {% if answer.is_true %}
+                            <span class="success label"> C </span>
+                        {% else %}
+                            <span class="alert label"> W </span>
+                        {% endif %}
+                    {% endfor %}
+                    {% if is_correct %}<span class="success label">correct{% else %}<span class="alert label">wrong!{% endif %}</span>
+                    </h5>
                    {% if explanation %}
                         <p><em>Question: {{ question }}</em></p>
                         <hr />
@@ -19,15 +28,15 @@
                         <li><a class="small button" href="{{ next }}">Next</a></li>
                     </ul>
 
+                    {% if links %}
                     <div class="panel">
-                        {% if links %}
                             <h4 class="subheader">Also Read:</h4>
                             <ul class="inline-list">
                             {% for link in links %}
                                 <li><a href="{{ link }}">{{ link }}</a></li>
                             {% endfor %}
                             </ul>
-                        {% endif %}
                     </div>
+                    {% endif %}
                 </div>
 {% endblock %}

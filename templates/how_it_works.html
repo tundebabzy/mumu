@@ -28,11 +28,12 @@
                         {% endif %}
                     </div>
                     <div class="small-6 large-6 columns">
-                        <h3>2. Start Testing Yourself</h3>
-                        <p> After you have selected a package, log in and
-                        answer the questions any time, any where.</p>
+                        <h3>2. Memorize with Flash cards</h3>
+                        <p> Use our flash cards to help you memorize terms,
+                        advantages and disadvantages, types and all those things
+                        you know you will definitely need to write out in the exam.</p>
                         {% if status and status.has_not_expired %}
-                        <a class="button" href="{% url quiz_selection %}">Start</a>
+                        <a class="button" href="{% url flashcard_list %}">Start</a>
                         {% else %}
                         <a class="button" href="{% url pricing %}">Start</a>
                         {% endif %}
@@ -40,15 +41,20 @@
                 </div>  <!-- row -->
                 <div class="row">
                     <div class="small-6 large-6 columns">
-                        <h3>Or..</h3>
-                    </div>
-                    <div class="small-6 large-6 columns">
-                        <h3>3. Memorize with Flash cards</h3>
-                        <p> Use our flash cards to help you memorize terms,
-                        advantages and disadvantages, types and all those things
-                        you know you will definitely need to write out in the exam.</p>
+                        <h3>3. Start Testing Yourself</h3>
+                        <p> After you have selected a package, log in and
+                        answer the questions any time, any where.</p>
                         {% if status and status.has_not_expired %}
-                        <a class="button" href="{% url flashcard_list %}">Start</a>
+                        <h5>
+                            <span class="alert label">W</span>
+                            <span class="alert label">W</span>
+                            <span class="success label">C</span>
+                            <span class="success label">C</span>
+                            <span class="success label">correct</span>
+                        </h5>
+                        <p> Be sure to always make sure you progress bar like that
+                        which you see above is always green.</p>
+                        <a class="button" href="{% url quiz_selection %}">Start</a>
                         {% else %}
                         <a class="button" href="{% url pricing %}">Start</a>
                         {% endif %}
