@@ -1,6 +1,9 @@
 Hi,
-You are getting this email because someone registered on {{ site }} with this email address. If you didn't do such an action, please ignore this email.
+You are getting this email because someone registered on {{ site.name }} with this email address. If you didn't do such an action, please ignore this email.
 
-If not, click on this link: {{ site }}/accounts/activate/{{ activation_key }}/ to activate your account. If it doesn't do anything, please copy the link and paste it into the address bar of your broswer. The link will be valid for {{ expiration_days }} days.
+If not, click on this link: {{ site.name }}/accounts/activate/{{ activation_key }}/ to activate your account. 
 
-MuMu.com.ng
+If the link is not clickable,  please copy the link and paste it into the address bar of your broswer. The link will be valid for {{ expiration_days }} days.
+
+Yours,
+{{ site }}

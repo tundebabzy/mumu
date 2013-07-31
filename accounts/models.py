@@ -8,6 +8,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 class ContractType(models.Model):
     contract_type = models.CharField(max_length=10)
@@ -76,6 +78,7 @@ class RegistrationManager(models.Manager):
                 user.save()
                 profile.activation_key = self.model.ACTIVATED
                 profile.save()
+                profile.send_welcome_email()
                 return user
         return False
     
@@ -189,6 +192,26 @@ class QuizzerProfile(RegistrationProfile):
     
     def __unicode__(self):
         return u"Registration information for %s" % self.user
+
+    def send_welcome_email(self):
+        """
+        Send a welcome email to the user associated with this
+        ``RegistrationProfile``.
+        """
+        ctx_dict = {}
+        subject = render_to_string('registration/welcome_subject.txt',
+                                   ctx_dict)
+        # Email subject *must not* contain newlines
+        subject = ''.join(subject.splitlines())
+        
+        message = render_to_string('registration/welcome_email.txt',
+                                   ctx_dict)
+
+        send_mail(subject, message, 'tunde.akinyanmi@mumu.com.ng',
+            [self.user.email], fail_silently=False, 
+            auth_user='tunde.akinyanmi@mumu.com.ng', 
+            auth_password='F&mS2d-?l;GO-WH\Kl Q)|C+:',
+            connection=None)
 
 class Manager(models.Model):
     staff = models.ForeignKey(QuizzerProfile)
