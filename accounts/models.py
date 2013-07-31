@@ -10,6 +10,7 @@ from django.db import transaction
 from django.utils.translation import ugettext_lazy as _
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from django.conf import settings
 
 class ContractType(models.Model):
     contract_type = models.CharField(max_length=10)
@@ -207,10 +208,10 @@ class QuizzerProfile(RegistrationProfile):
         message = render_to_string('registration/welcome_email.txt',
                                    ctx_dict)
 
-        send_mail(subject, message, 'tunde.akinyanmi@mumu.com.ng',
+        send_mail(subject, message, settings.WELCOME_EMAIL_USER,
             [self.user.email], fail_silently=False, 
-            auth_user='tunde.akinyanmi@mumu.com.ng', 
-            auth_password='F&mS2d-?l;GO-WH\Kl Q)|C+:',
+            auth_user=settings.WELCOME_EMAIL_USER, 
+            auth_password=settings.WELCOME_EMAIL_PASSWORD,
             connection=None)
 
 class Manager(models.Model):

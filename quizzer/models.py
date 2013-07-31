@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from django.core.mail import send_mail, BadHeaderError
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.conf import settings
 
 from accounts.models import Researcher, Editor, QuizzerProfile
 from db import mixin
@@ -263,7 +264,7 @@ class AnswerLogs(models.Model):
     question = models.ForeignKey(Question)
     answer = models.ForeignKey(Option)
     time = models.DateTimeField(auto_now_add=True)
-
+              
 # SIGNAL TRIGGERED FUNCTIONS
 @receiver(post_save, sender=EditorComment)
 def correction_notification(sender, **kwargs):
@@ -271,17 +272,18 @@ def correction_notification(sender, **kwargs):
     if editor_comment.has_changed:
         question = editor_comment.question
 
-        subject = "mumu.com: Your Editor Made A Comment About Your Question Entry"
-        from_email = 'staff-notification@mumu.com'
+        subject = "mumu.com.ng: Your Editor Made A Comment About Your Question Entry"
+        from_email = settings.MAILER_USER
         to_email = question.created_by.staff.user.email
         message = """
-        Hi,\n Please have a look at the comment I made
-        concerning your question entry: %s and perform the recommended
-        action.\n My comment was : %s.\n Thanks.\n MuMu.com
+        Hi,\n Please have a look at the comment I made concerning your question entry: %s and perform the recommended action.\n My comment was : %s.\n Thanks.\n mumu.com.ng
         """ %(question.id, editor_comment)
+        __password = settings.MAILER_USER_PASSWORD
         
         try:
-            send_mail(subject, message, from_email, [to_email])
+            send_mail(subject, message, from_email, [to_email], 
+                fail_silently=False, auth_user=from_email,
+                auth_password=__password)
         except BadHeaderError:
             return HttpResponse('Invalid header found')
 
@@ -290,14 +292,15 @@ def approval_notification(sender, **kwargs):
     question = kwargs['instance']
     if question.has_changed:
         if 'approved' in question.changed_fields:
-            subject = 'mumu.com: Approval notice'
-            from_email = 'staff-notification@mumu.com'
+            subject = 'mumu.com.ng: Approval notice'
+            from_email = settings.MAILER_USER
             to_email = question.created_by.staff.user.email
-            message = """Hi,\n the approval status of your question
-                entry #%s has changed. Please check the admin to check
-                if your entry has been approved.\nThanks.\nMuMu.com""" % question.id
+            message = """Hi,\n the approval status of your question entry #%s has changed. Please check the admin to check if your entry has been approved.\nThanks.\nmumu.com.ng""" % question.id
+            __password = settings.MAILER_USER_PASSWORD
 
             try:
-                send_mail(subject, message, from_email, [to_email])
+                send_mail(subject, message, from_email, [to_email],
+                    fail_silently=False, auth_user=from_email,
+                    auth_password=__password)
             except BadHeaderError:
                 return HttpResponse('Invalid Header Found')
