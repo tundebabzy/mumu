@@ -36,7 +36,6 @@ class FilteredModelAdmin(admin.ModelAdmin):
         """
         if request.user.is_superuser or 'Editors' in request.user.groups.values_list('name', flat=True):
             self.exclude = None
-            return super(FilteredModelAdmin, self).get_form(request, obj, **kwargs)
         return super(FilteredModelAdmin, self).get_form(request, obj, **kwargs)
             
 
@@ -62,8 +61,8 @@ class FlashCardAdmin(admin.ModelAdmin):
 admin.site.register(Payment)
 admin.site.register(Login)
 admin.site.register(AnswerLogs)
-admin.site.register(EditorComment)
-admin.site.register(QuestionReference)
+#admin.site.register(EditorComment)
+#admin.site.register(QuestionReference)
 admin.site.register(FlashCard, FlashCardAdmin)
 
 class OptionInline(admin.StackedInline):
