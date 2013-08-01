@@ -20,8 +20,8 @@ urlpatterns = patterns('',
     url(r'^accounts/', include('registration.backends.default.urls')),
     
     url(r'^change/', include('accounts.urls')),
-
-    url(r'^grappelli/', include('grappelli.urls')),
+    
+    url(r'^ckeditor/', include('ckeditor.urls')),
 
     url('^$', TemplateView.as_view(template_name='home.html'),
         name='home'
