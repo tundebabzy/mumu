@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load render_table from django_tables2 %}
 {% block main-container %}
                 <div class="large-8 columns">
                     <h5 class="subheader">
@@ -13,10 +12,11 @@
                     {% if is_correct %}<span class="success label">correct{% else %}<span class="alert label">wrong!{% endif %}</span>
                     </h5>
                    {% if explanation %}
-                        <p><em>Question: {{ question }}</em></p>
+                        <p>Question:</p> 
+                        {{ question|safe }}
                         <hr />
                         {% for explan in explanation %}
-                            <p>{{ explan }}</p>
+                            {{ explan|safe }}
                         {% endfor %}
                     {% endif %}
                     

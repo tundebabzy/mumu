@@ -8,7 +8,7 @@
                 <br />
                 <br />
                 <div class="large-12 columns">
-                    <p>{{ random_question }}</p>
+                    {{ random_question|safe }}
                     <hr />
                 
                     <form action="" method="POST">{% csrf_token %}
