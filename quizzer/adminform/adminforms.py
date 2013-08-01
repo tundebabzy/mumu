@@ -1,13 +1,17 @@
 from django import forms
 from django.http import Http404
 
-from quizzer.models import Question
-
+from quizzer.models import Question, OptionExplanation
+from tinymce.widgets import TinyMCE
 from accounts.models import Researcher, Editor
 
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
+        widgets = {
+            'text': TinyMCE(mce_attrs={
+                'width': '100%'})
+        }
 
     def save(self, request, commit):
         profile = request.user.get_profile()
@@ -33,3 +37,12 @@ class QuestionForm(forms.ModelForm):
             except:
                 raise Http404
         return super(QuestionForm, self).save(commit=False)
+
+class OptionExplanationForm(forms.ModelForm):
+    class Meta:
+        model = OptionExplanation
+        widgets = {
+            'explanation': TinyMCE(mce_attrs={
+                'width': '100%'
+            })
+        }

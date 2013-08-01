@@ -70,7 +70,9 @@ class OptionInline(admin.StackedInline):
     extra = 0
     
 class OptionExplanationInline(admin.StackedInline):
+    from adminform import adminforms
     model = OptionExplanation
+    form = adminforms.OptionExplanationForm
     extra = 0
     
 class LinkInline(admin.StackedInline):
@@ -93,5 +95,4 @@ class QuestionAdmin(FilteredModelAdmin):
     form = adminforms.QuestionForm
     readonly_fields = ('created_by', 'text')
     search_fields = ['text']
-    change_form_template = 'quizzer/admin/change_form.html'
 admin.site.register(Question, QuestionAdmin)

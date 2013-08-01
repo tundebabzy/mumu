@@ -21,7 +21,7 @@ urlpatterns = patterns('',
     
     url(r'^change/', include('accounts.urls')),
     
-    url(r'^ckeditor/', include('ckeditor.urls')),
+    url(r'^tinymce/', include('tinymce.urls')),
 
     url('^$', TemplateView.as_view(template_name='home.html'),
         name='home'
