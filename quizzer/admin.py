@@ -61,6 +61,7 @@ class FlashCardAdmin(admin.ModelAdmin):
 admin.site.register(Payment)
 admin.site.register(Login)
 admin.site.register(AnswerLogs)
+admin.site.register(Link)
 #admin.site.register(EditorComment)
 #admin.site.register(QuestionReference)
 admin.site.register(FlashCard, FlashCardAdmin)
