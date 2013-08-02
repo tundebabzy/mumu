@@ -11,8 +11,9 @@ class FilteredModelAdmin(admin.ModelAdmin):
         """
         Hook for specifying custom readonly fields.
         """
-        if request.user.is_superuser or 'Editors' not in request.user.groups.values_list('name', flat=True):
-            self.readonly_fields = ()
+        if self.readonly_fields:
+            if request.user.is_superuser or 'Editors' not in request.user.groups.values_list('name', flat=True):
+                self.readonly_fields = ()
         return self.readonly_fields
         
     def queryset(self, request):
@@ -34,8 +35,12 @@ class FilteredModelAdmin(admin.ModelAdmin):
         FilteredModelAdmin is ignored if the User is a super user or
         is a member of the Editor group
         """
-        if request.user.is_superuser or 'Editors' in request.user.groups.values_list('name', flat=True):
-            self.exclude = None
+        if self.exclude:
+            if request.user.is_superuser or 'Editors' in request.user.groups.values_list('name', flat=True):
+                if 'slug' in self.exclude:
+                    self.exclude = list(['slug'])
+                else:
+                    self.exclude = None
         return super(FilteredModelAdmin, self).get_form(request, obj, **kwargs)
             
 
@@ -55,16 +60,12 @@ class TopicAdmin(admin.ModelAdmin):
     fields = ['name']
 admin.site.register(Topic, TopicAdmin)
 
-class FlashCardAdmin(admin.ModelAdmin):
-    exclude = ['slug']
-
 admin.site.register(Payment)
 admin.site.register(Login)
 admin.site.register(AnswerLogs)
 admin.site.register(Link)
 #admin.site.register(EditorComment)
 #admin.site.register(QuestionReference)
-admin.site.register(FlashCard, FlashCardAdmin)
 
 class OptionInline(admin.StackedInline):
     model = Option
@@ -97,3 +98,11 @@ class QuestionAdmin(FilteredModelAdmin):
     readonly_fields = ('created_by', 'text')
     search_fields = ['text']
 admin.site.register(Question, QuestionAdmin)
+
+class FlashCardAdmin(FilteredModelAdmin):
+    from adminform import adminforms
+    exclude = ['slug', 'created_by', 'approved', 'approved_by']
+    readonly_fields = ('created_by', 'text')
+    search_fields = ['text']
+    form = adminforms.FlashCardForm
+admin.site.register(FlashCard, FlashCardAdmin)
