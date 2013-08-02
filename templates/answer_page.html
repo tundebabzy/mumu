@@ -3,7 +3,7 @@
                 <div class="large-8 columns">
                     <h5 class="subheader">
                     {% for answer in last_answers %}
-                        {% if answer.is_true %}
+                        {% if answer.answer.is_true %}
                             <span class="success label"> C </span>
                         {% else %}
                             <span class="alert label"> W </span>
