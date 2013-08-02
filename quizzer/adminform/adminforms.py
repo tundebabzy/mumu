@@ -1,9 +1,8 @@
 from django import forms
 from django.http import Http404
 
-from quizzer.models import Question, OptionExplanation
+from quizzer.models import Question, OptionExplanation, FlashCard
 from tinymce.widgets import TinyMCE
-from accounts.models import Researcher, Editor
 
 class QuestionForm(forms.ModelForm):
     class Meta:
@@ -37,6 +36,10 @@ class QuestionForm(forms.ModelForm):
             except:
                 raise Http404
         return super(QuestionForm, self).save(commit=False)
+
+class FlashCardForm(QuestionForm):
+    class Meta:
+        model = FlashCard
 
 class OptionExplanationForm(forms.ModelForm):
     class Meta:
