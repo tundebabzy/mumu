@@ -39,6 +39,11 @@ class GenerateFlashCardView(DetailView, SessionMixin):
         """
         obj = self.query_database()
         return obj
+        
+    def get_context_data(self, **kwargs):
+        context = super(GenerateFlashCardView, self).get_context_data(**kwargs)
+        context.update({'topic_slug': self.kwargs.get('topic_slug')})
+        return context
 
 class FlipFlashCardView(DetailView, SessionMixin):
     model = FlashCard
