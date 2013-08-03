@@ -30,13 +30,11 @@
 
                     {% if links %}
                     <div class="panel">
-                            <h4 class="subheader">Also Read:</h4>
-                            <ul class="inline-list">
+                            <h4 class="subheader">Also Read:</h4
                             {% for link in links %}
-                                <li><a href="{{ link }}">{{ link }}</a></li>
+                                <p><a href="{{ link }}">{{ link }}</a></p>
                                 <hr />
                             {% endfor %}
-                            </ul>
                     </div>
                     {% endif %}
                 </div>
