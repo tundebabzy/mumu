@@ -1,13 +1,15 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic.simple import direct_to_template
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
+    url(r'^favicon.\ico$', RedirectView.as_view(url='/media/favicon.ico')),
+
     url('^quiz/', include('quizzer.urls')),
 
     # Steal one of django-registration url so I can shoe horn my backend
