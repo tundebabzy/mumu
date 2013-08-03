@@ -2,6 +2,7 @@
 {% block main-container %}    
             <div class="small-11 large-6 large-centered small-centered columns">
                 <form action='' method='post'>{% csrf_token %}
+                {{ form.non_field_errors }}
                 {% for field in form %}
                     {{ field.label_tag }}
                     {% if field.errors %}

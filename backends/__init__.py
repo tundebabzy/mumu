@@ -2,8 +2,9 @@ from django.contrib.sites.models import RequestSite
 from django.contrib.sites.models import Site
 
 from registration.backends.default import DefaultBackend
-from registration.forms import RegistrationFormUniqueEmail
 from registration import signals
+
+from quizzer.forms import QuizzerForm
 
 from accounts.models import QuizzerProfile
 
@@ -103,5 +104,6 @@ class QuizzerBackend(DefaultBackend):
     def get_form_class(self, request):
         """
         Return the default form class used for user registration.
+        
         """
-        return RegistrationFormUniqueEmail
+        return QuizzerForm
