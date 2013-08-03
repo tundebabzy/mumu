@@ -8,7 +8,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^favicon.\ico$', RedirectView.as_view(url='/media/favicon.ico')),
+    url(r'^favicon.\ico$', RedirectView.as_view(url='/static/media/favicon.ico')),
 
     url('^quiz/', include('quizzer.urls')),
 
