@@ -10,6 +10,9 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url('^media/img/favicon\.ico$', 'django.views.generic.simple.redirect_to',
         {'url': '/static/img/favicon.ico'}),
+        
+    url('^media/favicon\.ico$', 'django.views.generic.simple.redirect_to',
+        {'url': '/static/img/favicon.ico'}),
 
     url('^quiz/', include('quizzer.urls')),
 
