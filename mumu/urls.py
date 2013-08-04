@@ -8,6 +8,9 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
+    url('^media/img/favicon\.ico$', 'django.views.generic.simple.redirect_to',
+        {'url': '/static/img/favicon.ico'}),
+
     url('^quiz/', include('quizzer.urls')),
 
     # Steal some django-registration url so I can shoe horn my backend
