@@ -14,6 +14,9 @@ urlpatterns = patterns('',
     url('^media/favicon\.ico$', 'django.views.generic.simple.redirect_to',
         {'url': '/static/img/favicon.ico'}),
 
+    url('^robots\.txt$', 'django.views.generic.simple.redirect_to',
+        {'url': '/static/robots.txt'}),        
+
     url('^quiz/', include('quizzer.urls')),
 
     # Steal some django-registration url so I can shoe horn my backend
