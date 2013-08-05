@@ -8,7 +8,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url('^media/img/favicon\.ico$', 'django.views.generic.simple.redirect_to',
+    url('^favicon\.ico$', 'django.views.generic.simple.redirect_to',
         {'url': '/static/img/favicon.ico'}),
         
     url('^media/favicon\.ico$', 'django.views.generic.simple.redirect_to',
