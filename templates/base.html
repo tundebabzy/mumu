@@ -10,8 +10,8 @@
         <title>{% block title %}Mumu.com.ng{% endblock %}</title>
 
         {% block css %}
-        <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico" />
-        <link rel="apple-touch-icon-precomposed" href="{{ STATIC_URL }}img/favicon.ico" />
+        <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" />
+        <link rel="apple-touch-icon-precomposed" href="{{ STATIC_URL }}img/favicon.png" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/foundation.min.css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/css1.css" />
         {% endblock css %}
@@ -36,7 +36,7 @@
           <ul class="title-area">
             <!-- Title Area -->
             <li class="name">
-              <h1><a href="{% url home %}">mumu.com.ng</img></a></h1>
+              <h1><a href="{% url home %}"><img src="{{ STATIC_URL }}img/mumu-logo-white-30-30.png" alt="mumu.com.ng logo" /> mumu.com.ng</img></a></h1>
             </li>
             <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
             <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>

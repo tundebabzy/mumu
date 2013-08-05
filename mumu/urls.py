@@ -10,7 +10,10 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url('^favicon\.ico$', 'django.views.generic.simple.redirect_to',
         {'url': '/static/img/favicon.ico'}),
-        
+
+url('^favicon\.png$', 'django.views.generic.simple.redirect_to',
+        {'url': '/static/img/favicon.png'}),
+                
     url('^media/favicon\.ico$', 'django.views.generic.simple.redirect_to',
         {'url': '/static/img/favicon.ico'}),
 
