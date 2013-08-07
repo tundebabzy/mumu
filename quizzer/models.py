@@ -151,7 +151,7 @@ class FlashCard(models.Model, mixin.ModelDiffMixin):
                 })
 
 class Option(models.Model):
-    text = models.CharField(max_length=90)
+    text = models.TextField()
     question = models.ForeignKey(Question)
     is_true = models.BooleanField()
 
@@ -166,7 +166,7 @@ class OptionExplanation(models.Model):
         return '%s' % self.explanation
 
 class QuestionReference(models.Model):
-    source = models.CharField(max_length=100)
+    source = models.TextField()
     question = models.ForeignKey(Question)
 
     def __unicode__(self):
