@@ -1,7 +1,7 @@
 from django import forms
 from django.http import Http404
 
-from quizzer.models import Question, OptionExplanation, FlashCard
+from quizzer.models import Question, OptionExplanation, FlashCard, Option
 from tinymce.widgets import TinyMCE
 
 class QuestionForm(forms.ModelForm):
@@ -46,6 +46,15 @@ class OptionExplanationForm(forms.ModelForm):
         model = OptionExplanation
         widgets = {
             'explanation': TinyMCE(mce_attrs={
+                'width': '100%'
+            })
+        }
+
+class OptionForm(forms.ModelForm):
+    class Meta:
+        model = Option
+        widgets = {
+            'text': TinyMCE(mce_attrs={
                 'width': '100%'
             })
         }

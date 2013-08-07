@@ -61,15 +61,17 @@ class TopicAdmin(admin.ModelAdmin):
 admin.site.register(Topic, TopicAdmin)
 
 admin.site.register(Payment)
-admin.site.register(Login)
-admin.site.register(AnswerLogs)
+#admin.site.register(Login)
+#admin.site.register(AnswerLogs)
 admin.site.register(Link)
 #admin.site.register(EditorComment)
 #admin.site.register(QuestionReference)
 
 class OptionInline(admin.StackedInline):
+    from adminform import adminforms
     model = Option
     extra = 0
+    form = adminforms.OptionForm
     
 class OptionExplanationInline(admin.StackedInline):
     from adminform import adminforms
