@@ -30,29 +30,29 @@ class FormExtrasMixin(object):
     """
     model = Question
     template_list_index = 0
-    __last_active_payment = None
+#    __last_active_payment = None
     __category = None
     __identifier = None
     
-    def need_to_pay(self, index):
-        self.template_list_index = index
-        return self.render_to_response({})
+#    def need_to_pay(self, index):
+#        self.template_list_index = index
+#        return self.render_to_response({})
         
-    def user_is_staff(self):
-        return self.request.user.is_staff
+#    def user_is_staff(self):
+#        return self.request.user.is_staff
         
-    def subscription_is_ok(self, **kwargs):
-        """
-        Checks if the logged in user's payment is still active.
-        """
-        if self.user_is_staff():
-            return True
+#    def subscription_is_ok(self, **kwargs):
+#        """
+#        Checks if the logged in user's payment is still active.
+#        """
+#        if self.user_is_staff():
+#            return True
             
-        last_payment = self.request.status
-        if last_payment:
-            return last_payment.has_not_expired()
-        else:
-            return False
+#        last_payment = self.request.status
+#        if last_payment:
+#            return last_payment.has_not_expired()
+#        else:
+#            return False
 
     def is_valid_category(self, category):
         allowed_categories = ('exam','level','paper','topic')
@@ -94,27 +94,27 @@ class FormExtrasMixin(object):
             except IndexError:
                 pass
 
-    def can_show(self, obj, category):
-        if self.user_is_staff():
-            return True
-
-        last_payment = self.request.status
-        if last_payment:
-            if last_payment.get_category_paid_for() == 'level':
-                try:
-                    return obj.level == last_payment.level
-                except:
-                    return False
-            elif last_payment.get_category_paid_for() == 'paper' and category in ['paper', 'topic']:
-                try:
-                    return obj.paper == last_payment.paper
-                except:
-                    return False
-        return False
+#    def can_show(self, obj, category):
+#        if self.user_is_staff():
+#            return True
+#
+#        last_payment = self.request.status
+#        if last_payment:
+#            if last_payment.get_category_paid_for() == 'level':
+#                try:
+#                    return obj.level == last_payment.level
+#                except:
+#                    return False
+#            elif last_payment.get_category_paid_for() == 'paper' and category in ['paper', 'topic']:
+#                try:
+#                    return obj.paper == last_payment.paper
+#                except:
+#                    return False
+#        return False
 
     def get_random_question(self, **kwargs):
         user = self.request.user
-        last_payment = self.request.status
+#        last_payment = self.request.status
         self.__category = kwargs['category']
         self.__identifier = kwargs['identifier']
         
@@ -122,8 +122,8 @@ class FormExtrasMixin(object):
             # Log this incidence then....
             raise Http404
         random_question = self.query_database(self.__category, self.__identifier).next()
-        if not self.can_show(random_question, self.__category):
-            raise Http404
+#        if not self.can_show(random_question, self.__category):
+#            raise Http404
         self.set_session_var('question', random_question)
         return random_question
         

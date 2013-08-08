@@ -16,9 +16,9 @@ urlpatterns = patterns('',
     ),
     url('^explanation/$', GradeQuestionView.as_view(), name='explanation'
     ),
-    url('^pricing/$', TemplateView.as_view(template_name='pricing.html'),
-        name='pricing'
-    ),
+    #url('^pricing/$', TemplateView.as_view(template_name='pricing.html'),
+    #    name='pricing'
+    #),
     url('^how/$', TemplateView.as_view(template_name='how_it_works.html'),
         name='how_it_works'
     ),

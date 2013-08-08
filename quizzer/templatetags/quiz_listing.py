@@ -44,34 +44,34 @@ class NavigationNode(template.Node):
 
     def make_html(self, context):
         user = self.get_user_from_node(context)
-        last_payment = self.get_user_last_payment(context)
+        #last_payment = self.get_user_last_payment(context)
         distinct_quests = Question.objects.select_related().order_by('topic').distinct('topic')
 
-        if not user.is_staff:
-            if last_payment is None:
-                return self._error_html()
-            elif not last_payment is None and not last_payment.has_not_expired():
-                return self._error_html()
-            if last_payment.get_category_paid_for() == 'level':
-                distinct_quests = distinct_quests.filter(level=last_payment.level)
-            elif last_payment.get_category_paid_for() == 'paper':
-                distinct_quests = distinct_quests.filter(paper=last_payment.paper)
+#        if not user.is_staff:
+#            if last_payment is None:
+#                return self._error_html()
+#            elif not last_payment is None and not last_payment.has_not_expired():
+#                return self._error_html()
+#            if last_payment.get_category_paid_for() == 'level':
+#                distinct_quests = distinct_quests.filter(level=last_payment.level)
+#            elif last_payment.get_category_paid_for() == 'paper':
+#                distinct_quests = distinct_quests.filter(paper=last_payment.paper)
 
         level_html, paper_html, topic_html = '', '', ''
         temp_level, temp_paper = [], []
                         
         for obj in distinct_quests:
-            if user.is_staff or last_payment.get_category_paid_for() == 'level':
-                if not obj.level in temp_level:
-                    level_html += self._gen_html('h3', obj.level)
-                    temp_level.append(obj.level)
+#            if user.is_staff or last_payment.get_category_paid_for() == 'level':
+            if not obj.level in temp_level:
+                level_html += self._gen_html('h3', obj.level)
+                temp_level.append(obj.level)
             if not obj.paper in temp_paper:
                 paper_html += self._gen_html('h4', obj.paper)
                 temp_paper.append(obj.paper)
             topic_html += self._gen_html('h5', obj.topic)
         
-        if user.is_staff or last_payment.get_category_paid_for() == 'level':
-            level_html = self._open_div('LEVEL') + level_html + self._close_div()
+#        if user.is_staff or last_payment.get_category_paid_for() == 'level':
+        level_html = self._open_div('LEVEL') + level_html + self._close_div()
         paper_html = self._open_div('PAPER') + paper_html + self._close_div()
         topic_html = self._open_div('TOPIC') + topic_html + self._close_div()
         

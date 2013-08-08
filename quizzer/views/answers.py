@@ -22,7 +22,7 @@ class GradeQuestionView(TemplateView, SessionMixin):
         option_id = self.get_session_var('option_id')
         answer = get_object_or_404(Option, id=option_id)
         last_answers = AnswerLogs.objects.filter(user=self.request.user,
-            question=question).order_by('-time')[:4]
+            question=question).order_by('time')[:4]
         
         kwargs.update({
         'question': question, 'is_correct': answer.is_true,

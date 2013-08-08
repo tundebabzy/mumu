@@ -46,7 +46,7 @@
           <ul class="title-area">
             <!-- Title Area -->
             <li class="name">
-              <h1><a href="{% url home %}"><img src="{{ STATIC_URL }}img/mumu-logo-white-30-30.png" alt="mumu.com.ng logo" /> mumu.com.ng</img></a></h1>
+              <h1><a href="{% url home %}"><img src="{{ STATIC_URL }}img/mumu-logo-text-pine-225-30.png" alt="mumu.com.ng logo" /></a></h1>
             </li>
             <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
             <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
@@ -58,8 +58,8 @@
               <li class="divider"></li>
               <li><a href="{% url how_it_works %}">How it works</a></li>
               <li class="divider"></li>
-              <li><a href="{% url pricing %}">Pricing</a></li>
-              <li class="divider"></li>
+              {% comment %}<li><a href="{% url pricing %}">Pricing</a></li>
+              <li class="divider"></li>{% endcomment %}
             </ul>
             <!-- Left Nav Section End -->
 
@@ -67,7 +67,7 @@
             {% if user.is_authenticated %}
             <ul class="right">
               <li class="divider"></li>
-              <li class="has-dropdown"><a href="#">{{ user }} {% if not user.is_staff %}on {% if status %} {{ status }}{% else %}Limited Access{% endif%}{% endif %} </a>
+              <li class="has-dropdown"><a href="#">{{ user }}</a>
                 <ul class="dropdown">
                   <li><label>ACCOUNT SETTINGS</label></li>
                   <li class="has-dropdown"><a href="#" class="">Account Settings</a>
@@ -75,8 +75,8 @@
                     <ul class="dropdown">
                       <li><a href="{% url change_details %}">Change Personal Details</a></li>
                       <li><a href="{% url auth_password_change %}">Change Password</a></li>
-                      <li><a href="{% url pricing %}">Change Package</a></li>
-                      <li><a href="{% url history %}">View Payment History</a></li>
+                      {% comment %}<li><a href="{% url pricing %}">Change Package</a></li>{% endcomment %}
+                      {% comment %}<li><a href="{% url history %}">View Payment History</a></li>{% endcomment %}
                     </ul>
                   </li>
                   <li class="divider"></li>
