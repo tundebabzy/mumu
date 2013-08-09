@@ -49,12 +49,3 @@ class OptionExplanationForm(forms.ModelForm):
                 'width': '100%'
             })
         }
-
-class OptionForm(forms.ModelForm):
-    class Meta:
-        model = Option
-        widgets = {
-            'text': TinyMCE(mce_attrs={
-                'width': '100%'
-            })
-        }

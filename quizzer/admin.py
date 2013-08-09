@@ -68,10 +68,8 @@ admin.site.register(Link)
 #admin.site.register(QuestionReference)
 
 class OptionInline(admin.StackedInline):
-    from adminform import adminforms
     model = Option
     extra = 0
-    form = adminforms.OptionForm
     
 class OptionExplanationInline(admin.StackedInline):
     from adminform import adminforms
