@@ -1,10 +1,16 @@
 {% extends 'base.html' %}
 {% block title %}Mumu| Practice Quizzes For ICAN Passes {% endblock %}
 {% block main-container %}
-            <div class="large-8 large-centered columns">
-                <h5 class="subheader">Practice quizzes to help you pass your ICAN</h5>
-                <a href="{% url quiz_selection %}" class="button">Start Quiz</a>
-                <h5 class="subheader">Flash cards to help you memorise definitions and terms and the likes</h5>
-                <a href="{% url flashcard_list %}" class="button">Start Memorising</a>
+            <div class="small-10 large-7 columns">
+                <kbd>Practice quizzes to help you pass your ICAN</kbd>
+            </div>  <!-- small-10 large-10 -->
+            <div class="small-2 large-5 columns">
+                <a href="{% url quiz_selection %}" class="tiny button">Start</a>
+            </div>  <!-- small-2 large-2 large-centered columns -->
+            <div class="small-10 large-7 columns">
+                <kbd>Flash cards to help you memorise definitions and terms and the likes </kbd>
             </div>
+            <div class="small-2 large-5 columns">
+                <a href="{% url flashcard_list %}" class="tiny button">Start</a>
+            </div> <!-- small-2 large-2 large-centered columns -->
 {% endblock main-container %}
