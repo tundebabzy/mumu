@@ -40,6 +40,11 @@ class QuestionForm(forms.ModelForm):
 class FlashCardForm(QuestionForm):
     class Meta:
         model = FlashCard
+        widgets = {
+            'answer': TinyMCE(mce_attrs={
+                'width': '100%'
+            })
+        }
 
 class OptionExplanationForm(forms.ModelForm):
     class Meta:

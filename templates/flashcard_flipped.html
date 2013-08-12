@@ -2,7 +2,7 @@
 {% block main-container %}
         <div class="large-6 large-centered columns">
             <div class="panel">
-                {{ object.answer }}<br /><br />
+                {{ object.answer|safe }}<br /><br />
                 <ul class="button-group even-3">
                     <li><a href="{% url home %}" class="tiny button">Go Home</a></li>
                     <li><a href="{% url flashcard_list %}" class="tiny button">New Topic</a></li>
