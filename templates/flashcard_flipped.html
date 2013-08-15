@@ -1,12 +1,18 @@
 {% extends 'base.html' %}
 {% block main-container %}
-        <div class="large-6 large-centered columns">
+        <div class="large-8 columns">
             <div class="panel">
                 {{ object.answer|safe }}<br /><br />
                 <ul class="button-group even-3">
                     <li><a href="{% url home %}" class="tiny button">Go Home</a></li>
                     <li><a href="{% url flashcard_list %}" class="tiny button">New Topic</a></li>
                     <li><a href="{% url next_flashcard topic_slug %}" class="tiny button">Next Card</a></li>
-            </div>  <!-- panel -->
+            </div>  <!-- panel -->            
         </div>  <!-- large-6 large-centered -->
+        
+        <div class="show-for-large-up large-4 columns">
+            <h3>Did you know?</h3>
+            <p>When you highlight a word or phrase, there will be a pop-up
+            with information about the the highlighted word or phrase</p>
+        </div>
 {% endblock main-container %}

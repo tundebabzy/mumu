@@ -1,6 +1,4 @@
 from django.views.generic.edit import FormView
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
 from django.db import utils
 
 from lib.mixins import SessionMixin, FormExtrasMixin
@@ -18,10 +16,6 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
     success_url = '/quiz/explanation/'
 #    template_name = ['quiz_page.html', 'answer_page.html','upgrade-package.html']
     template_name = 'quiz_page.html'
-    
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(GenerateQuizView, self).dispatch(*args, **kwargs)
         
     def get(self, request, *args, **kwargs):
         """

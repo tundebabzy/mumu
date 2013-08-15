@@ -1,6 +1,4 @@
 from django.views.generic import DetailView, ListView
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
 from django.db import models
 
 from quizzer.models import FlashCard, Topic
@@ -11,10 +9,6 @@ from random import randint
 class GenerateFlashCardView(DetailView, SessionMixin):
     model = FlashCard
     template_name = 'flashcard.html'
-    
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(GenerateFlashCardView, self).dispatch(*args, **kwargs)
         
     def get(self, request, *args, **kwargs):
         self.remove_session_var(['topic_slug'])
@@ -48,10 +42,6 @@ class GenerateFlashCardView(DetailView, SessionMixin):
 class FlipFlashCardView(DetailView, SessionMixin):
     model = FlashCard
     template_name = 'flashcard_flipped.html'
-    
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(FlipFlashCardView, self).dispatch(*args, **kwargs)
         
     def get_context_data(self, **kwargs):
         context = super(FlipFlashCardView, self).get_context_data(**kwargs)
@@ -61,10 +51,6 @@ class FlipFlashCardView(DetailView, SessionMixin):
 class FlashCardListView(ListView, FormExtrasMixin):
 #    template_name = ['topic_list.html', 'upgrade-package.html']
     template_name = 'topic_list.html'
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(FlashCardListView, self).dispatch(*args, **kwargs)
 
 #    def get(self, request, *args, **kwargs):
         #if self.subscription_is_ok(**kwargs):

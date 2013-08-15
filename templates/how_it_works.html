@@ -26,6 +26,12 @@
                     <div class="small-6 large-6 columns">
                         <h3> Start Testing Yourself</h3>
                         <p> After memorizing, test yourself with quizzes any time, any where.</p>
+                        <a class="button" href="{% url quiz_selection %}">Start</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="small-6 large-6 columns">
+                        <h3> Keep track of your "Hotness"</h3>
                         <p> There is a "hotness bar" while you answering questions. It 
                         shows your performance on previous attempts at each question.
                         A red shows a wrong answer and a green shows a correct answer.<p>
@@ -40,8 +46,10 @@
                         which you see above and is always green. If you hotness bar
                         for a particular keeps showing red the it is an indicator of
                         a need to study that topic more.</p>
-                        <a class="button" href="{% url quiz_selection %}">Start</a>
+                        <p>P.S You need to be logged in to be able to see a
+                        hotness bar.</p>
                     </div>
+                    
                 </div>  <!-- row -->
             </div>
 {% endblock main-container %}
