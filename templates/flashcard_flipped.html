@@ -3,6 +3,19 @@
         <div class="large-8 columns">
             <div class="panel">
                 {{ object.answer|safe }}<br /><br />
+                <a href="https://twitter.com/dotmumu" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @dotmumu</a>
+
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+                    
+                <su:badge layout="2"></su:badge>
+                <script type="text/javascript">
+                (function() {
+                var li = document.createElement('script'); li.type = 'text/javascript'; li.async = true;
+                li.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + '//platform.stumbleupon.com/1/widgets.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(li, s);
+                })();
+            </script>
+                <br /><br />
                 <ul class="button-group even-3">
                     <li><a href="{% url home %}" class="tiny button">Go Home</a></li>
                     <li><a href="{% url flashcard_list %}" class="tiny button">New Topic</a></li>
@@ -11,7 +24,7 @@
         </div>  <!-- large-6 large-centered -->
         
         <div class="show-for-large-up large-4 columns">
-            <h3>Did you know?</h3>
+            <h5>Tip</h5>
             <p>When you highlight a word or phrase, there will be a pop-up
             with information about the the highlighted word or phrase</p>
         </div>

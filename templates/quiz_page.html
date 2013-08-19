@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block main-container %}
     {% if random_question %}
-            <div class="large-8 large-centered columns">
+            <div class="large-8 columns">
                 <div class="show-for-large-up large-6 columns"><span class="label">{{ selection }}</span></div>
                 <div class="hide-for-large-up small-6 columns"><span class="label">{{ selection|truncatechars:22 }}</span></div>
                 <div class="small-6 large-6 columns"><a href="{% url quiz_selection %}" class="close right big">&times;</a></div>
