@@ -2,10 +2,10 @@
 {% block main-container %}
         <div class="large-11 large-centered columns">
                 <h4 class="subheader">You can test your knowledge and practice with our <a href="{% url quiz_selection %}">Practice Quizzes</a></h4><hr />
-            <h3>Flash Cards</h3>
+            <h2>Flash Cards <span class="round label">{{ object_list.count }}</span></h2>
             {% for object in object_list %}
             <div class="panel">
-                <h4><a href="{% url next_flashcard object.slug %}">{{ object }}</a></h4>
+                <h5><a href="{% url next_flashcard object.slug %}">{{ object }}</a></h5>
             </div>  <!-- panel -->
             {% endfor %}            
         </div>  <!-- large-6 large-centered -->

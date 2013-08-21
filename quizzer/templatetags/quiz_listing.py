@@ -1,5 +1,6 @@
 from django import template
 from django.utils.timezone import make_aware, get_current_timezone
+from django.contrib.contenttypes.models import ContentType
 
 from quizzer.models import Question
 
@@ -18,10 +19,19 @@ class NavigationNode(template.Node):
     def get_user_last_payment(self, context):
         return context.render_context[self]['payment_obj'].resolve(context)
 
-    def _gen_html(self, tag_type, obj):
+    def _gen_html(self, tag_type, level_or_paper, label, obj):
+        model_ct = ContentType.objects.get_for_model(obj)
+        model_name = model_ct.model_class()
+        if label == 'level':
+            num = model_name.objects.filter(level=obj.level).count()
+        elif label == 'paper':
+            num = model_name.objects.filter(level=obj.level, paper=obj.paper).count()
+        elif label == 'topic':
+            num = model_name.objects.filter(level=obj.level, paper=obj.paper, topic=obj.topic).count()
         return u"""
-                <%s><a href="%s">%s</a></%s>
-        """ %(tag_type, obj.get_absolute_url(), obj, tag_type)
+                <%s><a href="%s">%s</a> <span class="label round">%s</span></%s>
+        """ %(tag_type, level_or_paper.get_absolute_url(), level_or_paper, num,
+              tag_type)
         
     def _open_div(self, marker):
         return u"""
@@ -63,12 +73,12 @@ class NavigationNode(template.Node):
         for obj in distinct_quests:
 #            if user.is_staff or last_payment.get_category_paid_for() == 'level':
             if not obj.level in temp_level:
-                level_html += self._gen_html('h3', obj.level)
+                level_html += self._gen_html('h5', obj.level, 'level', obj)
                 temp_level.append(obj.level)
             if not obj.paper in temp_paper:
-                paper_html += self._gen_html('h4', obj.paper)
+                paper_html += self._gen_html('h5', obj.paper, 'paper', obj)
                 temp_paper.append(obj.paper)
-            topic_html += self._gen_html('h5', obj.topic)
+            topic_html += self._gen_html('h5', obj.topic, 'topic', obj)
         
 #        if user.is_staff or last_payment.get_category_paid_for() == 'level':
         level_html = self._open_div('LEVEL') + level_html + self._close_div()
@@ -84,10 +94,10 @@ class NavigationNode(template.Node):
             context.render_context[self] = {
                 'user': self.user_obj, 'payment_obj': self.payment_obj
             }
-        try:
-            return self.make_html(context)
-        except:
-            return ''
+#    try:
+        return self.make_html(context)
+#    except:
+#        return ''
 
 @register.tag(name="quiz_listing")
 def get_categories(parser, token):
