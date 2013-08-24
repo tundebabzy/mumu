@@ -1,25 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}Mumu| Practice Quizzes For ICAN Preparation {% endblock %}
+{% block title %}Mumu| ICAN Revision {% endblock %}
 {% block main-container %}
-            <div class="small-9 large-7 columns">
-                <p>If you want to be sure you have really have stored what you
-                have read in your brain, you need to answer these random 
-                questions that will be thrown to you. The questions are based
-                on ICAN study pack text and the answers are as spelt out in
-                ICAN study pack text.</p>
+            <div class="small-9 large-7 large-centered columns">
+                <a href="{% url flashcard_list %}" class="button">Open Ended (Theory)</a>
+                <a href="{% url quiz_selection %}" class="button">Multiple Choice</a>
             </div>
-            <div class="small-3 large-5 columns">
-                <a href="{% url flashcard_list %}" class="small button">Start</a>
-            </div> <!-- small-3 large-5 columns -->
-            <div class="small-9 large-7 columns">
-                <p>There are sample multiple choice questions which are based 
-                on ICAN past questions. Its one thing to be able to memorize
-                and define terms but why not check to see how you will perform
-                in a test?</p>
-            </div>  <!-- small-9 large-7 -->
-            <div class="small-3 large-5 columns">
-                <a href="{% url quiz_selection %}" class="small button">Start</a>
-            </div> <!-- small-3 large-5 columns -->
             <div class="small-9 large-7 columns">
                 <a href="https://twitter.com/dotmumu" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @dotmumu</a>
 

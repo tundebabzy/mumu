@@ -2,9 +2,9 @@
 {% load obj_count %}
 {% block main-container %}
         <div class="large-11 large-centered columns">
-            <h4 class="subheader">You can test your knowledge and practice with our <a href="{% url quiz_selection %}">Practice Quizzes</a></h4>
-            <hr />
-            <h2>Flash Cards</h2>
+            <div class="panel">
+                <h5>For multiple choice questions, <a href="{% url quiz_selection %}">Click here</a></h5>
+            </div>
             {% for object in object_list %}
             <div class="panel">
                 <h5><a href="{% url next_flashcard object.slug %}">{{ object }}</a> <span class="round label">{% obj_count object %}</span></h5>

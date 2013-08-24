@@ -3,39 +3,36 @@
 {% block main-container %}
             <div class="large-10 large-centered columns">
                 <h1>How It Works</h1>
-                <p> This is an Institute of Chartered Accountants of Nigeria (ICAN)
-                exam preparation application. Here you can practice quizzes
-                or memorise terms with our flash cards.</p>
-                <p> Our website is optimised for mobile. Infact, the
-                website incoporates a mobile first philosophy so you can
-                easily have access to ican.mumu from your phone. This
-                means you can continue with your preparations in traffic,
-                during boring meetings and all the oddest places apart from inside a pool or in the shower.</p>
-                <blockquote> If you can answer every question on the site correctly and
-                correctly answer every flash card question then you can be sure
-                of ICAN success. </blockquote>
+                <blockquote> If you can answer every question on the site correctly,
+                you are probably going to have a pass.
+                </blockquote>
+                
                 <blockquote> For best results, make it a point of duty to visit
                 every other day. </blockquote>
                 <hr />
                 <div class="row">
-                    <div class="large-6 columns">
-                        <h3> Memorize with Flash cards</h3>
-                        <p> Use our flash cards to help you memorize terms,
-                        advantages and disadvantages, types and all those things
-                        you know you will definitely need to write out in the exam.</p>
+                    <div class="large-12 columns">
+                        <h3> Revise with open ended questions</h3>
+                        <p> There are hundreds of open ended questions in our
+                        database grouped by topics. The questions will be
+                        selected randomly and is a good way to check your
+                        readiness for open ended and fill-in-the-gap questions. </p>
                         <a class="button" href="{% url flashcard_list %}">Start</a>
-                    </div>
-                    <div class="large-6 columns">
-                        <h3> Start Testing Yourself</h3>
-                        <p> After memorizing, test yourself with quizzes any time, any where.</p>
+                    </div>  <!-- large-12 columns -->
+                    <div class="large-12 columns">
+                        <h3> Revise with multiple choice questions</h3>
+                        <p> We also have many multiple choice questions grouped
+                        by level, paper and topic. The questions will also be
+                        selected randomly and is a good way to check your
+                        readiness for the multiple choice questions.</p>
                         <a class="button" href="{% url quiz_selection %}">Start</a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="large-6 columns">
+                    </div> <!-- large-12 columns -->
+                    <div class="large-12 columns">
                         <h3> Keep track of your "Hotness"</h3>
-                        <p> There is a "hotness bar" which shows after you answer each quiz question. It 
-                        shows your performance on previous attempts at each question.
+                        <p> There is a "hotness bar" which shows after you 
+                        answer each question in the multiple choice section. 
+                        It shows your performance on previous attempts at each 
+                        question.
                         A red shows a wrong answer and a green shows a correct answer.<p>
                         <h5>
                             <span class="alert label">W</span>
@@ -44,14 +41,12 @@
                             <span class="success label">C</span>
                             <span class="success label">correct</span>
                         </h5>
-                        <p> Be sure to always make sure you hotness bar looks like that
-                        which you see above and is always green. If you hotness bar
-                        for a particular keeps showing red the it is an indicator of
-                        a need to study that topic more.</p>
+                        <p> The greener the bar, the better. If your hotness bar
+                        for a particular question keeps showing red, it is an
+                        indicator of a need to study that topic more.</p>
                         <p>P.S You need to be logged in to be able to see a
                         hotness bar.</p>
-                    </div>
-                    
+                    </div>  <!-- large-12 columns -->
                 </div>  <!-- row -->
-            </div>
+            </div>  <!-- large-10 large-centered columns -->
 {% endblock main-container %}
