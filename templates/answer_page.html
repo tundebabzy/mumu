@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block main-container %}
-                <div class="large-8 columns">
+                <div class="large-10 large-centered columns">
                     <h5 class="subheader">
                     {% for answer in last_answers %}
                         {% if answer.answer.is_true %}
@@ -12,47 +12,29 @@
                     {% if is_correct %}<span class="success label">correct{% else %}<span class="alert label">wrong!{% endif %}</span>
                     </h5>
                    {% if explanation %}
-                        <p>Question:</p> 
-                        {{ question|safe }}
-                        <hr />
+                        <p class="title"><a href="#">Question</a></p> 
+                        <h4>{{ question|safe }}</h4>
+                        <br /><br /><br /><br /><br />
+                        <p class="title"><a href="#">Explanation</a></p> 
                         {% for explan in explanation %}
-                            {{ explan|safe }}
+                        <h4>{{ explan|safe }}</h4>
                         {% endfor %}
                     {% endif %}
-                    
-                    <a href="https://twitter.com/dotmumu" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @dotmumu</a>
-                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-                    
-                    <su:badge layout="2"></su:badge>
-                    <script type="text/javascript">
-                    (function() {
-                    var li = document.createElement('script'); li.type = 'text/javascript'; li.async = true;
-                    li.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + '//platform.stumbleupon.com/1/widgets.js';
-                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(li, s);
-                    })();
-                </script>
-                    
-                </div>  <!-- large-8 columns -->
-                <div class="large-4 columns">
-                    <ul class="button-group even-3">
-                        <li><a class="small button" href="{% url home %}">Go Home</a></li>
-                        <li><a class="small button" href="{% url quiz_selection %}">End Test</a></li>
-                        <li><a class="small button" href="{{ next }}">Next</a></li>
-                    </ul>
-
+                                        
                     {% if links %}
-                    <div class="panel">
-                            <h4 class="subheader">Also Read:</h4>
-                            {% for link in links %}
-                                <a href="{{ link }}">{{ link }}</a>
-                                <hr />
-                            {% endfor %}
-                    </div>
+                    <br /><br /><br /><br /><br />
+                    <p class="title"><a href="#">Also Read</a></p>
+                    {% for link in links %}
+                        <a href="{{ link }}">{{ link }}</a>
+                    {% endfor %}
                     {% endif %}
-                    <div class="show-for-large-up large-12 small-12 columns">
-                        <h5>Tip</h5>
-                        <p>When you highlight a word or phrase, there will be a pop-up
-                        with information about the the highlighted word or phrase</p>
-                    </div>
-                </div>
+
+                    <br /><br /><br /><br /><br />
+                    <nav class="converted breadcrumbs">
+                        <a href="{% url home %}">Go Home</a>
+                        <a href="{% url quiz_selection %}">End Test</a>
+                        <a href="{{ next }}">Next</a>
+                    </nav>
+
+                </div> <!-- large-10 .... -->
 {% endblock %}

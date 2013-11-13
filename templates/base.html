@@ -41,12 +41,12 @@
         </div>
         {% endif %}
 
-        <!-- Navigation things -------->
+        <!-- Navigation tins -------->
         <nav class="top-bar">
           <ul class="title-area">
             <!-- Title Area -->
             <li class="name">
-              <h1><a href="{% url home %}"><img src="{{ STATIC_URL }}img/mumu-logo-text-skyblue-180-24.png" alt="mumu.com.ng" /></a></h1>
+              <h1><a href="{% url home %}"><img src="{{ STATIC_URL }}img/transparent.png" alt="mumu.com.ng" /></a></h1>
             </li>
             <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
             <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
@@ -64,9 +64,9 @@
             <!-- Left Nav Section End -->
 
             <!-- Right Nav Section -->
-            {% if user.is_authenticated %}
             <ul class="right">
               <li class="divider"></li>
+            {% if user.is_authenticated %}
               <li class="has-dropdown"><a href="#">{{ user }}</a>
                 <ul class="dropdown">
                   <li><label>ACCOUNT SETTINGS</label></li>
@@ -83,19 +83,18 @@
                   <li><a href="{% url auth_logout %}">Sign Out</a></li>
                 </ul>
               </li>
-              <li class="divider"></li>
-            </ul>
             {% else %}
-            <ul class="right">
-                <li class="divider"></li>
                 <li><a href="{% url registration_register %}">Register</a></li>
                 <li class="divider"></li>
                 <li><a href="{% url auth_login %}">Sign In</a></li>
-            </ul>
             {% endif %}
+              <li class="divider"></li>
+              <li><a href="https://twitter.com/dotmumu" data-show-count="false" data-show-screen-name="false">Follow @dotmumu</a></li>
+            </ul>
+
           </section>
         </nav>
-        <!-- End of navigation things -------->
+        <!-- End of navigation tins -------->
                 
         <div class="row">
             {% block main-container %}{% endblock main-container %}

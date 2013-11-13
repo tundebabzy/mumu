@@ -1,22 +1,13 @@
 {% extends 'base.html' %}
 {% block title %}Mumu| ICAN Revision {% endblock %}
 {% block main-container %}
-            <div class="small-9 large-7 large-centered columns">
-                <a href="{% url flashcard_list %}" class="button">Open Ended (Theory)</a>
-                <a href="{% url quiz_selection %}" class="button">Multiple Choice</a>
-            </div>
-            <div class="small-9 large-7 columns">
-                <a href="https://twitter.com/dotmumu" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @dotmumu</a>
-
-                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-                    
-                <su:badge layout="2"></su:badge>
-                <script type="text/javascript">
-                (function() {
-                var li = document.createElement('script'); li.type = 'text/javascript'; li.async = true;
-                li.src = ('https:' == document.location.protocol ? 'https:' : 'http:') + '//platform.stumbleupon.com/1/widgets.js';
-                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(li, s);
-                })();
-                </script>
+            <div class="large-10 large-centered columns">
+                <h2 class="subheader">How would you like to practise?</h2>
+                <div class="panel">
+                    <strong><a href="{% url flashcard_list %}">Open Ended (Theory)</a></strong>
+                </div>
+                <div class="panel">
+                    <strong><a href="{% url quiz_selection %}">Multiple Choice</a></strong>
+                </div>
             </div>
 {% endblock main-container %}
