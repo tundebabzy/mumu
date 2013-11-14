@@ -14,7 +14,7 @@
                    {% if explanation %}
                         <p class="title"><a href="#">Question</a></p> 
                         <h4>{{ question|safe }}</h4>
-                        <br /><br /><br /><br /><br />
+                        <br /><br /><br /><br />
                         <p class="title"><a href="#">Explanation</a></p> 
                         {% for explan in explanation %}
                         <h4>{{ explan|safe }}</h4>
@@ -22,14 +22,14 @@
                     {% endif %}
                                         
                     {% if links %}
-                    <br /><br /><br /><br /><br />
+                    <br /><br /><br /><br />
                     <p class="title"><a href="#">Also Read</a></p>
                     {% for link in links %}
                         <a href="{{ link }}">{{ link }}</a>
                     {% endfor %}
                     {% endif %}
 
-                    <br /><br /><br /><br /><br />
+                    <br /><br /><br /><br />
                     <nav class="converted breadcrumbs">
                         <a href="{% url home %}">Go Home</a>
                         <a href="{% url quiz_selection %}">End Test</a>

@@ -2,13 +2,13 @@
 {% block main-container %}
     {% if random_question %}
             <div class="large-10 large-centered columns">
-                <div class="show-for-large-up large-6 columns"><span class="label">{{ selection }}</span></div>
-                <div class="hide-for-large-up small-6 columns"><span class="label">{{ selection|truncatechars:22 }}</span></div>
-                <div class="small-6 large-6 columns"><a href="{% url quiz_selection %}" class="close right big">&times;</a></div>
-                <br />
-                <br />
+                <nav class="converted breadcrumbs">
+                    <a href="#">{{ selection }}</a>
+                    <a href="{% url quiz_selection %}">End Test</a>
+                </nav>
+                <p class="title"><a href="#">Question</a></p>
                 <div class="large-12 columns">
-                    {{ random_question|safe }}
+                    <h4>{{ random_question|safe }}</h4>
                     <hr />
                 
                     <form action="" method="POST">{% csrf_token %}
@@ -21,6 +21,6 @@
                         <input type="submit" value="Submit" class="tiny button" />
                     </form> <!-- form -->
                 </div>  <!-- large-12 columns -->
-            </div>  <!-- large-8 large-centered columns -->
+            </div>  <!-- large-10 large-centered columns -->
     {% endif %}
 {% endblock main-container %}
