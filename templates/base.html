@@ -1,23 +1,32 @@
 <!DOCTYPE html>
-<!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+    <!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en" > <![endif]-->
+    <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 
     <head>
+        {% block meta %}
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" />
         <meta name="author" content="Babatunde Akinyanmi" />
         <meta name="google-site-verification" content="AkYA2HCeEUN3D3pz-NvDLJ0Z9hQfop9OjPAR_X8lp0E" />
+        {% endblock meta %}
         
-        <title>{% block title %}Mumu.com.ng{% endblock %}</title>
+        <title>{% block title %}Mumu.com.ng{% endblock title %}</title>
 
-        {% block css %}
+        {% block favicon %}
         <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" />
         <link rel="apple-touch-icon-precomposed" href="{{ STATIC_URL }}img/favicon.png" />
+        {% endblock favicon %}
+        
+        {% block css %}
         <link rel="stylesheet" href="{{ STATIC_URL }}css/foundation.min.css" />
         <link rel="stylesheet" href="{{ STATIC_URL }}css/css1.css" />
         {% endblock css %}
 
+        {% block script %}
         <script src="{{ STATIC_URL }}js/vendor/custom.modernizr.js"></script>
+        {% endblock script %}
+
+        {% block google-analytics %}
         <script>
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -28,10 +37,11 @@
           ga('send', 'pageview');
 
         </script>
+        {% endblock %}
+        
     </head>
     
     <body>
-
         {% if messages %}
         <div data-alert class="alert-box ">
             {% for message in messages %}
@@ -41,6 +51,7 @@
         </div>
         {% endif %}
 
+        {% block navigation %}
         <!-- Navigation tins -------->
         <nav class="top-bar">
           <ul class="title-area">
@@ -94,12 +105,14 @@
 
           </section>
         </nav>
+        {% endblock navigation %}
         <!-- End of navigation tins -------->
                 
         <div class="row">
             {% block main-container %}{% endblock main-container %}
         </div>  <!-- row -->
-        
+
+        {% block foundation-scripts %}
         <!-- Check for Zepto support, load jQuery if necessary -->
         <script>
           document.write('<script src={{ STATIC_URL }}js/vendor/'
@@ -112,8 +125,11 @@
           $(function(){
             $(document).foundation();    
           })
-        {% endblock %}
+        {% endblock load-foundation-plugin %}
         </script>
+        {% endblock foundation-scripts %}
+
+        {% block quantcast %}
         <!-- Quantcast Tag -->
         <script type="text/javascript">
         var _qevents = _qevents || [];
@@ -138,5 +154,7 @@
         </div>
         </noscript>
         <!-- End Quantcast tag -->
+        {% endblock quantcast %}
+
     </body>
 </html>

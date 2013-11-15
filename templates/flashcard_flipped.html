@@ -4,12 +4,16 @@
             <p class="title"><a href="#">Answer</a></p>
                 <h5>{{ object.answer|safe }}</h5>
                 
-                <nav class="converted breadcrumbs">
-                    <li><a href="{% url next_flashcard topic_slug %}">Next Card</a></li>
-                    <li><a href="{% url flashcard_list %}">Choose Topic</a></li>
-                    <li><a href="{% url home %}">Go Home</a></li>
-                    
-                    
+                <nav class="forward-crumbs">
+                    <ul>
+                        <li><a href="{% url next_flashcard topic_slug %}">Next Card</a></li>
+                    </ul>
                 </nav>
+                <nav class="dark-nav-bar">
+                <ul>
+                    <li><a href="{% url home %}">Home</a></li>
+                    <li><a href="{% url flashcard_list %}">Choose TOpic</a></li>
+                </ul>
+            </nav>
         </div>  <!-- large-10 large-centered -->
 {% endblock main-container %}

@@ -29,11 +29,17 @@
                     {% endfor %}
                     {% endif %}
 
-                    <br /><br /><br /><br />
-                    <nav class="converted breadcrumbs">
-                        <a href="{% url home %}">Go Home</a>
-                        <a href="{% url quiz_selection %}">End Test</a>
-                        <a href="{{ next }}">Next</a>
+                    <nav class="forward-crumbs">
+                        <ul>
+                            <li><a href="{{ next }}">Next Card</a></li>
+                        </ul>
+                    </nav>
+                
+                    <nav class="dark-nav-bar">
+                        <ul>
+                            <li><a href="{% url home %}">Home</a></li>
+                            <li><a href="{% url quiz_selection %}">Choose Topic</a></li>
+                        </ul>
                     </nav>
 
                 </div> <!-- large-10 .... -->

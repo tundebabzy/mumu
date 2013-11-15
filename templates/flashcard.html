@@ -3,11 +3,17 @@
         <div class="small-12 large-10 large-centered columns">
             <p class="title"><a href="#">Question</a></p>
             <h4>{{ object.text }}</h4>
-            <nav class="breadcrumbs converted">
-                <a href="{% url flashcard_flip object.slug %}">View Answer</a>
-                <a href="{% url next_flashcard topic_slug %}">Skip This Question</a>
-                <a href="{% url flashcard_list %}">Choose Topic</a>
-                <a href="{% url home %}">Go Home</a>
+            <nav class="forward-crumbs">
+                <ul>
+                    <li><a href="{% url flashcard_flip object.slug %}">View Answer</a></li>
+                    <li><a href="{% url next_flashcard topic_slug %}">Skip Question</a></li>
+                </ul>
+            </nav>
+            <nav class="dark-nav-bar">
+                <ul>
+                    <li><a href="{% url home %}">Home</a></li>
+                    <li><a href="{% url flashcard_list %}">Choose TOpic</a></li>
+                </ul>
             </nav>
         </div>  <!-- small-12 .... -->
 {% endblock main-container %}

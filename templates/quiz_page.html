@@ -2,10 +2,6 @@
 {% block main-container %}
     {% if random_question %}
             <div class="large-10 large-centered columns">
-                <nav class="converted breadcrumbs">
-                    <a href="#">{{ selection }}</a>
-                    <a href="{% url quiz_selection %}">End Test</a>
-                </nav>
                 <p class="title"><a href="#">Question</a></p>
                 <div class="large-12 columns">
                     <h4>{{ random_question|safe }}</h4>
@@ -20,6 +16,14 @@
                         {% endwith %}
                         <input type="submit" value="Submit" class="tiny button" />
                     </form> <!-- form -->
+                    
+                    <nav class="dark-nav-bar">
+                        <ul>
+                            <li><a href="#">{{ selection }}</a></li>
+                            <li><a href="{% url quiz_selection %}">End Test</a></li>
+                        </ul>
+                    </nav>
+                
                 </div>  <!-- large-12 columns -->
             </div>  <!-- large-10 large-centered columns -->
     {% endif %}
