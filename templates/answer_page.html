@@ -23,15 +23,15 @@
                                         
                     {% if links %}
                     <br /><br /><br /><br />
-                    <p class="title"><a href="#">Also Read</a></p>
+                    <p class="title"><a href="#">Links</a></p>
                     {% for link in links %}
-                        <a href="{{ link }}">{{ link }}</a>
+                        <a href="{{ link }}"><img src="{{ STATIC_URL }}img/book.png" alt="link" /></a>
                     {% endfor %}
                     {% endif %}
 
                     <nav class="forward-crumbs">
                         <ul>
-                            <li><a href="{{ next }}">Next Card</a></li>
+                            <li><a href="{{ next }}">Next Question</a></li>
                         </ul>
                     </nav>
                 
