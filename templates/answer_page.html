@@ -12,13 +12,15 @@
                     {% if is_correct %}<span class="success label">correct{% else %}<span class="alert label">wrong!{% endif %}</span>
                     </h5>
                    {% if explanation %}
+                   <div class="explanation">
                         <p class="title"><a href="#">Question</a></p> 
-                        <h4>{{ question|safe }}</h4>
+                        {{ question|safe }}
                         <br /><br /><br /><br />
                         <p class="title"><a href="#">Explanation</a></p> 
                         {% for explan in explanation %}
-                        <h4>{{ explan|safe }}</h4>
+                        {{ explan|safe }}
                         {% endfor %}
+                    </div>
                     {% endif %}
                                         
                     {% if links %}
