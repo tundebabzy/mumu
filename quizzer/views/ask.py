@@ -13,7 +13,7 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
     with an OptionForm
     """
     form_class = OptionForm
-    success_url = '/quiz/explanation/'
+    success_url = '/practise/multiple-choice/answer/'  # This should not be hard-coded
 #    template_name = ['quiz_page.html', 'answer_page.html','upgrade-package.html']
     template_name = 'quiz_page.html'
         
