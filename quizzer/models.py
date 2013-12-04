@@ -4,7 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.mail import send_mail, BadHeaderError
 from django.contrib.auth.models import User
-from django.utils import timezone
+from django.utils import timezone, html
 from django.conf import settings
 
 from accounts.models import Researcher, Editor, QuizzerProfile
@@ -116,7 +116,7 @@ class Question(models.Model, mixin.ModelDiffMixin):
     approved_by = models.ForeignKey(Editor, blank=True, null=True)
 
     def __unicode__(self):
-        return '%s' % self.text
+        return '%s' % html.strip_tags(self.text)
         
 class FlashCard(models.Model, mixin.ModelDiffMixin):
     exam = models.ForeignKey(Exam)
