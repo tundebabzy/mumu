@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block main-container %}
+    <p class="title"><a href="#">Multiple Choice Question List For "{{ title }}"</a></p>
+    {% for object in object_list %}
+        <p>{{ object }}</p>
+    {% endfor %}
+{% endblock main-container %}

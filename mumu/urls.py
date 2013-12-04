@@ -20,7 +20,7 @@ url('^favicon\.png$', 'django.views.generic.simple.redirect_to',
     url('^robots\.txt$', 'django.views.generic.simple.redirect_to',
         {'url': '/static/robots.txt'}),        
 
-    url('^quiz/', include('quizzer.urls')),
+    url('^practise/', include('quizzer.urls')),
 
     # Steal some django-registration url so I can shoe horn my backend
     url(r'^accounts/register/$', 'registration.views.register',

@@ -97,6 +97,7 @@ class Topic(models.Model):
     def __unicode__(self):
         return self.name
 
+    # TODO: This isn't actually an absolute URL is it?
     @models.permalink
     def get_absolute_url(self):
         return ('next_question', (), {
