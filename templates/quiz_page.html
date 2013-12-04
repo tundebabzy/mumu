@@ -4,7 +4,7 @@
             <div class="large-10 large-centered columns">
                 <p class="title"><a href="#">Question</a></p>
                 <div class="large-12 columns">
-                    <h4>{{ random_question|safe }}</h4>
+                    <h4>{{ random_question }}</h4>
                     <hr />
                 
                     <form action="" method="POST">{% csrf_token %}
