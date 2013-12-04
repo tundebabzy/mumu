@@ -71,7 +71,6 @@ class BaseMultipleChoiceQuestionList(ListView):
     template_name = 'question_list.html'
     
 class LevelMultipleChoiceList(BaseMultipleChoiceQuestionList, SessionMixin):
-
     def get_queryset(self):
         category = self.kwargs.get('category').lower()
         identifier = self.kwargs.get('identifier').lower()
@@ -84,10 +83,13 @@ class LevelMultipleChoiceList(BaseMultipleChoiceQuestionList, SessionMixin):
         return queryset
 
     def get_context_data(self, **kwargs):
-        
         def de_slugify(value):
             return unicode(value).strip().replace("-", " ")
             
         kwargs = super(LevelMultipleChoiceList, self).get_context_data(**kwargs)
-        kwargs.update({'title': de_slugify(self.kwargs.get('identifier'))})
+        kwargs.update({
+                'title': de_slugify(self.kwargs.get('identifier')),
+                'category': self.kwargs.get('category'),
+                'identifier': self.kwargs.get('identifier'),
+            })
         return kwargs

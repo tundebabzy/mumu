@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
 {% block main-container %}
     <p class="title"><a href="#">Multiple Choice Question List For "{{ title }}"</a></p>
-    {% for object in object_list %}
-        <p>{{ object }}</p>
-    {% endfor %}
+    {% if is_paginated %}
+        {% for object in page_obj.object_list %}
+            <p>{{ object }}</p>
+        {% endfor %}
+        {% if page_obj.has_previous %}<a href="/practise/multiple-choice/{{ category }}/{{ identifier }}/page/{{ page_obj.previous_page_number }}/">Previous</a> | {% endif %}
+        {% if page_obj.has_next %}<a href="/practise/multiple-choice/{{ category }}/{{ identifier }}/page/{{ page_obj.next_page_number }}/">Next</a>{% endif %}
+    {% else %}
+        {% for object in object_list %}
+            {{ object }}
+        {% endfor %}
+    {% endif %}
 {% endblock main-container %}

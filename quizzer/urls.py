@@ -20,6 +20,9 @@ urlpatterns = patterns('',
     url('^multiple-choice/(?P<category>[a-zA-Z]+)/(?P<identifier>[a-zA-Z-]+)/random/$',
         GenerateQuizView.as_view(), name='next_question'
     ),
+    url('^multiple-choice/(?P<category>[a-zA-Z]+)/(?P<identifier>[a-zA-Z-]+)/page/(?P<page>[0-9]+)/$',
+        LevelMultipleChoiceList.as_view()
+    ),
     url('^multiple-choice/(?P<category>[a-zA-Z]+)/(?P<identifier>[a-zA-Z-]+)/$',
         LevelMultipleChoiceList.as_view()
     ),
