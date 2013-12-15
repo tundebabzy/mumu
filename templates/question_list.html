@@ -9,7 +9,7 @@
         {% if page_obj.has_next %}<a href="/practise/multiple-choice/{{ category }}/{{ identifier }}/page/{{ page_obj.next_page_number }}/">Next</a>{% endif %}
     {% else %}
         {% for object in object_list %}
-            {{ object }}
+            <p>{{ object }}</p>
         {% endfor %}
     {% endif %}
 {% endblock main-container %}
