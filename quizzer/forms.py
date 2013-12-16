@@ -42,7 +42,7 @@ class OptionForm(forms.Form):
     # Add 1 extra arguments - `random_question`.
     # `random_question` is a Question instance or None
     # The extra argument is added as an instance variable.
-    def __init__(self,random_question=None, *args, **kwargs):
+    def __init__(self,question=None, *args, **kwargs):
         super(OptionForm, self).__init__(*args, **kwargs)
-        self.random_question = random_question      
-        self.fields['options'].queryset = self.random_question.option_set.all()
+        self.question = question      
+        self.fields['options'].queryset = self.question.option_set.all()

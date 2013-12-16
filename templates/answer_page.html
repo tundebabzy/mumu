@@ -33,7 +33,11 @@
 
                     <nav class="forward-crumbs">
                         <ul>
-                            <li><a href="{{ next }}">Next Question</a></li>
+                            {% if category %}
+                            <li><a href="/practise/multiple-choice/{{ category }}/{{ identifier }}/random/">Next Question</a></li>
+                            {% else %}
+                            <li><a href="/practise/multiple-choice/">Random Question</a></li>
+                            {% endif %}
                         </ul>
                     </nav>
                 

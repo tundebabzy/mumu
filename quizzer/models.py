@@ -118,6 +118,10 @@ class Question(models.Model, mixin.ModelDiffMixin):
 
     def __unicode__(self):
         return '%s' % html.strip_tags(self.text)
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('question', (), {'id': self.id})
         
 class FlashCard(models.Model, mixin.ModelDiffMixin):
     exam = models.ForeignKey(Exam)

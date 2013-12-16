@@ -1,12 +1,12 @@
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
-from django.db import utils
+from django.shortcuts import get_object_or_404
 
 from lib.mixins import SessionMixin, FormExtrasMixin
 from utils.utils import FormError
 
 from quizzer.models import Option, AnswerLogs, Question
-from quizzer.forms import OptionForm
+from quizzer.forms import OptionForm        
 
 class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
     """
@@ -18,17 +18,17 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
     template_name = 'quiz_page.html'
         
     def get(self, request, *args, **kwargs):
-        self.remove_session_var(['last_answer'])
-        self.remove_session_var(['selection', 'question', 'last_answer'])
-        question = self.get_random_question(**kwargs)
+        # Clean up the various session variables that might be hanging
+        # around.
+        self.remove_session_var(['selection', 'question', 'last_answer',
+                                    'category', 'identifier'])
+        question = self.get_question(**kwargs)
         form_class = self.get_form_class()
         form = self.get_form(form_class, question)
         self.set_session_var('option', form)
-        return self.render_to_response(self.get_context_data(random_question=question, options=form))
+        return self.render_to_response(self.get_context_data(question=question, options=form))
             
     def post(self, request, *args, **kwargs):
-        self.__category = kwargs['category']
-        self.__identifier = kwargs['identifier']
         question = self.get_session_var('question')
         form_class = self.get_form_class()
         form = self.get_form(form_class, question)
@@ -39,7 +39,7 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
             return self.form_invalid(question, form)
 
     def form_invalid(self, question_obj, form):
-        return self.render_to_response(self.get_context_data(random_question=question_obj, 
+        return self.render_to_response(self.get_context_data(question=question_obj, 
             options=form))
 
     def get_form(self, form_class, question_obj=None):
@@ -50,20 +50,30 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
 
     def get_form_kwargs(self, question_obj=None):
         """
-        Returns the keyword arguments for instanciating the form.
+        Returns the keyword arguments for instantiating the form.
         """
         kwargs = super(GenerateQuizView, self).get_form_kwargs()
         if question_obj:
             kwargs.update({
-                'random_question':question_obj,
+                'question':question_obj,
                 'error_class': FormError
             })
         return kwargs
             
     def get_context_data(self, **kwargs):
-        selection = self.get_selection(kwargs.get('random_question'))
+        selection = self.get_selection(kwargs.get('question'))
         kwargs.update({'selection':selection})
         return kwargs
+
+class QuestionView(GenerateQuizView):
+    def get_context_data(self, **kwargs):
+        return kwargs
+
+    def get_question(self, **kwargs):
+        question = get_object_or_404(Question, id=kwargs.get('id'))
+        self.set_session_var('question', question)
+        return question
+
 
 class BaseMultipleChoiceQuestionList(ListView):
     model = Question

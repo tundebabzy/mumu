@@ -14,21 +14,33 @@ class GradeQuestionView(TemplateView, SessionMixin):
     def get_context_data(self, **kwargs):
         question = self.get_session_var('question')
         option_id = self.get_session_var('option_id')
+
+        # If for some reason, like the user navigates away from the
+        # answer page and the session variables are no longer available...
+        if not question or not option_id:
+            kwargs.update({
+                'message': 'Something went wrong. Sorry about that.'
+            })
+            self.template_name = 'answer_page_error.html'
+            return kwargs
+        
         answer = get_object_or_404(Option, id=option_id)
+        last_answers = []
+        
         if self.request.user.is_authenticated():
             last_answers = AnswerLogs.objects.filter(user=self.request.user,
                 question=question).order_by('time')[:4]
-        else:
-            last_answers = []
         
         kwargs.update({
         'question': question, 'is_correct': answer.is_true,
         'explanation': question.optionexplanation_set.all(),
         'links': question.link_set.all(),
         'selection': self.get_session_var('category'),
-        'next': self.request.META.get('HTTP_REFERER', '/quiz/select/'),
         'last_answers': last_answers,
+        'category': self.get_session_var('category'),
+        'identifier': self.get_session_var('identifier')
         })
+
         if not self.get_session_var('last_answer') and self.request.user.is_authenticated():
             last_answer = AnswerLogs.objects.create(user=self.request.user, question=question, answer=answer)
             self.set_session_var('last_answer', last_answer)

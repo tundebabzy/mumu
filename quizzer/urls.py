@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 
 from quizzer.views import (QuizSelectionView, GenerateQuizView, 
     GradeQuestionView, GenerateFlashCardView, FlipFlashCardView,
-    FlashCardListView, LevelMultipleChoiceList)
+    FlashCardListView, LevelMultipleChoiceList, QuestionView)
 
 urlpatterns = patterns('',
     url('^multiple-choice/$', QuizSelectionView.as_view(),
@@ -26,6 +26,8 @@ urlpatterns = patterns('',
     url('^multiple-choice/(?P<category>[a-zA-Z]+)/(?P<identifier>[a-zA-Z-]+)/$',
         LevelMultipleChoiceList.as_view()
     ),
+    url('^multiple-choice/(?P<id>[0-9]+)/$', QuestionView.as_view(),
+        name='question'),
     url('^open-ended/show/(?P<topic_slug>[-a-zA-Z]+)/$',
         GenerateFlashCardView.as_view(), name='next_flashcard'
     ),

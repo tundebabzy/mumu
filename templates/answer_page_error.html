@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block main-container %}
+                <div class="large-10 large-centered columns">
+                    {{ message }}
+                    <nav class="dark-nav-bar">
+                        <ul>
+                            <li><a href="{% url home %}">Home</a></li>
+                            <li><a href="{% url quiz_selection %}">Choose Topic</a></li>
+                        </ul>
+                    </nav>
+
+                </div> <!-- large-10 .... -->
+{% endblock %}
+

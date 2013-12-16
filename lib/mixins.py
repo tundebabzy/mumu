@@ -20,6 +20,10 @@ class SessionMixin(object):
         for key in session_key:
             if self.get_session_var(key):
                 del self.request.session[key]
+
+    def set_next_question_url_params(self, **kwargs):
+        for key in kwargs:
+            self.set_session_var(key, kwargs[key])
                 
 class FormExtrasMixin(object):
     """
@@ -71,24 +75,26 @@ class FormExtrasMixin(object):
             except IndexError:
                 pass
 
-    def get_random_question(self, **kwargs):
-        user = self.request.user
+    def get_question(self, **kwargs):
         self.__category = kwargs['category']
         self.__identifier = kwargs['identifier']
-        
+        self.set_next_question_url_params(category=kwargs['category'],
+                                        identifier=kwargs['identifier']
+                                        )
+                                                
         if not self.is_valid_category(self.__category):
             # Log this incidence then....
             raise Http404
-        random_question = self.query_database(self.__category, self.__identifier).next()
-        self.set_session_var('question', random_question)
-        return random_question
+        question = self.query_database(self.__category, self.__identifier).next()
+        self.set_session_var('question', question)
+        return question
         
-    def get_selection(self, random_question):
+    def get_selection(self, question):
         lazy_query = {
-            'exam': 'random_question.exam.name',
-            'level': 'random_question.level.name',
-            'paper': 'random_question.paper.name',
-            'topic': 'random_question.topic.name',
+            'exam': 'question.exam.name',
+            'level': 'question.level.name',
+            'paper': 'question.paper.name',
+            'topic': 'question.topic.name',
         }   # Kept as string to avoid database hits for each dict key
 
         selection = self.request.session.get('selection')
