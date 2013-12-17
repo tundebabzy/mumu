@@ -12,23 +12,25 @@
                     {% if is_correct %}<span class="success label">correct{% else %}<span class="alert label">wrong!{% endif %}</span>
                     </h5>
                    {% if explanation %}
-                   <div class="explanation">
-                        <p class="title"><a href="#">Question</a></p> 
+                   <div class="panel">
+                        <h5>Question</h5>
                         {{ question|safe }}
-                        <br /><br /><br /><br />
-                        <p class="title"><a href="#">Explanation</a></p> 
+                    </div>
+                    <div class="panel">
+                        <h5>Explanation</h5>
                         {% for explan in explanation %}
-                        {{ explan|safe }}
+                            {{ explan|safe }}
                         {% endfor %}
                     </div>
                     {% endif %}
                                         
                     {% if links %}
-                    <br /><br /><br /><br />
-                    <p class="title"><a href="#">Links</a></p>
-                    {% for link in links %}
-                        <a href="{{ link }}" class="picturelink"><img src="{{ STATIC_URL }}img/book.png" alt="link" /></a>
-                    {% endfor %}
+                    <div class="panel">
+                        <h5>Links</h5>
+                        {% for link in links %}
+                            <a href="{{ link }}" class="picturelink"><img src="{{ STATIC_URL }}img/book.png" alt="link" /></a>
+                        {% endfor %}
+                    </div>
                     {% endif %}
 
                     <nav class="forward-crumbs">
