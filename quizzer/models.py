@@ -135,7 +135,7 @@ class FlashCard(models.Model, mixin.ModelDiffMixin):
     approved = models.BooleanField()
     approved_by = models.ForeignKey(Editor, blank=True, null=True)
     slug = models.SlugField(max_length=300)
-    
+
     class Meta:
         verbose_name = 'Flash Card'
 
@@ -150,10 +150,7 @@ class FlashCard(models.Model, mixin.ModelDiffMixin):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('next_flashcard', (), {
-                'topic_slug': self.topic.slug,
-                #'slug': self.slug
-                })
+        return ('flashcard', (), {'pk':self.pk})
 
 class Option(models.Model):
     text = models.TextField()

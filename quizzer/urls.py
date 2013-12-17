@@ -42,7 +42,7 @@ urlpatterns = patterns('',
         FlashCardView.as_view()
     ),
         url('^open-ended/(?P<pk>[0-9]+)/$',
-        SingleFlashCardView.as_view(), name='next_flashcard'
+        SingleFlashCardView.as_view(), name='flashcard'
     ),
     url('^open-ended/$', FlashCardListView.as_view(), name='flashcard_list'
     )

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block main-container %}
     {% for object in object_list %}
-        <p>{{ object }}</p>
+        <p><a href="{{ object.get_absolute_url }}">{{ object }}</a></p>
     {% endfor %}
 {% endblock main-container %}
