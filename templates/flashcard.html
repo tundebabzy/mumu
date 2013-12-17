@@ -6,7 +6,7 @@
             <nav class="forward-crumbs">
                 <ul>
                     <li><a href="{% url flashcard_flip object.slug %}">View Answer</a></li>
-                    <li><a href="{% url next_flashcard topic_slug %}">Skip Question</a></li>
+                    {% block removable_link %}<li><a href="{% url next_flashcard topic_slug %}">Skip Question</a></li>{% endblock %}
                 </ul>
             </nav>
             <nav class="dark-nav-bar">

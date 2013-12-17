@@ -39,13 +39,27 @@ class GenerateFlashCardView(DetailView, SessionMixin):
         context.update({'topic_slug': self.kwargs.get('topic_slug')})
         return context
 
+class SingleFlashCardView(GenerateFlashCardView):
+    template_name = 'flashcard_nonrandom.html'
+    
+    def get_object(self, queryset=None):
+        obj = DetailView.get_object(self, queryset=None)
+        return obj
+
+    def get_context_data(self, **kwargs):
+        return DetailView.get_context_data(self, **kwargs)
+
+
 class FlipFlashCardView(DetailView, SessionMixin):
     model = FlashCard
     template_name = 'flashcard_flipped.html'
         
     def get_context_data(self, **kwargs):
+        topic_slug = self.get_session_var('topic_slug')
         context = super(FlipFlashCardView, self).get_context_data(**kwargs)
-        context.update({'topic_slug': self.get_session_var('topic_slug')})
+        if not topic_slug:
+            return context
+        context.update({'topic_slug': topic_slug})
         return context
 
 class FlashCardListView(ListView, FormExtrasMixin):
@@ -57,3 +71,12 @@ class FlashCardListView(ListView, FormExtrasMixin):
         qs = qs.values_list('topic_id', flat=True)
         queryset = Topic.objects.filter(id__in=qs)
         return queryset
+
+class FlashCardView(ListView):
+    template_name = 'flashcard_list.html'
+    paginate_by = 50
+
+    def get_queryset(self):
+        topic_slug = self.kwargs.get('topic_slug')
+        qs = FlashCard.objects.filter(topic__slug=topic_slug)
+        return qs

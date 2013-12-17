@@ -3,16 +3,18 @@
         <div class="large-10 small-12 large-centered columns answer">
             <p class="title"><a href="#">Answer</a></p>
                 {{ object.answer|safe }}
-                
+
+                {% if topic_slug %}
                 <nav class="forward-crumbs">
                     <ul>
                         <li><a href="{% url next_flashcard topic_slug %}">Next Question</a></li>
                     </ul>
                 </nav>
+                {% endif %}
                 <nav class="dark-nav-bar">
                 <ul>
                     <li><a href="{% url home %}">Home</a></li>
-                    <li><a href="{% url flashcard_list %}">Choose Topic</a></li>
+                    <li><a href="{% url flashcard_list %}">Choose Topic (Open ended)</a></li>
                 </ul>
             </nav>
         </div>  <!-- large-10 large-centered -->
