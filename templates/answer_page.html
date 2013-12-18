@@ -27,9 +27,11 @@
                     {% if links %}
                     <div class="panel radius">
                         <h5>Links</h5>
+                        <ul>
                         {% for link in links %}
-                            <a href="{{ link }}" class="picturelink"><img src="{{ STATIC_URL }}img/book.png" alt="link" /></a>
+                            <li><a href="{{ link }}">{{ link.description }}</a></li>
                         {% endfor %}
+                        </ul>
                     </div>
                     {% endif %}
 
