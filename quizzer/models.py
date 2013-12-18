@@ -182,6 +182,7 @@ class EditorComment(models.Model, mixin.ModelDiffMixin):
         return '%s' % self.comment
 
 class Link(models.Model):
+    description = models.CharField(max_length=100)
     link = models.URLField()
     question = models.ForeignKey(Question)
 
