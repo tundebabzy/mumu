@@ -185,6 +185,7 @@ class Link(models.Model):
     description = models.CharField(max_length=100)
     link = models.URLField()
     question = models.ForeignKey(Question)
+    
 
     def __unicode__(self):
         return '%s' % self.link
