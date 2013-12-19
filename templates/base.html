@@ -58,7 +58,7 @@
           <ul class="title-area">
             <!-- Title Area -->
             <li class="name">
-              <h1><a href="{% url home %}"><img src="{{ STATIC_URL }}img/transparent.png" alt="mumu.com.ng" /></a></h1>
+              <h1><a href="{% url 'home' %}"><img src="{{ STATIC_URL }}img/transparent.png" alt="mumu.com.ng" /></a></h1>
             </li>
             <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
             <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
@@ -68,9 +68,9 @@
             <!-- Left Nav Section -->
             <ul class="left">
               <li class="divider"></li>
-              <li><a href="{% url how_it_works %}">How it works</a></li>
+              <li><a href="{% url 'how_it_works' %}">How it works</a></li>
               <li class="divider"></li>
-              {% comment %}<li><a href="{% url pricing %}">Pricing</a></li>
+              {% comment %}<li><a href="{% url 'pricing' %}">Pricing</a></li>
               <li class="divider"></li>{% endcomment %}
             </ul>
             <!-- Left Nav Section End -->
@@ -85,20 +85,20 @@
                   <li class="has-dropdown"><a href="#" class="">Account Settings</a>
 
                     <ul class="dropdown">
-                      <li><a href="{% url change_details %}">Change Personal Details</a></li>
-                      <li><a href="{% url auth_password_change %}">Change Password</a></li>
-                      {% comment %}<li><a href="{% url pricing %}">Change Package</a></li>{% endcomment %}
-                      {% comment %}<li><a href="{% url history %}">View Payment History</a></li>{% endcomment %}
+                      <li><a href="{% url 'change_details' %}">Change Personal Details</a></li>
+                      <li><a href="{% url 'auth_password_change' %}">Change Password</a></li>
+                      {% comment %}<li><a href="{% url 'pricing' %}">Change Package</a></li>{% endcomment %}
+                      {% comment %}<li><a href="{% url 'history' %}">View Payment History</a></li>{% endcomment %}
                     </ul>
                   </li>
                   <li class="divider"></li>
-                  <li><a href="{% url auth_logout %}">Sign Out</a></li>
+                  <li><a href="{% url 'auth_logout' %}">Sign Out</a></li>
                 </ul>
               </li>
             {% else %}
-                <li><a href="{% url registration_register %}">Register</a></li>
+                <li><a href="{% url 'registration_register' %}">Register</a></li>
                 <li class="divider"></li>
-                <li><a href="{% url auth_login %}">Sign In</a></li>
+                <li><a href="{% url 'auth_login' %}">Sign In</a></li>
             {% endif %}
               <li class="divider"></li>
               <li><a href="https://twitter.com/dotmumu" data-show-count="false" data-show-screen-name="false">Follow @dotmumu</a></li>

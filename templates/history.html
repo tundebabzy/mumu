@@ -5,7 +5,7 @@
             {% with objects=object_list %}
                 <p>Hi {{ user }}.</p>
                 <p>Here's your payment history below.
-                {% if not status %}<a class="button tiny" href="{% url pricing %}">Renew</a>{% endif %}
+                {% if not status %}<a class="button tiny" href="{% url 'pricing' %}">Renew</a>{% endif %}
                 </p>
                 {% if objects %}
                 <table class="large-10 large-centered">
@@ -38,7 +38,7 @@
                 {% else %}
                 <p>There's nothing here....</p>
                 
-                <a class="button" href="{% url pricing %}">Try For Free</a>
+                <a class="button" href="{% url 'pricing' %}">Try For Free</a>
                 {% endif %}
             </div>
         {% endwith %}

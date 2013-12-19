@@ -15,8 +15,8 @@
                     {% endfor %}
                   </fieldset>
                   <input type="submit" value="Signin" />
-                  <a href="{% url registration_register %}" title="Signup"> Get an account</a> | 
-                  <a href="{% url auth_password_reset %}" title="Forgot your password?">Forgot your password?</a>
+                  <a href="{% url 'registration_register' %}" title="Signup"> Get an account</a> | 
+                  <a href="{% url 'auth_password_reset' %}" title="Forgot your password?">Forgot your password?</a>
                   {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
                 </form>
             </div>

@@ -5,14 +5,14 @@
             <h4>{{ object.text }}</h4>
             <nav class="forward-crumbs">
                 <ul>
-                    <li><a href="{% url flashcard_flip object.slug %}">View Answer</a></li>
-                    {% block removable_link %}<li><a href="{% url next_flashcard topic_slug %}">Skip Question</a></li>{% endblock %}
+                    <li><a href="{% url 'flashcard_flip' object.slug %}">View Answer</a></li>
+                    {% block removable_link %}<li><a href="{% url 'next_flashcard' topic_slug %}">Skip Question</a></li>{% endblock %}
                 </ul>
             </nav>
             <nav class="dark-nav-bar">
                 <ul>
-                    <li><a href="{% url home %}">Home</a></li>
-                    <li><a href="{% url flashcard_list %}">Choose Topic</a></li>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'flashcard_list' %}">Choose Topic</a></li>
                 </ul>
             </nav>
         </div>  <!-- small-12 .... -->
