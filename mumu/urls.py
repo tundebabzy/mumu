@@ -1,43 +1,43 @@
 from django.conf.urls import patterns, include, url
-from django.views.generic.simple import direct_to_template
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.views.generic import TemplateView, RedirectView
+from registration.backends.default.views import ActivationView
+from quizzer.views.backend import QuizzerRegistrationView
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url('^favicon\.ico$', 'django.views.generic.simple.redirect_to',
-        {'url': '/static/img/favicon.ico'}),
-
-url('^favicon\.png$', 'django.views.generic.simple.redirect_to',
-        {'url': '/static/img/favicon.png'}),
-                
-    url('^media/favicon\.ico$', 'django.views.generic.simple.redirect_to',
-        {'url': '/static/img/favicon.ico'}),
-
-    url('^robots\.txt$', 'django.views.generic.simple.redirect_to',
-        {'url': '/static/robots.txt'}),        
+    url('^favicon\.ico$',
+            RedirectView.as_view(url='/static/img/favicon.ico'),
+    ),
+    url('^favicon\.png$',
+            RedirectView.as_view(url='/static/img/favicon.png'),
+    ),
+    url('^media/favicon\.ico$',
+            RedirectView.as_view(url='/static/img/favicon.ico'),
+    ),
+    url('^robots\.txt$',
+            RedirectView.as_view(url='/static/robots.txt'),
+    ),
 
     url('^practise/', include('quizzer.urls')),
 
     # Steal some django-registration url so I can shoe horn my backend
-    url(r'^accounts/register/$', 'registration.views.register',
-            {'backend': 'backends.QuizzerBackend',},
-            name='registration_register'),
+    url(r'^accounts/register/$', QuizzerRegistrationView.as_view(),
+            name='registration_register'
+    ),
     
     # This is the default however have to do this else the next url will
     # also catch /accounts/activate/complete/ which is meant for this url
     url(r'^accounts/activate/complete/$',
-            direct_to_template,
-            {'template': 'registration/activation_complete.html'},
+            TemplateView.as_view(template_name='registration/activation_complete.html'),
             name='registration_activation_complete'),
 
-    url(r'^accounts/activate/(?P<activation_key>\w+)/$', 'registration.views.activate',
-           {'backend': 'backends.QuizzerBackend'},
-           name='registration_activate'),
-
+    url(r'^accounts/activate/(?P<activation_key>\w+)/$',
+            ActivationView.as_view(), name='registration_activate'
+    ),
     url(r'^accounts/', include('registration.backends.default.urls')),
     
     url(r'^change/', include('accounts.urls')),
