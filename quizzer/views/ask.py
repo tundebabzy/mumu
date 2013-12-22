@@ -1,6 +1,7 @@
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from django.shortcuts import get_object_or_404
+from django.views.decorators.cache import cache_control
 
 from lib.mixins import SessionMixin, FormExtrasMixin
 from utils.utils import FormError
@@ -16,7 +17,8 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
     form_class = OptionForm
     success_url = '/practise/multiple-choice/answer/'  # This should not be hard-coded
     template_name = 'quiz_page.html'
-        
+
+    @cache_control(no_cache=True, must_revalidate=True, max_age=0)
     def get(self, request, *args, **kwargs):
         # Clean up the various session variables that might be hanging
         # around.

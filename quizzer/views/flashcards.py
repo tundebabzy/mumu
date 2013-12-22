@@ -1,4 +1,5 @@
 from django.views.generic import DetailView, ListView
+from django.views.decorators.cache import cache_control
 from django.db import models
 
 from quizzer.models import FlashCard, Topic
@@ -9,7 +10,8 @@ from random import randint
 class GenerateFlashCardView(DetailView, SessionMixin):
     model = FlashCard
     template_name = 'flashcard.html'
-        
+
+    @cache_control(no_cache=True, must_revalidate=True, max_age=0)
     def get(self, request, *args, **kwargs):
         self.remove_session_var(['topic_slug'])
         return super(GenerateFlashCardView, self).get(request, *args, **kwargs)
