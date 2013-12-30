@@ -68,6 +68,13 @@
             <!-- Left Nav Section -->
             <ul class="left">
               <li class="divider"></li>
+              <li class="has-dropdown"><a href="#">Practice Types</a>
+                <ul class="dropdown">
+                  <li><a href="{% url 'flashcard_list' %}">Open ended</a></li>
+                  <li><a href="{% url 'quiz_selection' %}">Multiple choice</a></li>
+                </ul>
+              </li>
+              <li class="divider"></li>
               <li><a href="{% url 'how_it_works' %}">How it works</a></li>
               <li class="divider"></li>
               {% comment %}<li><a href="{% url 'pricing' %}">Pricing</a></li>
