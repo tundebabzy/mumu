@@ -24,7 +24,7 @@
         {% endblock css %}
 
         {% block script %}
-        <script src="{{ STATIC_URL }}js/vendor/custom.modernizr.js"></script>
+        <script src="{{ STATIC_URL }}js/modernizr.js"></script>
         {% endblock script %}
 
         {% block google-analytics %}
@@ -54,7 +54,7 @@
 
         {% block navigation %}
         <!-- Navigation tins -------->
-        <nav class="top-bar">
+        <nav class="top-bar hide-for-small" data-topbar>
           <ul class="title-area">
             <!-- Title Area -->
             <li class="name">
@@ -67,16 +67,16 @@
           <section class="top-bar-section">
             <!-- Left Nav Section -->
             <ul class="left">
-              <li class="divider"></li>
+              
               <li class="has-dropdown"><a href="#">Practice Types</a>
                 <ul class="dropdown">
                   <li><a href="{% url 'flashcard_list' %}">Open ended</a></li>
                   <li><a href="{% url 'quiz_selection' %}">Multiple choice</a></li>
                 </ul>
               </li>
-              <li class="divider"></li>
+              
               <li><a href="{% url 'how_it_works' %}">How it works</a></li>
-              <li class="divider"></li>
+              
               {% comment %}<li><a href="{% url 'pricing' %}">Pricing</a></li>
               <li class="divider"></li>{% endcomment %}
             </ul>
@@ -98,28 +98,98 @@
                       {% comment %}<li><a href="{% url 'history' %}">View Payment History</a></li>{% endcomment %}
                     </ul>
                   </li>
-                  <li class="divider"></li>
+                  
                   <li><a href="{% url 'auth_logout' %}">Sign Out</a></li>
                 </ul>
               </li>
             {% else %}
                 <li><a href="{% url 'registration_register' %}">Register</a></li>
-                <li class="divider"></li>
+                
                 <li><a href="{% url 'auth_login' %}">Sign In</a></li>
             {% endif %}
-              <li class="divider"></li>
+              
               <li><a href="https://twitter.com/dotmumu" data-show-count="false" data-show-screen-name="false">Follow @dotmumu</a></li>
             </ul>
 
           </section>
         </nav>
         {% endblock navigation %}
+
+        {% block off-canvas-nav %}
+        <div class="off-canvas-wrap show-for-small">
+            <div class="inner-wrap">
+                <nav class="tab-bar">
+                    <section class="left-small">
+                        <a class="left-off-canvas-toggle menu-icon" >
+                                <span></span>
+                        </a>
+                    </section>
+                    <section class="middle tab-bar-section">
+                        <h1 class="title"><a href="{% url 'home' %}"><img src="{{ STATIC_URL }}img/transparent.png" alt="mumu.com.ng" /></a></h1>
+                    </section>
+                    {% comment %}
+                    <section class="right-small">
+                        <a class="right-off-canvas-toggle menu-icon" >
+                            <span></span>
+                        </a>
+                    </section>
+                    {% endcomment %}
+                </nav>
+                <aside class="left-off-canvas-menu">
+                    <ul class="off-canvas-list">
+                        <li><label>Welcome</label></li>
+                        <li><a href="{% url 'how_it_works' %}">How it works</a></li>
+                        
+                        <li><label>Practice Types</label></li>
+                        <li><a href="{% url 'flashcard_list' %}">Open ended</a></li>
+                        <li><a href="{% url 'quiz_selection' %}">Multiple choice</a></li>
+
+                        <li><label>Users</label></li>
+
+                        {% if user.is_authenticated %}
+                        <li><label>Account Settings</label></li>
+                        <li><a href="{% url 'change_details' %}">Change Personal Details</a></li>
+                        <li><a href="{% url 'auth_password_change' %}">Change Password</a></li>
+                        <li><a href="{% url 'auth_logout' %}">Sign Out</a></li>
+                        {% else %}
+                        <li><a href="{% url 'registration_register' %}">Register</a></li>
+                        <li><a href="{% url 'auth_login' %}">Sign In</a></li>
+                        {% endif %}
+
+                        <li><label>Follow us</label></li>
+                        <li><a href="https://twitter.com/dotmumu" data-show-count="false" data-show-screen-name="false">Follow @dotmumu</a></li>
+                        
+                    </ul>
+                </aside>
+                {% comment %}
+                <aside class="right-off-canvas-menu">
+                    <ul class="off-canvas-list">
+                        <li><label>Users</label></li>
+                        <li><a href="{% url 'flashcard_list' %}">Open ended</a></li>
+                        <li><a href="{% url 'quiz_selection' %}">Multiple choice</a></li>
+                        <li><label>Users</label></li>
+                    </ul>
+                </aside>
+                {% endcomment %}
+                <section class="main-section">
+                <!-- content goes here -->
+                    <div class="row">
+                        {% block main-container-off-canvas %}{% endblock main-container-off-canvas %}
+                    </div>  <!-- row -->
+                </section>
+                <a class="exit-off-canvas"></a>
+            </div>
+        </div>
+        {% endblock off-canvas-nav %}
         <!-- End of navigation tins -------->
 
-        <section>
+        <section class="hide-for-small">
             <div class="row">
                 {% block main-container %}{% endblock main-container %}
             </div>  <!-- row -->
+            
+        </section>
+        <section>
             <div class="footer">
                 <div class="row">
                     <div class="large-2 push-10 columns">
@@ -143,18 +213,9 @@
         </section>
         
         {% block foundation-scripts %}
-        <!-- Check for Zepto support, load jQuery if necessary -->
-        <script>
-          document.write('<script src={{ STATIC_URL }}js/vendor/'
-            + ('__proto__' in {} ? 'zepto' : 'jquery')
-            + '.js><\/script>');
-        </script>
-        <script src="{{ STATIC_URL }}js/foundation.min.js"></script>
-        <script>
-        {% block load-foundation-plugin %}
-          $(document).foundation();
-        {% endblock load-foundation-plugin %}
-        </script>
+        <!-- load jQuery if necessary -->
+            <script src="{{ STATIC_URL }}js/jquery.js"></script>
+            <script src="{{ STATIC_URL }}js/foundation.min.js"></script>
         {% endblock foundation-scripts %}
 
         {% block quantcast %}
@@ -183,6 +244,8 @@
         </noscript>
         <!-- End Quantcast tag -->
         {% endblock quantcast %}
-
+        <script>
+            $(document).foundation();
+        </script>
     </body>
 </html>

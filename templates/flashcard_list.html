@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_child.html' %}
 {% block main-container %}
     {% for object in object_list %}
         <p><a href="{{ object.get_absolute_url }}">{{ object }}</a></p>

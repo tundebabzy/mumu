@@ -1,8 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'base_child.html' %}
 {% block main-container %}
         <div class="large-10 small-12 large-centered columns answer">
-            <p class="title"><a href="#">Answer</a></p>
-                {{ object.answer|safe }}
+            <span class="secondary radius label"><h4>Answer</h4></span>
+                <h4>{{ object.answer|safe }}</h4>
 
                 {% if topic_slug %}
                 <nav class="forward-crumbs">

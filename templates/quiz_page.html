@@ -1,8 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'base_child.html' %}
 {% block main-container %}
     {% if question %}
             <div class="large-10 large-centered columns">
-                <p class="title"><a href="#">Question</a></p>
+                <span class="secondary radius label"><h4>Question</h4></span>
                 <div class="large-12 columns">
                     <h4>{{ question }}</h4>
                     <hr />
