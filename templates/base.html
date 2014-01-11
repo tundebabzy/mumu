@@ -1,5 +1,6 @@
 <!DOCTYPE html>
     <!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en" > <![endif]-->
+    <!--[if IE 9]><html class="no-js lt-ie10" lang="en"> <![endif]-->
     <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 
     <head>
@@ -10,7 +11,7 @@
         <meta name="google-site-verification" content="AkYA2HCeEUN3D3pz-NvDLJ0Z9hQfop9OjPAR_X8lp0E" />
         {% endblock meta %}
         
-        <title>{% block title %}Mumu.com.ng{% endblock title %}</title>
+        <title>{% block title %}ICAN examination revision{% endblock title %}</title>
 
         {% block favicon %}
         <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" />
@@ -108,7 +109,7 @@
                 <li><a href="{% url 'auth_login' %}">Sign In</a></li>
             {% endif %}
               
-              <li><a href="https://twitter.com/dotmumu" data-show-count="false" data-show-screen-name="false">Follow @dotmumu</a></li>
+              <li><a href="https://twitter.com/dotmumu">Follow @dotmumu</a></li>
             </ul>
 
           </section>
@@ -157,7 +158,7 @@
                         {% endif %}
 
                         <li><label>Follow us</label></li>
-                        <li><a href="https://twitter.com/dotmumu" data-show-count="false" data-show-screen-name="false">Follow @dotmumu</a></li>
+                        <li><a href="https://twitter.com/dotmumu">@dotmumu</a></li>
                         
                     </ul>
                 </aside>
@@ -176,6 +177,7 @@
                     <div class="row">
                         {% block main-container-off-canvas %}{% endblock main-container-off-canvas %}
                     </div>  <!-- row -->
+                    {% block footer-off-canvas %}{% endblock footer-off-canvas %}
                 </section>
                 <a class="exit-off-canvas"></a>
             </div>
@@ -187,29 +189,8 @@
             <div class="row">
                 {% block main-container %}{% endblock main-container %}
             </div>  <!-- row -->
-            
-        </section>
-        <section>
-            <div class="footer">
-                <div class="row">
-                    <div class="large-2 push-10 columns">
-                        <a href="https://twitter.com/dotmumu" alt="follow @dotmumu on twitter"><img src="{{ STATIC_URL }}img/twitter3.png" /></a>
-                        <a href="mailto:help@mumu.com.ng"><img src="{{ STATIC_URL }}img/mail3.png" /></a>
-                        <p></p>
-                    </div>
-                    <div class="large-10 pull-2 columns">
-                        <p>
-                        &copy; 2013 tundebabzy. All rights reserved.
-                        Using this website is not a guarantee that
-                        you will pass the ICAN examination.
-                        I highly recommend that you read all ICAN
-                        recommended materials as well.
-                        This website is not affiliated to Institute of
-                        Chartered Accountants of Nigeria (ICAN).
-                        </p>
-                    </div>
-                </div>
-            </div>
+            {% block footer %}
+            {% endblock footer %}            
         </section>
         
         {% block foundation-scripts %}
