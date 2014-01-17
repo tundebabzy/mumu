@@ -28,7 +28,14 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
         form_class = self.get_form_class()
         form = self.get_form(form_class, question)
         self.set_session_var('option', form)
-        return self.render_to_response(self.get_context_data(question=question, options=form))
+
+        score = '?'
+
+        if self.request.user.is_authenticated():
+            all_answers = AnswerLogs.objects.filter(user=self.request.user)
+            score = '%s/%s' %(all_answers.filter(answer__is_true=True).count(), all_answers.count())
+            
+        return self.render_to_response(self.get_context_data(question=question, options=form, score=score))
             
     def post(self, request, *args, **kwargs):
         question = self.get_session_var('question')

@@ -128,13 +128,13 @@
                     <section class="middle tab-bar-section">
                         <h1 class="title"><a href="{% url 'home' %}"><img src="{{ STATIC_URL }}img/transparent.png" alt="mumu.com.ng" /></a></h1>
                     </section>
-                    {% comment %}
+                    
                     <section class="right-small">
                         <a class="right-off-canvas-toggle score-icon" >
-                            <span>88</span>
+                            <span>{{ score }}</span>
                         </a>
                     </section>
-                    {% endcomment %}
+                    
                 </nav>
                 <aside class="left-off-canvas-menu">
                     <ul class="off-canvas-list">
@@ -162,14 +162,18 @@
                         
                     </ul>
                 </aside>
-                {% comment %}
+                
                 <aside class="right-off-canvas-menu">
                     <ul class="off-canvas-list">
                         <li><label>Performance</label></li>
+                        {% if user.is_authenticated %}
                         <li><a href="#">Scores From A - Z</a></li>
+                        {% else %}
+                        <li><a href="#">Log in or Sign in to track your scores</a></li>
+                        {% endif %}
                     </ul>
                 </aside>
-                {% endcomment %}
+                
                 <section class="main-section">
                 <!-- content goes here -->
                     <div class="row">

@@ -25,25 +25,34 @@ class GradeQuestionView(TemplateView, SessionMixin):
             return kwargs
         
         answer = get_object_or_404(Option, id=option_id)
-        last_answers = []
+
+        if not self.get_session_var('last_answer') and self.request.user.is_authenticated():
+            last_answer = AnswerLogs.objects.create(user=self.request.user, question=question, answer=answer)
+            self.set_session_var('last_answer', last_answer)
+            
+        score = '?'
         
         if self.request.user.is_authenticated():
-            last_answers = AnswerLogs.objects.filter(user=self.request.user,
-                question=question).order_by('time')[:4]
+            all_answers = AnswerLogs.objects.filter(user=self.request.user)
+            score = '%s/%s' %(all_answers.filter(answer__is_true=True).count(), all_answers.count())
+        #last_answers = []
+        
+        #if self.request.user.is_authenticated():
+        #    last_answers = AnswerLogs.objects.filter(user=self.request.user,
+        #        question=question).order_by('time')[:4]
         
         kwargs.update({
         'question': question, 'is_correct': answer.is_true,
         'explanation': question.optionexplanation_set.all(),
         'links': question.link_set.all(),
         'selection': self.get_session_var('category'),
-        'last_answers': last_answers,
+        #'last_answers': last_answers,
         'category': self.get_session_var('category'),
-        'identifier': self.get_session_var('identifier')
+        'identifier': self.get_session_var('identifier'),
+        'score': score,
         })
 
-        if not self.get_session_var('last_answer') and self.request.user.is_authenticated():
-            last_answer = AnswerLogs.objects.create(user=self.request.user, question=question, answer=answer)
-            self.set_session_var('last_answer', last_answer)
+        
         return kwargs
         
     def get(self, request, *args, **kwargs):
