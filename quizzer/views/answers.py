@@ -19,7 +19,7 @@ class GradeQuestionView(TemplateView, SessionMixin):
         # answer page and the session variables are no longer available...
         if not question or not option_id:
             kwargs.update({
-                'message': 'Something went wrong. Sorry about that.'
+                'message': 'Something went wrong that can"t be fixed. Apologies'
             })
             self.template_name = 'answer_page_error.html'
             return kwargs
