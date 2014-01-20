@@ -29,7 +29,7 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
         form = self.get_form(form_class, question)
         self.set_session_var('option', form)
 
-        score = '?'
+        score, total = '?', '?'
 
         if self.request.user.is_authenticated():
             all_answers = AnswerLogs.objects.filter(user=self.request.user)

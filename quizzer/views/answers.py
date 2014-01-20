@@ -30,7 +30,7 @@ class GradeQuestionView(TemplateView, SessionMixin):
             last_answer = AnswerLogs.objects.create(user=self.request.user, question=question, answer=answer)
             self.set_session_var('last_answer', last_answer)
             
-        score = '?'
+        score, total, last_7 = '?', '?', ''
         
         if self.request.user.is_authenticated():
             all_answers = AnswerLogs.objects.filter(user=self.request.user)
