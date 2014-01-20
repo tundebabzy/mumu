@@ -34,7 +34,9 @@ class GradeQuestionView(TemplateView, SessionMixin):
         
         if self.request.user.is_authenticated():
             all_answers = AnswerLogs.objects.filter(user=self.request.user)
-            score = '%s/%s' %(all_answers.filter(answer__is_true=True).count(), all_answers.count())
+            score = all_answers.filter(answer__is_true=True).count()
+            total = all_answers.count()
+            last_7 = all_answers.filter(question=question).order_by('time')[:7]
         #last_answers = []
         
         #if self.request.user.is_authenticated():
@@ -50,6 +52,8 @@ class GradeQuestionView(TemplateView, SessionMixin):
         'category': self.get_session_var('category'),
         'identifier': self.get_session_var('identifier'),
         'score': score,
+        'total': total,
+        'last_7': last_7
         })
 
         

@@ -130,12 +130,14 @@
                     <section class="middle tab-bar-section">
                         <h1 class="title"><a href="{% url 'home' %}"><img src="{{ STATIC_URL }}img/transparent.png" alt="mumu.com.ng" /></a></h1>
                     </section>
-                    
+
+                    {% if score %}
                     <section class="right-small">
                         <a class="right-off-canvas-toggle score-icon" >
                             <span>{{ score }}</span>
                         </a>
                     </section>
+                    {% endif %}
                     
                 </nav>
                 <aside class="left-off-canvas-menu">
@@ -167,10 +169,19 @@
                 
                 <aside class="right-off-canvas-menu">
                     <ul class="off-canvas-list">
-                        <li><label>Performance</label></li>
                         {% if user.is_authenticated %}
-                        <li><a href="#">Scores From A - Z</a></li>
+                        <li><label>Score</label></li>
+                        <li><a href="#"><span class="radius label">{{ score }}</span> out of <span class="radius label">{{ total }}</span></a></li>
+
+                        {% if last_7 %}
+                        <li><label>Your Last 7 attempts</label></li>
+                        {% for q in last_7 %}
+                        <li><a href="#"><span class="radius label">{% if q.answer.is_true %}Correct{% else %}Wrong{% endif %}</span></a></li>
+                        {% endfor %}
+                        {% endif %}
+                        
                         {% else %}
+                        <li><label>Scoring unavailable</label></li>
                         <li><a href="#">Log in or Sign in to track your scores</a></li>
                         {% endif %}
                     </ul>
