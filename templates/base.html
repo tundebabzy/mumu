@@ -149,8 +149,6 @@
                         <li><a href="{% url 'flashcard_list' %}">Open ended</a></li>
                         <li><a href="{% url 'quiz_selection' %}">Multiple choice</a></li>
 
-                        <li><label>Users</label></li>
-
                         {% if user.is_authenticated %}
                         <li><label>Account Settings</label></li>
                         <li><a href="{% url 'change_details' %}">Change Personal Details</a></li>
