@@ -1,6 +1,6 @@
 {% extends 'base_child.html' %}
 {% block main-container %}
-                <div class="large-10 large-centered columns">
+                <div class="large-9 columns">
                     <h5 class="subheader">
                     {% for answer in last_answers %}
                         {% if answer.answer.is_true %}
@@ -53,4 +53,10 @@
                     </nav>
 
                 </div> <!-- large-10 .... -->
+                <div class="large-3 columns hide-for-small">
+                    <h4>Your Last 7 Attempts</h4><hr />
+                    {% for q in last_7 %}
+                    <span class="radius label">{% if q.answer.is_true %}Correct{% else %}Wrong{% endif %}</span><br/><br/>
+                    {% endfor %}
+                </div>
 {% endblock %}
