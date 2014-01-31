@@ -23,7 +23,7 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
         # Clean up the various session variables that might be hanging
         # around.
         self.remove_session_var(['selection', 'question', 'last_answer',
-                                    'category', 'identifier'])
+                'category', 'identifier', ])
         question = self.get_question(**kwargs)
         form_class = self.get_form_class()
         form = self.get_form(form_class, question)

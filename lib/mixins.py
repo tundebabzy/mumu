@@ -50,42 +50,45 @@ class FormExtrasMixin(object):
         4.  If the queryset is not empty, slice the first object or else
             try again from step 3.
         """
-        TIMES = 1
-        GAP = 20
         max_ = self.model.objects.aggregate(models.Max('id'))['id__max']
         i = 0
-        while i < TIMES:
-            # circuit breaker
-            if i == 20: break
-            try:
-                random_pk = randint(1, max_)
-                if category == 'exam':
-                    yield self.model.objects.filter(pk__range=(random_pk,
-                        random_pk + GAP), exam__slug=slug)[0]
-                elif category == 'level':
-                    yield self.model.objects.filter(pk__range=(random_pk,
-                        random_pk + GAP), level__slug=slug)[0]
-                elif category == 'paper':
-                    yield self.model.objects.filter(pk__range=(random_pk,
-                        random_pk + GAP), paper__slug=slug)[0]
-                elif category == 'topic':
-                    yield self.model.objects.filter(pk__range=(random_pk,
-                        random_pk + GAP), topic__slug=slug)[0]
-                i += 1
-            except IndexError:
-                pass
+        qs = {}
+        STARTING_NUMBER = 1
+        if category == 'exam':
+            qs = self.model.objects.filter(pk__range=(STARTING_NUMBER,
+                max_), exam__slug=slug)
+        elif category == 'level':
+            qs = self.model.objects.filter(pk__range=(STARTING_NUMBER,
+                max_), level__slug=slug)
+        elif category == 'paper':
+            qs = self.model.objects.filter(pk__range=(STARTING_NUMBER,
+                max_), paper__slug=slug)
+        elif category == 'topic':
+            qs = self.model.objects.filter(pk__range=(STARTING_NUMBER,
+                max_), topic__slug=slug)
+
+        self.set_session_var('available_questions', qs)
+        self.set_session_var('count', qs.count())
+        self.set_session_var('max', max_)
 
     def get_question(self, **kwargs):
         self.__category = kwargs['category']
         self.__identifier = kwargs['identifier']
-        self.set_next_question_url_params(category=kwargs['category'],
-                                        identifier=kwargs['identifier']
-                                        )
                                                 
         if not self.is_valid_category(self.__category):
             # Log this incidence then....
             raise Http404
-        question = self.query_database(self.__category, self.__identifier).next()
+
+        # If nothing has changed in identifier
+        if not self.request.session.get('available_questions') or self.__identifier != self.get_session_var('identifier'):
+            self.query_database(self.__category, self.__identifier)
+
+        self.set_next_question_url_params(category=kwargs['category'],
+                identifier=kwargs['identifier'])
+
+        random_number = randint(1, self.get_session_var('count'))
+        available_question = self.get_session_var('available_questions')
+        question = available_question[random_number-1]
         self.set_session_var('question', question)
         return question
         
