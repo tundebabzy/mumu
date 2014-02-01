@@ -10,7 +10,7 @@
                     <form action="" method="POST">{% csrf_token %}
                         {{ options.options.errors }}
                         {% with form_options=options.options %}
-                            {% for option in form_options %}
+                            {% for option in options.options %}
                                 {{ option }}
                             {% endfor %}
                         {% endwith %}

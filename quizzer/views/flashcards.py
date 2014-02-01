@@ -6,6 +6,7 @@ from quizzer.models import FlashCard, Topic
 from lib.mixins import SessionMixin, FormExtrasMixin
 
 from random import randint
+import datetime
 
 class GenerateFlashCardView(DetailView, SessionMixin):
     model = FlashCard
@@ -13,27 +14,38 @@ class GenerateFlashCardView(DetailView, SessionMixin):
 
     @cache_control(no_cache=True, must_revalidate=True, max_age=0)
     def get(self, request, *args, **kwargs):
-        self.remove_session_var(['topic_slug'])
         return super(GenerateFlashCardView, self).get(request, *args, **kwargs)
 
+    def set_time(self):
+        return set_session_var('flashcard_query_time', datetime.datetime.now())
+
+    def time_has_expired(self):
+        time = self.get_session_var('flashcard_query_time')
+        if time:
+            return datetime.datetime.now() - time > datetime.timedelta(hours=3)
+
     def query_database(self):
-        topic_slug = self.kwargs.get('topic_slug', None)
-        max_ = self.model.objects.aggregate(models.Max('id'))['id__max']
-        while 1:
-            try:
-                random_pk = randint(1, max_)
-                result = self.model.objects.filter(pk__range=(random_pk,
-                    random_pk + 10), topic__slug=topic_slug)[0]
-                self.set_session_var('topic_slug', topic_slug)
-                return result
-            except IndexError:
-                pass
+        qs = self.model.objects.filter(topic__slug=self.__topic_slug)
+        self.set_session_var('available_flashcards', qs)
+        self.set_session_var('card_count', qs.count())
+        self.set_session_var('topic_slug', self.__topic_slug)
+        self.set_session_var('flashcard_query_time', self.set_time())
 
     def get_object(self, queryset=None):
         """
         Returns the object the view is displaying.
         """
-        obj = self.query_database()
+        self.__topic_slug = self.kwargs.get('topic_slug')
+        
+        if not self.request.session.get('available_flashcards') or self.__topic_slug != self.get_session_var('topic_slug'):
+            self.query_database()
+        elif self.time_has_expired():
+            self.query_database()
+            
+        random_number = randint(1, self.request.session.get('card_count'))
+        available_flashcards = self.request.session.get('available_flashcards')
+        obj = available_flashcards[random_number-1]
+        
         return obj
         
     def get_context_data(self, **kwargs):

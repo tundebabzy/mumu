@@ -39,37 +39,38 @@ class FormExtrasMixin(object):
         allowed_categories = ('exam','level','paper','topic')
         return category in allowed_categories
 
+    def set_time(self):
+        return set_session_var('last_query_database_time', datetime.datetime.now())
+
+    def time_has_expired(self):
+        time = self.get_session_var('last_query_database_time')
+        if time:
+            return datetime.datetime.now() - time > datetime.timedelta(hours=3)
+
     def query_database(self, category, slug):
         """
-        This works with this algorithm:
-        1.  Estimate a pk gap i.e an estimate of the highest possible gap 
-            in the db pks.
-        2.  Find the max pk value for the table.
-        3.  Retrieve a queryset of objects with pk that falls in between
-            a random number and the random number + gap.
-        4.  If the queryset is not empty, slice the first object or else
-            try again from step 3.
+        1. Get the variables needed to determine which group of questions
+        to display i.e category and identifier
+        2. Query for all the questions under that category and put them
+        in session
+        3. Also save the count of the queryset in the session
         """
-        max_ = self.model.objects.aggregate(models.Max('id'))['id__max']
-        i = 0
         qs = {}
         STARTING_NUMBER = 1
+        
         if category == 'exam':
-            qs = self.model.objects.filter(pk__range=(STARTING_NUMBER,
-                max_), exam__slug=slug)
+            qs = self.model.objects.filter(exam__slug=slug)
         elif category == 'level':
-            qs = self.model.objects.filter(pk__range=(STARTING_NUMBER,
-                max_), level__slug=slug)
+            qs = self.model.objects.filter(level__slug=slug)
         elif category == 'paper':
-            qs = self.model.objects.filter(pk__range=(STARTING_NUMBER,
-                max_), paper__slug=slug)
+            qs = self.model.objects.filter(paper__slug=slug)
         elif category == 'topic':
-            qs = self.model.objects.filter(pk__range=(STARTING_NUMBER,
-                max_), topic__slug=slug)
+            qs = self.model.objects.filter(topic__slug=slug)
 
         self.set_session_var('available_questions', qs)
         self.set_session_var('count', qs.count())
-        self.set_session_var('max', max_)
+        self.set_session_var('category', self.__category)
+        self.set_session_var('identifier', self.__identifier)
 
     def get_question(self, **kwargs):
         self.__category = kwargs['category']
@@ -81,10 +82,13 @@ class FormExtrasMixin(object):
 
         # If nothing has changed in identifier
         if not self.request.session.get('available_questions') or self.__identifier != self.get_session_var('identifier'):
+            print '1'
+            self.query_database(self.__category, self.__identifier)
+        elif self.time_has_expired():
             self.query_database(self.__category, self.__identifier)
 
-        self.set_next_question_url_params(category=kwargs['category'],
-                identifier=kwargs['identifier'])
+        #self.set_next_question_url_params(category=kwargs['category'],
+        #        identifier=kwargs['identifier'])
 
         random_number = randint(1, self.get_session_var('count'))
         available_question = self.get_session_var('available_questions')

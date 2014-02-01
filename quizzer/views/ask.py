@@ -11,8 +11,8 @@ from quizzer.forms import OptionForm
 
 class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
     """
-    This works by querying the database for a Question and presenting it along
-    with an OptionForm. OptionForm contains the answer choices for the Question
+    This is the engine that spurts random questions to the user.
+    OptionForm contains the answer choices for the Question
     """
     form_class = OptionForm
     success_url = '/practise/multiple-choice/answer/'  # This should not be hard-coded
