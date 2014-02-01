@@ -40,7 +40,7 @@ class FormExtrasMixin(object):
         return category in allowed_categories
 
     def set_time(self):
-        return set_session_var('last_query_database_time', datetime.datetime.now())
+        return self.set_session_var('last_query_database_time', datetime.datetime.now())
 
     def time_has_expired(self):
         time = self.get_session_var('last_query_database_time')
