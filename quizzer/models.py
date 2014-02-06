@@ -12,6 +12,12 @@ from db import mixin
 
 import datetime
 
+class Code(models.Model):
+    code = models.CharField(max_length=8)
+
+    def __unicode__(self):
+        return '%s' % self.code
+
 class Exam(models.Model):
     """
     An exam.

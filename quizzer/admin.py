@@ -106,3 +106,4 @@ class FlashCardAdmin(FilteredModelAdmin):
     search_fields = ['text']
     form = adminforms.FlashCardForm
 admin.site.register(FlashCard, FlashCardAdmin)
+admin.site.register(Code)
