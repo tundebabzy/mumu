@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone, html
 from django.conf import settings
 
-from accounts.models import Researcher, Editor, QuizzerProfile
+from accounts.models import Researcher, Editor
 from db import mixin
 
 import datetime
