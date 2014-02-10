@@ -3,17 +3,23 @@
 # should be done here not in the ExamCodeDecoder class
 ########################################################################
 
-EXAM_CODE = {'1': 'ICAN'}
+EXAM_CODE = {'1': u'ICAN'}
 LEVEL_CODE = {
-    '01': 'FOUNDATION', '02': 'INTERMEDIATE'
+    '01': u'Intermediate'
 }
 PAPER_CODE = {
-    '01': 'FUNDAMENTALS OF FINANCIAL ACCOUNTING',
-    '02': 'AUDITING AND ASSURANCE',
+    '01': u'Auditing and Assurance',
 }
 TOPIC_CODE = {
-    '001': 'ACCOUNTING FRAMEWORK', '002': 'BASIC ACCOUNTING STANDARDS',
-    '003': 'FUNDAMENTALS AND PRINCIPLES OF AUDIT'
+    '001': u'AUDIT PLANNING AND CONTROL PROCEDURE',
+    '002': u'FUNDAMENTALS AND PRINCIPLES OF AUDIT',
+    '003': u'REGULATORY AND ETHICAL ISSUES',
+    '004': u'INTERNAL AUDIT AND CONTROL',
+    '005': u'APPLICATION OF INFORMATION TECHNOLOGY IN AUDITING',
+    '006': u'INTRODUCTION TO PUBLIC SECTOR AUDIT',
+    '007': u'AUDIT REPORT',
+    '008': u'INTRODUCTION TO ASSURANCE',
+    '009': u'VERIFICATION OF ASSETS AND LIABILITIES',
 }
 
 ########################################################################
