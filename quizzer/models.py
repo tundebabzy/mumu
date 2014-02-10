@@ -12,11 +12,13 @@ from db import mixin
 
 import datetime
 
+
 class Code(models.Model):
     code = models.CharField(max_length=8)
 
     def __unicode__(self):
         return '%s' % self.code
+
 
 class Exam(models.Model):
     """
@@ -37,9 +39,10 @@ class Exam(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('next_question', (), {
-                'category': 'exam',
-                'identifier': self.slug
-                })
+            'category': 'exam',
+            'identifier': self.slug
+        })
+
 
 class Level(models.Model):
     """
@@ -60,10 +63,11 @@ class Level(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('next_question', (), {
-                'category': 'level',
-                'identifier': self.slug
-                })
-        
+            'category': 'level',
+            'identifier': self.slug
+        })
+
+
 class Paper(models.Model):
     """
     An exam level paper.
@@ -79,14 +83,15 @@ class Paper(models.Model):
             # Means not already existing
             self.slug = slugify(self.name)
         super(Paper, self).save(*args, **kwargs)
-        
+
     @models.permalink
     def get_absolute_url(self):
         return ('next_question', (), {
-                'category': 'paper',
-                'identifier': self.slug
-                })
-        
+            'category': 'paper',
+            'identifier': self.slug
+        })
+
+
 class Topic(models.Model):
     """
     An exam level paper topic.
@@ -99,7 +104,7 @@ class Topic(models.Model):
             # Means not already existing
             self.slug = slugify(self.name)
         super(Topic, self).save(*args, **kwargs)
-        
+
     def __unicode__(self):
         return self.name
 
@@ -107,10 +112,11 @@ class Topic(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('next_question', (), {
-                'category': 'topic',
-                'identifier': self.slug
-                })
-        
+            'category': 'topic',
+            'identifier': self.slug
+        })
+
+
 class Question(models.Model, mixin.ModelDiffMixin):
     exam = models.ForeignKey(Exam)
     level = models.ForeignKey(Level)
@@ -128,7 +134,8 @@ class Question(models.Model, mixin.ModelDiffMixin):
     @models.permalink
     def get_absolute_url(self):
         return ('question', (), {'id': self.id})
-        
+
+
 class FlashCard(models.Model, mixin.ModelDiffMixin):
     exam = models.ForeignKey(Exam)
     level = models.ForeignKey(Level)
@@ -147,7 +154,7 @@ class FlashCard(models.Model, mixin.ModelDiffMixin):
 
     def __unicode__(self):
         return self.text
-        
+
     def save(self, *args, **kwargs):
         if not self.id:
             # Means not already existing
@@ -156,7 +163,8 @@ class FlashCard(models.Model, mixin.ModelDiffMixin):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('flashcard', (), {'pk':self.pk})
+        return ('flashcard', (), {'pk': self.pk})
+
 
 class Option(models.Model):
     text = models.TextField()
@@ -166,6 +174,7 @@ class Option(models.Model):
     def __unicode__(self):
         return self.text
 
+
 class OptionExplanation(models.Model):
     explanation = models.TextField()
     question = models.ForeignKey(Question)
@@ -173,12 +182,14 @@ class OptionExplanation(models.Model):
     def __unicode__(self):
         return '%s' % self.explanation
 
+
 class QuestionReference(models.Model):
     source = models.TextField()
     question = models.ForeignKey(Question)
 
     def __unicode__(self):
-        return self.source 
+        return self.source
+
 
 class EditorComment(models.Model, mixin.ModelDiffMixin):
     comment = models.TextField()
@@ -187,14 +198,16 @@ class EditorComment(models.Model, mixin.ModelDiffMixin):
     def __unicode__(self):
         return '%s' % self.comment
 
+
 class Link(models.Model):
     description = models.CharField(max_length=100)
     link = models.URLField()
     question = models.ForeignKey(Question)
-    
+
 
     def __unicode__(self):
         return '%s' % self.link
+
 
 class Payment(models.Model):
     """
@@ -207,15 +220,16 @@ class Payment(models.Model):
     time = models.DateTimeField(default=timezone.now, editable=False)
     effective_time = models.DateTimeField(default=timezone.now, editable=False)
     has_used_free = models.BooleanField(default=False)
-    
+
     def clean(self):
         from django.core.exceptions import ValidationError
+
         if not self.level and not self.paper:
             raise ValidationError('You have not made a selection')
-    
+
     def __unicode__(self):
-        return '%s: %s' %(self.get_subscription_type(), self.get_status())
-        
+        return '%s: %s' % (self.get_subscription_type(), self.get_status())
+
     def get_active_period(self, key):
         period = {
             'Free': datetime.timedelta(hours=24),
@@ -227,7 +241,7 @@ class Payment(models.Model):
     def get_subscription(self):
         if self.has_used_free:
             return ('free', self.has_used_free)
-        if  self.level:
+        if self.level:
             return ('level', self.level)
         if self.paper:
             return ('paper', self.paper)
@@ -240,11 +254,13 @@ class Payment(models.Model):
 
     def get_payment_date(self):
         return self.time.strftime("%A, %d. %B %Y %I:%M%p")
-        
+
     def get_category_paid_for(self):
-        if self.level: return 'level'
-        elif self.paper: return 'paper'
-        
+        if self.level:
+            return 'level'
+        elif self.paper:
+            return 'paper'
+
     def get_subscription_type(self):
         if self.has_used_free:
             return 'Free'
@@ -253,12 +269,13 @@ class Payment(models.Model):
         if self.paper:
             return 'Standard Lite'
         return None
-            
+
     def get_status(self):
         if self.has_not_expired():
             return 'Active'
         else:
             return 'Expired'
+
 
 class Login(models.Model):
     user = models.ForeignKey(User)
@@ -269,12 +286,14 @@ class Login(models.Model):
     def __unicode__(self):
         return '%s: %s' % (self.user, self.session_key)
 
+
 class AnswerLogs(models.Model):
     user = models.ForeignKey(User)
     question = models.ForeignKey(Question)
     answer = models.ForeignKey(Option)
     time = models.DateTimeField(auto_now_add=True)
-              
+
+
 # SIGNAL TRIGGERED FUNCTIONS
 @receiver(post_save, sender=EditorComment)
 def correction_notification(sender, **kwargs):
@@ -287,15 +306,16 @@ def correction_notification(sender, **kwargs):
         to_email = question.created_by.staff.user.email
         message = """
         Hi,\n Please have a look at the comment I made concerning your question entry: %s and perform the recommended action.\n My comment was : %s.\n Thanks.\n mumu.com.ng
-        """ %(question.id, editor_comment)
+        """ % (question.id, editor_comment)
         __password = settings.MAILER_USER_PASSWORD
-        
+
         try:
-            send_mail(subject, message, from_email, [to_email], 
-                fail_silently=False, auth_user=from_email,
-                auth_password=__password)
+            send_mail(subject, message, from_email, [to_email],
+                      fail_silently=False, auth_user=from_email,
+                      auth_password=__password)
         except BadHeaderError:
             return HttpResponse('Invalid header found')
+
 
 @receiver(post_save, sender=Question)
 def approval_notification(sender, **kwargs):
@@ -310,7 +330,7 @@ def approval_notification(sender, **kwargs):
 
             try:
                 send_mail(subject, message, from_email, [to_email],
-                    fail_silently=False, auth_user=from_email,
-                    auth_password=__password)
+                          fail_silently=False, auth_user=from_email,
+                          auth_password=__password)
             except BadHeaderError:
                 return HttpResponse('Invalid Header Found')
