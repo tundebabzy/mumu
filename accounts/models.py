@@ -35,16 +35,16 @@ class Manager(models.Model):
     staff = models.ForeignKey(RegistrationProfile, null=True, blank=True)
 
     def __unicode__(self):
-        return self.staff.user
+        return self.staff.user.__unicode__()
     
 class Editor(models.Model):
     staff = models.ForeignKey(RegistrationProfile, null=True, blank=True)
 
     def __unicode__(self):
-        return self.staff.user
+        return self.staff.user.__unicode__()
 
 class Researcher(models.Model):
     staff = models.ForeignKey(RegistrationProfile, null=True, blank=True)
 
     def __unicode__(self):
-        return self.staff.user
+        return self.staff.user.__unicode__()
