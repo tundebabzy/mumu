@@ -1,7 +1,6 @@
 from django.contrib import admin
 from accounts.models import *
 
-admin.site.register(QuizzerProfile)
 admin.site.register(Contract)
 admin.site.register(Department)
 admin.site.register(Researcher)
