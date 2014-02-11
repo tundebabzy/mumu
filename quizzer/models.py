@@ -118,6 +118,7 @@ class Topic(models.Model):
 
 
 class Question(models.Model, mixin.ModelDiffMixin):
+    code = models.ForeignKey(Code, null=True, blank=True)
     exam = models.ForeignKey(Exam)
     level = models.ForeignKey(Level)
     paper = models.ForeignKey(Paper)
@@ -137,6 +138,7 @@ class Question(models.Model, mixin.ModelDiffMixin):
 
 
 class FlashCard(models.Model, mixin.ModelDiffMixin):
+    code = models.ForeignKey(Code, null=True, blank=True)
     exam = models.ForeignKey(Exam)
     level = models.ForeignKey(Level)
     paper = models.ForeignKey(Paper)
@@ -295,42 +297,42 @@ class AnswerLogs(models.Model):
 
 
 # SIGNAL TRIGGERED FUNCTIONS
-@receiver(post_save, sender=EditorComment)
-def correction_notification(sender, **kwargs):
-    editor_comment = kwargs['instance']
-    if editor_comment.has_changed:
-        question = editor_comment.question
+#@receiver(post_save, sender=EditorComment)
+#def correction_notification(sender, **kwargs):
+#    editor_comment = kwargs['instance']
+#    if editor_comment.has_changed:
+#        question = editor_comment.question
 
-        subject = "mumu.com.ng: Your Editor Made A Comment About Your Question Entry"
-        from_email = settings.MAILER_USER
-        to_email = question.created_by.staff.user.email
-        message = """
-        Hi,\n Please have a look at the comment I made concerning your question entry: %s and perform the recommended action.\n My comment was : %s.\n Thanks.\n mumu.com.ng
-        """ % (question.id, editor_comment)
-        __password = settings.MAILER_USER_PASSWORD
+#        subject = "mumu.com.ng: Your Editor Made A Comment About Your Question Entry"
+#        from_email = settings.MAILER_USER
+#        to_email = question.created_by.staff.user.email
+#        message = """
+#        Hi,\n Please have a look at the comment I made concerning your question entry: %s and perform the recommended action.\n My comment was : %s.\n Thanks.\n mumu.com.ng
+#        """ % (question.id, editor_comment)
+#        __password = settings.MAILER_USER_PASSWORD
 
-        try:
-            send_mail(subject, message, from_email, [to_email],
-                      fail_silently=False, auth_user=from_email,
-                      auth_password=__password)
-        except BadHeaderError:
-            return HttpResponse('Invalid header found')
+#        try:
+#            send_mail(subject, message, from_email, [to_email],
+#                      fail_silently=False, auth_user=from_email,
+#                      auth_password=__password)
+#        except BadHeaderError:
+#            return HttpResponse('Invalid header found')
 
 
-@receiver(post_save, sender=Question)
-def approval_notification(sender, **kwargs):
-    question = kwargs['instance']
-    if question.has_changed:
-        if 'approved' in question.changed_fields:
-            subject = 'mumu.com.ng: Approval notice'
-            from_email = settings.MAILER_USER
-            to_email = question.created_by.staff.user.email
-            message = """Hi,\n the approval status of your question entry #%s has changed. Please check the admin to check if your entry has been approved.\nThanks.\nmumu.com.ng""" % question.id
-            __password = settings.MAILER_USER_PASSWORD
+#@receiver(post_save, sender=Question)
+#def approval_notification(sender, **kwargs):
+#    question = kwargs['instance']
+#    if question.has_changed:
+#        if 'approved' in question.changed_fields:
+#            subject = 'mumu.com.ng: Approval notice'
+#            from_email = settings.MAILER_USER
+#            to_email = question.created_by.staff.user.email
+#            message = """Hi,\n the approval status of your question entry #%s has changed. Please check the admin to check if your entry has been approved.\nThanks.\nmumu.com.ng""" % question.id
+#            __password = settings.MAILER_USER_PASSWORD
 
-            try:
-                send_mail(subject, message, from_email, [to_email],
-                          fail_silently=False, auth_user=from_email,
-                          auth_password=__password)
-            except BadHeaderError:
-                return HttpResponse('Invalid Header Found')
+#            try:
+#                send_mail(subject, message, from_email, [to_email],
+#                          fail_silently=False, auth_user=from_email,
+#                          auth_password=__password)
+#            except BadHeaderError:
+#                return HttpResponse('Invalid Header Found')
