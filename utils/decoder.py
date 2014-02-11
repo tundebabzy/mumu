@@ -20,6 +20,7 @@ TOPIC_CODE = {
     '007': u'AUDIT REPORT',
     '008': u'INTRODUCTION TO ASSURANCE',
     '009': u'VERIFICATION OF ASSETS AND LIABILITIES',
+    '010': u'COMMUNICATION AND LANGUAGE',
 }
 
 ########################################################################
