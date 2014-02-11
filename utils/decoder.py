@@ -131,3 +131,21 @@ class ExamCodeDecoder:
         final_list = list(iterator)
 
         return final_list
+
+
+    def translate_to_code(self, topic_name, exam_name='ICAN',
+                          level_name='Intermediate',
+                          paper_name='Auditing and Assurance',
+                          ):
+        codes = []
+        inverted_exam_codes = dict([[v,k] for k,v in self.exam_codes.items()])
+        inverted_level_codes = dict([[v,k] for k,v in self.level_codes.items()])
+        inverted_paper_codes = dict([[v,k] for k,v in self.paper_codes.items()])
+        inverted_topic_codes = dict([[v,k] for k,v in self.topic_codes.items()])
+
+        codes.append(inverted_exam_codes[exam_name])
+        codes.append(inverted_level_codes[level_name])
+        codes.append(inverted_paper_codes[paper_name])
+        codes.append(inverted_topic_codes[topic_name])
+
+        return ''.join(codes)
