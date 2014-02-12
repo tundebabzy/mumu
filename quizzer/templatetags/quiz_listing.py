@@ -1,91 +1,112 @@
 from django import template
 from django.contrib.contenttypes.models import ContentType
+from django.template.defaultfilters import slugify
 
-from quizzer.models import Question
+from quizzer.models import Question, FlashCard
+
+from utils.decoder import ExamCodeDecoder
 
 register = template.Library()
+decoder = ExamCodeDecoder()
 
 class NavigationNode(template.Node):
-    def __init__(self, user_obj, payment_obj):
-        self.user_obj = template.Variable(user_obj)
-        self.payment_obj = template.Variable(payment_obj)
-        
-    def get_user_from_node(self, context):
-        return context.render_context[self]['user'].resolve(context)
-        
-    def get_user_last_payment(self, context):
-        return context.render_context[self]['payment_obj'].resolve(context)
+    def __init__(self, domain):
+        self.domain = template.Variable(domain) # This should be a simple string
 
-    def _gen_html(self, tag_type, level_or_paper, label, obj):
-        model_ct = ContentType.objects.get_for_model(obj)
-        model_name = model_ct.model_class()
-        if label == 'level':
-            num = model_name.objects.filter(level=obj.level).count()
-        elif label == 'paper':
-            num = model_name.objects.filter(level=obj.level, paper=obj.paper).count()
-        elif label == 'topic':
-            num = model_name.objects.filter(level=obj.level, paper=obj.paper, topic=obj.topic).count()
+    def _gen_html(self, html_h_tag, category_type, category_desc, code,
+                    context):
         return u"""
-                <%s><a href="%s">%s</a> <span class="label round">%s</span></%s>
-        """ %(tag_type, level_or_paper.get_absolute_url(), level_or_paper, num,
-              tag_type)
+        <%s><a href="http://%s/practise/multiple-choice/%s/%s/random/%s/">%s</a><%s>
+        """ %(html_h_tag,
+                self.get_domain(context), category_type,
+                slugify(category_desc),
+                decoder.get_category_code(code, category_type),
+                category_desc, html_h_tag
+            )
         
-    def _open_div(self, marker):
+    def _open_div(self, heading):
         return u"""
             <div class="panel">
                 <h5 class="subheader">%s</h5>
-                """ % marker
+                """ % heading
         
     def _close_div(self):
         return u'</div>'
         
-    def _error_html(self):
-        return u"""
-        <div class="panel">
-            <h5 class="subheader">ACCESS DENIED</h5>
-            <h6>This message normally appears when your subscription has 
-            expired or if you don't have a subscription. If none of these
-            apply to you, please contact us immediately and we will fix
-            the issue for you.
-            """
+    def get_domain(self, context):
+        return context.render_context[self]['domain'].resolve(context)
+
+    def get_queryset(self):
+        return Question.objects.order_by('code').distinct('code').values_list('code__code', flat=True)
 
     def make_html(self, context):
-        user = self.get_user_from_node(context)
-        distinct_quests = Question.objects.select_related().order_by('topic').distinct('topic')
-        level_html, paper_html, topic_html = '', '', ''
+        queryset = self.get_queryset()
+        category_html_level, category_html_paper, category_html_topic = '', '', ''
         temp_level, temp_paper = [], []
                         
-        for obj in distinct_quests:
-            if not obj.level in temp_level:
-                level_html += self._gen_html('h5', obj.level, 'level', obj)
-                temp_level.append(obj.level)
-            if not obj.paper in temp_paper:
-                paper_html += self._gen_html('h5', obj.paper, 'paper', obj)
-                temp_paper.append(obj.paper)
-            topic_html += self._gen_html('h5', obj.topic, 'topic', obj)
-        
-        level_html = self._open_div('LEVEL') + level_html + self._close_div()
-        paper_html = self._open_div('PAPER') + paper_html + self._close_div()
-        topic_html = self._open_div('TOPIC') + topic_html + self._close_div()
+        for code in queryset:
+            level = decoder.translate_code(code, 'level')
+            paper = decoder.translate_code(code, 'paper')
+            topic = decoder.translate_code(code, 'topic')
 
-        html = level_html + paper_html + topic_html
+            if not level in temp_level:
+                category_html_level += self._gen_html('h5', 'level', level, code, context)
+                temp_level.append(level)
+            if not paper in temp_paper:
+                category_html_paper += self._gen_html('h5', 'paper', paper, code, context)
+                temp_paper.append(paper)
+            # Because topic is definitely not going to have duplicates
+            category_html_topic += self._gen_html('h5', 'topic', topic, code, context)
+        
+        category_html_level = self._open_div('LEVEL') + category_html_level + self._close_div()
+        category_html_paper = self._open_div('PAPER') + category_html_paper + self._close_div()
+        category_html_topic = self._open_div('TOPIC') + category_html_topic + self._close_div()
+
+        html = category_html_level + category_html_paper + category_html_topic
         return html
 
     def render(self, context):
         if not self in context.render_context:
             # For the first time the node is rendered in the template
-            context.render_context[self] = {
-                'user': self.user_obj, 'payment_obj': self.payment_obj
-            }
+            context.render_context[self] = {'domain': self.domain}
+#        return self.make_html(context)
         try:
             return self.make_html(context)
         except:
             return ''
 
-@register.tag(name="quiz_listing")
+class NavigationNodeF(NavigationNode):
+
+    def _gen_html(self, html_h_tag, category_type, category_desc, code,
+                    context):
+        return u"""
+        <%s><a href="http://%s/practise/open-ended/%s/%s/random/%s/">%s</a><%s>
+        """ %(html_h_tag,
+                self.get_domain(context), category_type,
+                slugify(category_desc),
+                decoder.get_category_code(code, category_type),
+                category_desc, html_h_tag
+            )
+
+    def get_queryset(self):
+        return FlashCard.objects.order_by('code').distinct('code').values_list('code__code', flat=True)
+
+@register.tag(name="categories")
 def get_categories(parser, token):
     try:
-        tag_name, user_obj, payment_obj = token.split_contents()
+        tag_name, domain = token.split_contents()
     except ValueError:
-        raise template.TemplateSyntaxError('tag takes two arguments')
-    return NavigationNode(user_obj, payment_obj)
+        raise template.TemplateSyntaxError(
+            'Tag takes one argument which is a domain name'
+        )
+    return NavigationNode(domain)
+
+@register.tag(name="categoriesf")
+def get_categories(parser, token):
+    try:
+        tag_name, domain = token.split_contents()
+    except ValueError:
+        raise template.TemplateSyntaxError(
+            'Tag takes one argument which is a domain name'
+        )
+    return NavigationNodeF(domain)

@@ -71,7 +71,7 @@
               
               <li class="has-dropdown"><a href="#">Practice Types</a>
                 <ul class="dropdown">
-                  <li><a href="{% url 'flashcard_list' %}">Open ended</a></li>
+                  <li><a href="{% url 'fcard_selection' %}">Open ended</a></li>
                   <li><a href="{% url 'quiz_selection' %}">Multiple choice</a></li>
                 </ul>
               </li>
@@ -146,7 +146,7 @@
                         <li><a href="{% url 'how_it_works' %}">How it works</a></li>
                         
                         <li><label>Practice Types</label></li>
-                        <li><a href="{% url 'flashcard_list' %}">Open ended</a></li>
+                        <li><a href="{% url 'fcard_selection' %}">Open ended</a></li>
                         <li><a href="{% url 'quiz_selection' %}">Multiple choice</a></li>
 
                         {% if user.is_authenticated %}

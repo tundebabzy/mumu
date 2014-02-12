@@ -1,15 +1,18 @@
 from django import forms
 from django.http import Http404
 
-from quizzer.models import Question, OptionExplanation, FlashCard, Option
+from quizzer.models import Question, Option #OptionExplanation, FlashCard
 from tinymce.widgets import TinyMCE
 
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
         widgets = {
-            'text': TinyMCE(mce_attrs={
-                'width': '100%'})
+            'question_text': TinyMCE(mce_attrs={
+                'width': '100%'}),
+            'code': forms.TextInput(),
+            'explanation': TinyMCE(mce_attrs={
+                'width': '100%'}),
         }
 
     def save(self, request, commit):
@@ -37,20 +40,20 @@ class QuestionForm(forms.ModelForm):
                 raise Http404
         return super(QuestionForm, self).save(commit=False)
 
-class FlashCardForm(QuestionForm):
-    class Meta:
-        model = FlashCard
-        widgets = {
-            'answer': TinyMCE(mce_attrs={
-                'width': '100%'
-            })
-        }
+#class FlashCardForm(QuestionForm):
+#    class Meta:
+#        model = FlashCard
+#        widgets = {
+#            'answer': TinyMCE(mce_attrs={
+#                'width': '100%'
+#            })
+#        }
 
-class OptionExplanationForm(forms.ModelForm):
-    class Meta:
-        model = OptionExplanation
-        widgets = {
-            'explanation': TinyMCE(mce_attrs={
-                'width': '100%'
-            })
-        }
+#class OptionExplanationForm(forms.ModelForm):
+#    class Meta:
+#        model = OptionExplanation
+#        widgets = {
+#            'explanation': TinyMCE(mce_attrs={
+#                'width': '100%'
+#            })
+#        }

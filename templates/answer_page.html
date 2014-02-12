@@ -3,7 +3,7 @@
                 <div class="large-9 columns">
                     <h5 class="subheader">
                     {% for answer in last_answers %}
-                        {% if answer.answer.is_true %}
+                        {% if answer.answer.is_correct %}
                             <span class="success label"> C </span>
                         {% else %}
                             <span class="alert label"> W </span>
@@ -18,9 +18,7 @@
                     </div>
                     <div class="panel radius">
                         <h5>Explanation</h5>
-                        {% for explan in explanation %}
-                            {{ explan|safe }}
-                        {% endfor %}
+                        {{ explanation|safe }}
                     </div>
                     {% endif %}
                                         
@@ -38,9 +36,11 @@
                     <nav class="forward-crumbs">
                         <ul>
                             {% if category %}
-                            <li><a href="/practise/multiple-choice/{{ category }}/{{ identifier }}/random/">Next Question</a></li>
+                            <li><a href="{% url 'next_question' category identifier code %}">Next Question</a></li>
+                            {% comment %}<li><a href="/practise/multiple-choice/{{ category }}/{{ identifier }}/random/">Next Question</a></li>{% endcomment %}
                             {% else %}
-                            <li><a href="/practise/multiple-choice/">Random Question</a></li>
+                            <li><a href="{% url 'quiz_selection' %}">Choose Multiple Choice Quiz</a></li>
+                            
                             {% endif %}
                         </ul>
                     </nav>
@@ -48,7 +48,7 @@
                     <nav class="dark-nav-bar">
                         <ul>
                             <li><a href="{% url 'home' %}">Home</a></li>
-                            <li><a href="{% url 'quiz_selection' %}">Choose Topic</a></li>
+                            <li><a href="{% url 'quiz_selection' %}">Choose Topic (Multiple-choice)</a></li>
                         </ul>
                     </nav>
 
@@ -58,7 +58,7 @@
                     
                     <h4>Your Last 7 Attempts</h4><hr />
                     {% for q in last_7 %}
-                    <span class="radius label">{% if q.answer.is_true %}Correct{% else %}Wrong{% endif %}</span><br/><br/>
+                    <span class="radius label">{% if q.answer.is_correct %}Correct{% else %}Wrong{% endif %}</span><br/><br/>
                     {% endfor %}
                     
                     {% endif %}

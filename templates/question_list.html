@@ -1,12 +1,12 @@
 {% extends 'base_child.html' %}
 {% block main-container %}
-    <p class="title"><a href="#">Multiple Choice Question List For "{{ title }}"</a></p>
+    <span class="secondary radius label"><h4>Complete List Of Questions</h4></span>
     {% if is_paginated %}
         {% for object in page_obj.object_list %}
             <p><a href="{{ object.get_absolute_url }}">{{ object }}</a></p>
         {% endfor %}
-        {% if page_obj.has_previous %}<a href="/practise/multiple-choice/{{ category }}/{{ identifier }}/page/{{ page_obj.previous_page_number }}/">Previous</a> | {% endif %}
-        {% if page_obj.has_next %}<a href="/practise/multiple-choice/{{ category }}/{{ identifier }}/page/{{ page_obj.next_page_number }}/">Next</a>{% endif %}
+        {% if page_obj.has_previous %}<a href="{% url 'all_questions_paged' page_obj.previous_page_number %}">Previous</a> | {% endif %}
+        {% if page_obj.has_next %}<a href="{% url 'all_questions_paged' page_obj.next_page_number %}">Next</a>{% endif %}
     {% else %}
         {% for object in object_list %}
             <p><a href="{{ object.get_absolute_url }}">{{ object }}</a></p>

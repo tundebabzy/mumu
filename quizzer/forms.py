@@ -2,7 +2,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 from registration.forms import RegistrationFormUniqueEmail
-from quizzer.models import Question, Payment
+from quizzer.models import Question
 
 attrs_dict = {'class': 'required'}
 

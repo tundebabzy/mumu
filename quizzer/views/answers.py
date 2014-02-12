@@ -1,62 +1,49 @@
 from django.views.generic.base import TemplateView
 from django.shortcuts import get_object_or_404
+from django.http import Http404
+from django.core.exceptions import ObjectDoesNotExist
 
-from lib.mixins import SessionMixin
+from lib.mixins import SessionMixin, FormExtrasMixin
 
 from quizzer.models import Option, AnswerLogs
 
 class GradeQuestionView(TemplateView, SessionMixin):
     """
-    Processes a form which is submitted with a GET.
+    
     """
     template_name = 'answer_page.html'
 
     def get_context_data(self, **kwargs):
-        question = self.get_session_var('question')
-        option_id = self.get_session_var('option_id')
+        try:
+            answer = Option.objects.select_related('question').get(id=kwargs['option_id'])
+        except ObjectDoesNotExist:
+            raise Http404
 
-        # If for some reason, like the user navigates away from the
-        # answer page and the session variables are no longer available...
-        if not question or not option_id:
-            kwargs.update({
-                'message': 'Something went wrong that can"t be fixed. Apologies'
-            })
-            self.template_name = 'answer_page_error.html'
-            return kwargs
-        
-        answer = get_object_or_404(Option, id=option_id)
-
-        if not self.get_session_var('last_answer') and self.request.user.is_authenticated():
-            last_answer = AnswerLogs.objects.create(user=self.request.user, question=question, answer=answer)
-            self.set_session_var('last_answer', last_answer)
-            
-        score, total, last_7 = '?', '?', ''
+        question = answer.question
+        score = '?'
+        total = '?'
+        last_7 = '?'
+        answer_log_7 = None
         
         if self.request.user.is_authenticated():
-            all_answers = AnswerLogs.objects.filter(user=self.request.user)
-            score = all_answers.filter(answer__is_true=True).count()
-            total = all_answers.count()
-            last_7 = all_answers.filter(question=question).order_by('time')[:7]
-        #last_answers = []
-        
-        #if self.request.user.is_authenticated():
-        #    last_answers = AnswerLogs.objects.filter(user=self.request.user,
-        #        question=question).order_by('time')[:4]
+            answer_log = AnswerLogs.objects.select_related().filter(user=self.request.user.get_profile())
+            score = answer_log.filter(answer__is_correct=True).count()
+            total = answer_log.count()
+            answer_log_7 = answer_log.select_related('answer').filter(
+                    answer__question=question).order_by('-time')[:7]
         
         kwargs.update({
-        'question': question, 'is_correct': answer.is_true,
-        'explanation': question.optionexplanation_set.all(),
-        'links': question.link_set.all(),
-        'selection': self.get_session_var('category'),
-        #'last_answers': last_answers,
-        'category': self.get_session_var('category'),
-        'identifier': self.get_session_var('identifier'),
-        'score': score,
-        'total': total,
-        'last_7': last_7
+            'question': question, 'is_correct': answer.is_correct,
+            'explanation': question.explanation,
+            'links': question.link_set.all(),
+            'code': self.get_session_var('code'),
+            'category': self.get_session_var('category'),
+            'identifier': self.get_session_var('identifier'),
+            'score': score,
+            'total': total,
+            'last_7': answer_log_7
         })
 
-        
         return kwargs
         
     def get(self, request, *args, **kwargs):

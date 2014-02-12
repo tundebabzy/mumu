@@ -2,17 +2,17 @@
 {% block main-container %}
         <div class="small-12 large-10 large-centered columns">
             <span class="secondary radius label"><h4>Question</h4></span>
-            <h4>{{ object.text }}</h4>
+            <h4>{{ flashcard_question }}</h4>
             <nav class="forward-crumbs">
                 <ul>
-                    <li><a href="{% url 'flashcard_flip' object.slug %}">View Answer</a></li>
-                    {% block removable_link %}<li><a href="{% url 'next_flashcard' topic_slug %}">Skip Question</a></li>{% endblock %}
+                    <li><a href="{% url 'flashcard_answer' category identifier code pk %}">View Answer</a></li>
+                    {% block removable_link %}<li><a href="{% url 'next_flashcard' category identifier code %}">Skip Question</a></li>{% endblock %}
                 </ul>
             </nav>
             <nav class="dark-nav-bar">
                 <ul>
                     <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'flashcard_list' %}">Choose Topic</a></li>
+                    <li><a href="">Choose Topic</a></li>
                 </ul>
             </nav>
         </div>  <!-- small-12 .... -->

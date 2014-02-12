@@ -19,7 +19,11 @@
                     
                     <nav class="dark-nav-bar">
                         <ul>
+                            {% if is_from_database_page %}
+                            <li><a href="{% url 'all_questions_paged' '1' %}">View The Database</a></li>
+                            {% else %}
                             <li><a href="{% url 'quiz_selection' %}">{{ selection }}</a></li>
+                            {% endif %}
                             <li><a href="{% url 'home' %}">Go Home</a></li>
                         </ul>
                     </nav>

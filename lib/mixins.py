@@ -1,9 +1,11 @@
-from quizzer.models import Question
+from quizzer.models import Question, Code
 from django.utils.timezone import make_aware, get_current_timezone
 from django.db import utils, models
 from django.shortcuts import Http404
 import datetime
 from random import randint
+from utils.decoder import ExamCodeDecoder
+import random
             
 class SessionMixin(object):
     """
@@ -21,6 +23,10 @@ class SessionMixin(object):
             if self.get_session_var(key):
                 del self.request.session[key]
 
+    def init_session_vars(self, to_remove, key_to_set):
+        self.remove_session_var(to_remove)
+        self.set_session_var(key_to_set, True)
+
     def set_next_question_url_params(self, **kwargs):
         for key in kwargs:
             self.set_session_var(key, kwargs[key])
@@ -32,8 +38,6 @@ class FormExtrasMixin(object):
     """
     model = Question
     template_list_index = 0
-    __category = None
-    __identifier = None
     
     def is_valid_category(self, category):
         allowed_categories = ('exam','level','paper','topic')
@@ -47,74 +51,64 @@ class FormExtrasMixin(object):
         if time:
             return datetime.datetime.now() - time > datetime.timedelta(hours=3)
 
-    def query_database(self, category, slug):
+    def query_database(self, category, code):
         """
-        1. Get the variables needed to determine which group of questions
-        to display i.e category and identifier
-        2. Query for all the questions under that category and put them
-        in session
-        3. Also save the count of the queryset in the session
+        Get a list of `Question` id that is compatible with the supplied code
+        and category
         """
-        qs = {}
-        STARTING_NUMBER = 1
-        
-        if category == 'exam':
-            qs = self.model.objects.filter(exam__slug=slug)
-        elif category == 'level':
-            qs = self.model.objects.filter(level__slug=slug)
-        elif category == 'paper':
-            qs = self.model.objects.filter(paper__slug=slug)
-        elif category == 'topic':
-            qs = self.model.objects.filter(topic__slug=slug)
+        decoder = ExamCodeDecoder()
+        qs = None
 
-        self.set_session_var('available_questions', qs)
-        self.set_session_var('count', qs.count())
-        self.set_session_var('category', self.__category)
-        self.set_session_var('identifier', self.__identifier)
+        if category == 'exam':
+            qs = self.model.objects.filter(code__code__startswith=code).values_list('id', flat=True)
+            
+        elif category == 'level' or category == 'paper':
+            _qs = self.model.objects.filter(code__code__contains=code).values_list('code', flat=True)
+            temp_qs = Code.objects.filter(id__in=_qs).values_list('code', flat=True)
+            code_list = decoder.get_code_list(code, temp_qs, category)
+            qs = self.model.objects.filter(code__code__in=code_list).values_list('id', flat=True)
+
+        elif category == 'topic':
+            qs = self.model.objects.filter(code__code__endswith=code).values_list('id', flat=True)
+
+        # Set session variables with the data
+        self.set_session_var(category, qs)
+        self.set_time()
+
+    def random_id(self, id_list):
+        import itertools
+        if id_list:
+            id_ = random.sample(id_list, 1)
+            return id_[0]
+        raise Http404
 
     def get_question(self, **kwargs):
-        self.__category = kwargs['category']
-        self.__identifier = kwargs['identifier']
-                                                
-        if not self.is_valid_category(self.__category):
-            # Log this incidence then....
+        """
+        Determine the code of a Question to be retrieved from the
+        session and then return the Question
+        """                                                
+        if not self.is_valid_category(kwargs['category']):
             raise Http404
 
-        # If nothing has changed in identifier
-        if not self.request.session.get('available_questions') or self.__identifier != self.get_session_var('identifier'):
-            print '1'
-            self.query_database(self.__category, self.__identifier)
-        elif self.time_has_expired():
-            self.query_database(self.__category, self.__identifier)
+        if not self.get_session_var(kwargs['category']) or self.time_has_expired():
+            self.query_database(kwargs['category'], kwargs['code'])
 
-        #self.set_next_question_url_params(category=kwargs['category'],
-        #        identifier=kwargs['identifier'])
+        question_id = self.random_id(self.get_session_var(kwargs['category']))
+        question = self.model.objects.get(id=question_id)
 
-        random_number = randint(1, self.get_session_var('count'))
-        available_question = self.get_session_var('available_questions')
-        question = available_question[random_number-1]
+        # Add data to session
+        # `question` is the question displayed to the user. We need to
+        # persist it so it can be reused on the answer page
         self.set_session_var('question', question)
-        return question
+
+        # .... `category` 1code` and `identifier` are persisted so that 
+        # they can be used to build the url for the next random question
+        # on the answer page
+        self.set_session_var('category', kwargs['category'])
+        self.set_session_var('code', kwargs['code'])
+        self.set_session_var('identifier', kwargs['identifier'])
         
-    def get_selection(self, question):
-        lazy_query = {
-            'exam': 'question.exam.name',
-            'level': 'question.level.name',
-            'paper': 'question.paper.name',
-            'topic': 'question.topic.name',
-        }   # Kept as string to avoid database hits for each dict key
-
-        selection = self.request.session.get('selection')
-
-        if selection:
-            if self.request.session.get('category') and self.__category != self.request.session.get('category'):
-                self.__category = self.request.session.get('category')
-                self.set_session_var('selection', eval(lazy_query[self.__category]))
-            self.set_session_var('category', self.__category)
-        else:
-            selection = self.request.session['selection'] = eval(lazy_query[self.__category])
-            self.set_session_var('category', self.__category)
-        return selection
+        return question
 
     def get_template_names(self):
         """

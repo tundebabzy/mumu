@@ -2,10 +2,10 @@ from django.views.generic import ListView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
-from quizzer.models import Payment
+#from quizzer.models import Payment
 
 class PaymentHistoryView(ListView):
-    model = Payment
+#    model = Payment
     template_name='history.html'
     
     @method_decorator(login_required)
