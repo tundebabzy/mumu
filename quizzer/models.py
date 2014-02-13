@@ -1,6 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.utils import html
+from registration.models import RegistrationProfile
 
 from accounts.models import Researcher, Editor
 
@@ -8,6 +8,9 @@ from db import mixin
 
 
 class Code(models.Model):
+    """
+    This represents an eight character alphanumeric code. The code is used to classify `Question`s and `FlashCard`s
+    """
     code = models.CharField(max_length=8)
 
     def __unicode__(self):
@@ -15,6 +18,10 @@ class Code(models.Model):
 
 
 class Question(models.Model, mixin.ModelDiffMixin):
+    """
+    This represents a real world question. Each `Question` is classified with a `Code` so the application knows when to
+    display the `Question`
+    """
     code = models.ForeignKey(Code)
     question_text = models.TextField()
     explanation = models.TextField(blank=True, null=True)
@@ -33,6 +40,10 @@ class Question(models.Model, mixin.ModelDiffMixin):
 
 
 class FlashCard(models.Model, mixin.ModelDiffMixin):
+    """
+    This represents a real world question. Each `Question` is classified with a `Code` so the application knows when to
+    display the `Question`
+    """
     code = models.ForeignKey(Code)
     question_text = models.TextField()
     explanation = models.TextField(blank=True, null=True)
@@ -46,17 +57,20 @@ class FlashCard(models.Model, mixin.ModelDiffMixin):
         verbose_name = 'Flash Card'
 
     def __unicode__(self):
-        return self.question_text
+        return '%s' % html.strip_tags(self.question_text)
 
     @models.permalink
     def get_absolute_url(self):
-        return ('flashcard', (), {'pk': self.pk})
+        return ('flashcard', (), {'id': self.id})
 
 
 class Option(models.Model):
+    """
+    This represents an choice to a `Question`
+    """
     text = models.TextField()
     question = models.ForeignKey(Question)
-    is_true = models.BooleanField()
+    is_correct = models.BooleanField()
 
     def __unicode__(self):
         return self.text
@@ -81,7 +95,10 @@ class Link(models.Model):
 
 
 class AnswerLogs(models.Model):
-    user = models.ForeignKey(User)
+    """
+    Selected `Option`s to each `Question` presented to authenticated `User`s are stored here
+    """
+    user = models.ForeignKey(RegistrationProfile, null=True, blank=True)
     answer = models.ForeignKey(Option)
     time = models.DateTimeField(auto_now_add=True)
 

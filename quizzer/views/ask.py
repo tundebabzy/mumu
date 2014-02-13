@@ -21,7 +21,6 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
     @cache_control(no_cache=True, must_revalidate=True, max_age=0)
     def get(self, request, *args, **kwargs):
         if self.get_session_var('open-ended') or not self.get_session_var('multiple-choice'):
-            print 'yes'
             self.init_session_vars([kwargs['category'], 'open-ended'], 'multiple-choice')
         else:
             print 'no'
@@ -40,8 +39,6 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
             category=kwargs.get('category')))
             
     def post(self, request, *args, **kwargs):
-        """
-        """
         question = self.get_session_var('question')
         form_class = self.get_form_class()
         form = self.get_form(form_class, question)
@@ -87,6 +84,12 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
         return kwargs
 
 class QuestionView(GenerateQuizView):
+    def get(self, request, *args, **kwargs):
+        question = self.get_question(**kwargs)
+        form_class = self.get_form_class()
+        form = self.get_form(form_class, question)
+        return self.render_to_response(self.get_context_data(question=question, options=form))
+
     def get_context_data(self, **kwargs):
         kwargs.update({'is_from_database_page': True})
         return kwargs
@@ -95,9 +98,3 @@ class QuestionView(GenerateQuizView):
         question = get_object_or_404(Question, id=kwargs.get('id'))
         self.set_session_var('question', question)
         return question
-
-
-class AllQuestionsView(ListView):
-    model = Question
-    paginate_by = 50
-    template_name = 'question_list.html'

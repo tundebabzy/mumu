@@ -1,59 +1,53 @@
-from django.views.generic import DetailView, ListView
+import random
+import datetime
+
 from django.views.generic.base import TemplateView
 from django.views.decorators.cache import cache_control
-from django.db import models
 from django.http import Http404
 from django.core.exceptions import ObjectDoesNotExist
 
 from quizzer.models import FlashCard, Code
 from utils.decoder import ExamCodeDecoder
-from lib.mixins import SessionMixin, FormExtrasMixin
 
-from random import randint
-import random
-import datetime
+from lib.mixins import SessionMixin
+
 
 class FlashCardEngineAnswer(TemplateView, SessionMixin):
     template_name = 'flashcard_flipped.html'
     model = FlashCard
 
     def get_context_data(self, **kwargs):
-        try:
-            flashcard = self.model.objects.filter(id=kwargs['pk']).values('question_text', 'explanation')[0]
-        except ObjectDoesNotExist:
+        flashcard = self.model.objects.filter(id=kwargs['id']).values('question_text', 'explanation')[0]
+        if not flashcard:
             raise Http404
         kwargs.update({
             'question': flashcard['question_text'],
             'explanation': flashcard['explanation']
         })
         return kwargs
-    
+
+
 class FlashCardEngineQuestion(TemplateView, SessionMixin):
     model = FlashCard
     template_name = 'flashcard.html'
 
     @cache_control(no_cache=True, must_revalidate=True, max_age=0)
     def get(self, request, *args, **kwargs):
-        print request.session.keys()
         if self.get_session_var('multiple-choice') or not self.get_session_var('open-ended'):
             self.init_session_vars([kwargs['category'], 'multiple-choice'], 'open-ended')
-            print request.session.keys()
-            print 'yes'
-        else:
-            print 'no'
         return super(FlashCardEngineQuestion, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         flashcard = self.get_question(**kwargs)
         kwargs.update(
-            {'flashcard_question':flashcard['question_text'],
-             'pk': flashcard['id']
-             }
+            {'flashcard_question': flashcard['question_text'],
+             'id': flashcard['id']
+            }
         )
         return kwargs
 
     def is_valid_category(self, category):
-        allowed_categories = ('exam','level','paper','topic')
+        allowed_categories = ('exam', 'level', 'paper', 'topic')
         return category in allowed_categories
 
     def set_time(self):
@@ -74,7 +68,7 @@ class FlashCardEngineQuestion(TemplateView, SessionMixin):
 
         if category == 'exam':
             qs = self.model.objects.filter(code__code__startswith=code).values_list('id', flat=True)
-            
+
         elif category == 'level' or category == 'paper':
             _qs = self.model.objects.filter(code__code__contains=code).values_list('code', flat=True)
             temp_qs = Code.objects.filter(id__in=_qs).values_list('code', flat=True)
@@ -89,7 +83,7 @@ class FlashCardEngineQuestion(TemplateView, SessionMixin):
         self.set_time()
 
     def random_id(self, id_list):
-        import itertools
+
         if id_list:
             id_ = random.sample(id_list, 1)
             return id_[0]
@@ -106,49 +100,20 @@ class FlashCardEngineQuestion(TemplateView, SessionMixin):
             self.query_database(kwargs['category'], kwargs['code'])
 
         flashcard_id = self.random_id(self.get_session_var(kwargs['category']))
-        f = self.model.objects.get(id=flashcard_id)
         flashcard = self.model.objects.filter(id=flashcard_id).values('id', 'question_text')[0]
 
         return flashcard
 
-#class SingleFlashCardView(GenerateFlashCardView):
-#    template_name = 'flashcard_nonrandom.html'
-    
-#    def get_object(self, queryset=None):
-#        obj = DetailView.get_object(self, queryset=None)
-#        return obj
 
-#    def get_context_data(self, **kwargs):
-#        return DetailView.get_context_data(self, **kwargs)
+class FlashCardView(FlashCardEngineQuestion):
+    def get(self, request, *args, **kwargs):
+        return super(FlashCardEngineQuestion, self).get(request, *args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        flashcard = self.get_question(**kwargs)
+        kwargs.update({'is_from_database_page': True, 'flashcard_question': flashcard['question_text']})
+        return kwargs
 
-#class FlipFlashCardView(DetailView, SessionMixin):
-#    model = FlashCard
-#    template_name = 'flashcard_flipped.html'
-        
-#    def get_context_data(self, **kwargs):
-#        topic_slug = self.get_session_var('topic_slug')
-#        context = super(FlipFlashCardView, self).get_context_data(**kwargs)
-#        if not topic_slug:
-#            return context
-#        context.update({'topic_slug': topic_slug})
-#        return context
-
-class FlashCardListView(ListView, FormExtrasMixin):
-    template_name = 'topic_list.html'
-
-    def get_queryset(self):
-        qs = FlashCard.objects.all()
-        qs = qs.order_by('topic').distinct('topic')
-        qs = qs.values_list('topic_id', flat=True)
-        queryset = Topic.objects.filter(id__in=qs)
-        return queryset
-
-class FlashCardView(ListView):
-    template_name = 'flashcard_list.html'
-    paginate_by = 50
-
-    def get_queryset(self):
-        topic_slug = self.kwargs.get('topic_slug')
-        qs = FlashCard.objects.filter(topic__slug=topic_slug)
-        return qs
+    def get_question(self, **kwargs):
+        flashcard = self.model.objects.filter(id=kwargs.get('id')).values('question_text', 'id')[0]
+        return flashcard
