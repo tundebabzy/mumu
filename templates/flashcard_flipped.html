@@ -2,10 +2,10 @@
 {% block main-container %}
         <div class="large-10 small-12 large-centered columns answer">
             <span class="secondary radius label"><h4>Question</h4></span>
-            <h4>{{ question }}</h4>
+            <h4>{{ question|safe }}</h4>
             <hr />
             <span class="secondary radius label"><h4>Answer</h4></span>
-                <h4>{{ explanation }}</h4>
+                <h4>{{ explanation|safe }}</h4>
 
                 {% if category and identifier and code %}
                 <nav class="forward-crumbs">

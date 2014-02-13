@@ -14,14 +14,14 @@
                                 {{ option }}
                             {% endfor %}
                         {% endwith %}
+                        {% if not is_from_database_page %}
                         <input type="submit" value="Submit" class="tiny button" />
+                        {% endif %}
                     </form> <!-- form -->
                     
                     <nav class="dark-nav-bar">
                         <ul>
-                            {% if is_from_database_page %}
-                            <li><a href="{% url 'all_questions_paged' '1' %}">View The Database</a></li>
-                            {% else %}
+                            {% if not is_from_database_page %}
                             <li><a href="{% url 'quiz_selection' %}">{{ selection }}</a></li>
                             {% endif %}
                             <li><a href="{% url 'home' %}">Go Home</a></li>
