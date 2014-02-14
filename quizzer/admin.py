@@ -60,8 +60,15 @@ class QuestionAdmin(FilteredModelAdmin):
     form = adminforms.QuestionForm
     search_fields = ['question_text']
 
+class FlashCardAdmin(FilteredModelAdmin):
+    from adminform import adminforms
+    list_display = ['question_text', 'approved']
+    exclude = ('created_by', 'approved', 'approved_by')
+    form = adminforms.FlashCardForm
+    search_fields = ['question_text']
+
 admin.site.register(Code)
-admin.site.register(FlashCard)
+admin.site.register(FlashCard, FlashCardAdmin)
 admin.site.register(Question, QuestionAdmin)
 
 #class FlashCardAdmin(FilteredModelAdmin):
