@@ -70,11 +70,3 @@ class FlashCardAdmin(FilteredModelAdmin):
 admin.site.register(Code)
 admin.site.register(FlashCard, FlashCardAdmin)
 admin.site.register(Question, QuestionAdmin)
-
-#class FlashCardAdmin(FilteredModelAdmin):
-#    from adminform import adminforms
-#    exclude = ['slug', 'created_by', 'approved', 'approved_by']
-#    readonly_fields = ('created_by', 'text')
-#    search_fields = ['text']
-#    form = adminforms.FlashCardForm
-#admin.site.register(FlashCard, FlashCardAdmin)
