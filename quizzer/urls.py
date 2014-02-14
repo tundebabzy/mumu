@@ -2,7 +2,7 @@ from django.conf.urls import patterns, url
 from django.views.generic import TemplateView
 from quizzer.models import FlashCard, Question
 
-from quizzer.views import (QuizSelectionView, GenerateQuizView, GradeQuestionView, AllQuestionsView, QuestionView,
+from quizzer.views import (QuizSelectionView, QuestionEngine, GradeQuestionView, AllQuestionsView, QuestionView,
                            FlashCardSelectionView, FlashCardEngineQuestion, FlashCardView, FlashCardEngineAnswer)
 
 urlpatterns = patterns('',
@@ -64,7 +64,7 @@ urlpatterns = patterns('',
 
                        url(
                            '^multiple-choice/(?P<category>[a-zA-Z]+)/(?P<identifier>[a-zA-Z-]+)/random/(?P<code>[0-9]+)/$',
-                           GenerateQuizView.as_view(), name='next_question'
+                           QuestionEngine.as_view(), name='next_question'
                        ),
 )
 
