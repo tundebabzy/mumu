@@ -1,14 +1,13 @@
 from django.views.generic.edit import FormView
-from django.views.generic.list import ListView
 from django.shortcuts import get_object_or_404
 from django.views.decorators.cache import cache_control
 
 from lib.mixins import SessionMixin, FormExtrasMixin
 from utils.utils import FormError
-
 from quizzer.models import Option, AnswerLogs, Question
 from quizzer.forms import OptionForm
 from utils.decoder import ExamCodeDecoder
+
 
 class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
     """
@@ -35,9 +34,10 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
             score = answer_log.filter(answer__is_correct=True).count()
             total = answer_log.count()
         return self.render_to_response(self.get_context_data(question=question,
-            options=form, score=score, total=total, code=kwargs.get('code'),
-            category=kwargs.get('category')))
-            
+                                                             options=form, score=score, total=total,
+                                                             code=kwargs.get('code'),
+                                                             category=kwargs.get('category')))
+
     def post(self, request, *args, **kwargs):
         question = self.get_session_var('question')
         form_class = self.get_form_class()
@@ -48,16 +48,16 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
             option = get_object_or_404(Option, id=option_id)
             if request.user.is_authenticated():
                 AnswerLogs.objects.create(user=request.user.get_profile(),
-                    answer=option
+                                          answer=option
                 )
             return self.form_valid(form)
         else:
             return self.form_invalid(question, form, kwargs['code'],
-                        kwargs['category'])
+                                     kwargs['category'])
 
     def form_invalid(self, question_obj, form, code, category):
-        return self.render_to_response(self.get_context_data(question=question_obj, 
-            options=form, code=code, category=category))
+        return self.render_to_response(self.get_context_data(question=question_obj,
+                                                             options=form, code=code, category=category))
 
     def get_form(self, form_class, question_obj=None):
         """
@@ -72,16 +72,17 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
         kwargs = super(GenerateQuizView, self).get_form_kwargs()
         if question_obj:
             kwargs.update({
-                'question':question_obj,
+                'question': question_obj,
                 'error_class': FormError
             })
         return kwargs
-            
+
     def get_context_data(self, **kwargs):
         decoder = ExamCodeDecoder()
         selection = decoder.translate_sub_code(kwargs['code'], kwargs['category'])
-        kwargs.update({'selection':selection})
+        kwargs.update({'selection': selection})
         return kwargs
+
 
 class QuestionView(GenerateQuizView):
     def get(self, request, *args, **kwargs):

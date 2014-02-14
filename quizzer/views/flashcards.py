@@ -4,11 +4,9 @@ import datetime
 from django.views.generic.base import TemplateView
 from django.views.decorators.cache import cache_control
 from django.http import Http404
-from django.core.exceptions import ObjectDoesNotExist
 
 from quizzer.models import FlashCard, Code
 from utils.decoder import ExamCodeDecoder
-
 from lib.mixins import SessionMixin
 
 
