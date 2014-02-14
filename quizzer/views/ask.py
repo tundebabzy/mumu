@@ -9,7 +9,7 @@ from quizzer.forms import OptionForm
 from utils.decoder import ExamCodeDecoder
 
 
-class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
+class QuestionEngine(FormView, SessionMixin, FormExtrasMixin):
     """
     This is the engine that spurts random questions to the user.
     OptionForm contains the answer choices for the Question
@@ -69,7 +69,7 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
         """
         Returns the keyword arguments for instantiating the form.
         """
-        kwargs = super(GenerateQuizView, self).get_form_kwargs()
+        kwargs = super(QuestionEngine, self).get_form_kwargs()
         if question_obj:
             kwargs.update({
                 'question': question_obj,
@@ -84,7 +84,7 @@ class GenerateQuizView(FormView, SessionMixin, FormExtrasMixin):
         return kwargs
 
 
-class QuestionView(GenerateQuizView):
+class QuestionView(QuestionEngine):
     def get(self, request, *args, **kwargs):
         question = self.get_question(**kwargs)
         form_class = self.get_form_class()
