@@ -11,6 +11,9 @@ LEVEL_CODE = {
 }
 PAPER_CODE = {
     '01': u'Auditing and Assurance',
+    '02': u'Business Communications and Research Methods',
+    '03': u'Taxation',
+    '04': u'Costing and Quantitative Techniques'
 }
 TOPIC_CODE = {
     '001': u'AUDIT PLANNING AND CONTROL PROCEDURE',
