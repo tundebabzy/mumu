@@ -9,6 +9,8 @@ from quizzer.models import FlashCard, Code
 from utils.decoder import ExamCodeDecoder
 from lib.mixins import SessionMixin
 
+__author__ = 'tunde'
+
 
 class FlashCardEngineAnswer(TemplateView, SessionMixin):
     template_name = 'flashcard_flipped.html'

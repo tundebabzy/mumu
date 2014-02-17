@@ -5,6 +5,7 @@ from lib.mixins import SessionMixin
 
 from quizzer.models import Question
 
+__author__ = 'tunde'
 
 class QuizSelectionView(TemplateView, SessionMixin):
     template_name = 'select.html'

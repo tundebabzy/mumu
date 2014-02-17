@@ -1,9 +1,11 @@
 from django.conf.urls import patterns, url
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from quizzer.models import FlashCard, Question
 
-from quizzer.views import (QuizSelectionView, QuestionEngine, GradeQuestionView, AllQuestionsView, QuestionView,
+from quizzer.views import (QuizSelectionView, QuestionEngine, GradeQuestionView, QuestionView,
                            FlashCardSelectionView, FlashCardEngineQuestion, FlashCardView, FlashCardEngineAnswer)
+
+__author__ = 'tunde'
 
 urlpatterns = patterns('',
                        url('^grade/$', GradeQuestionView.as_view(), name='grader'
@@ -18,12 +20,12 @@ urlpatterns = patterns('',
                        ),
 
                        url('^open-ended/all/$',
-                           AllQuestionsView.as_view(model=FlashCard, template_name='flashcard_list.html'),
+                           ListView.as_view(model=FlashCard, template_name='flashcard_list.html', paginate_by=50),
                            name='all_flashcards'
                        ),
 
-                       url('^multiple-choice/all/page/(?P<page>[0-9]+)/$',
-                           AllQuestionsView.as_view(model=FlashCard, template_name='flashcard_list.html'),
+                       url('^open-ended/all/page/(?P<page>[0-9]+)/$',
+                           ListView.as_view(model=FlashCard, template_name='flashcard_list.html', paginate_by=50),
                            name='all_flashcards_paged'
                        ),
 
@@ -47,12 +49,12 @@ urlpatterns = patterns('',
                        ),
 
                        url('^multiple-choice/all/$',
-                           AllQuestionsView.as_view(model=Question, template_name='question_list.html'),
+                           ListView.as_view(model=Question, template_name='question_list.html', paginate_by=50),
                            name='all_questions'
                        ),
 
                        url('^multiple-choice/all/page/(?P<page>[0-9]+)/$',
-                           AllQuestionsView.as_view(model=Question, template_name='question_list.html'),
+                           ListView.as_view(model=Question, template_name='question_list.html', paginate_by=50),
                            name='all_questions_paged'
                        ),
 
@@ -67,6 +69,3 @@ urlpatterns = patterns('',
                            QuestionEngine.as_view(), name='next_question'
                        ),
 )
-
-
-

@@ -8,6 +8,7 @@ from quizzer.models import Option, AnswerLogs, Question
 from quizzer.forms import OptionForm
 from utils.decoder import ExamCodeDecoder
 
+__author__ = 'tunde'
 
 class QuestionEngine(FormView, SessionMixin, FormExtrasMixin):
     """
@@ -21,8 +22,7 @@ class QuestionEngine(FormView, SessionMixin, FormExtrasMixin):
     def get(self, request, *args, **kwargs):
         if self.get_session_var('open-ended') or not self.get_session_var('multiple-choice'):
             self.init_session_vars([kwargs['category'], 'open-ended'], 'multiple-choice')
-        else:
-            print 'no'
+
         score = '?'
         total = '?'
         question = self.get_question(**kwargs)

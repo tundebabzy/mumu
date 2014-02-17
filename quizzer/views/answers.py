@@ -1,11 +1,13 @@
 from django.views.generic.base import TemplateView
-from django.shortcuts import get_object_or_404
 from django.http import Http404
 from django.core.exceptions import ObjectDoesNotExist
 
-from lib.mixins import SessionMixin, FormExtrasMixin
-
+from lib.mixins import SessionMixin
 from quizzer.models import Option, AnswerLogs
+
+
+__author__ = 'tunde'
+
 
 class GradeQuestionView(TemplateView, SessionMixin):
     """
