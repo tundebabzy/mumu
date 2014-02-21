@@ -11,7 +11,7 @@ class QuizSelectionView(TemplateView, SessionMixin):
     template_name = 'select.html'
 
     def reset_quiz_session(self):
-        self.remove_session_var(['selection', 'question', 'last_answer'])
+        self.remove_session_var(['selection', 'question', 'last_answer', 'multiple-choice', 'open-ended'])
 
     def get(self, request, *args, **kwargs):
         """
