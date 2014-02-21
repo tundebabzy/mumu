@@ -1,4 +1,5 @@
 {% extends 'base_child.html' %}
+{% load quiz_links %}
 {% block title %}Mumu| ICAN Revision {% endblock %}
 {% block main-container %}
             <div class="large-10 large-centered columns">
@@ -15,11 +16,15 @@
                 <h2 class="subheader">There are hundreds of practise questions for your ICAN. How would you like to practise?</h2>
 
                 <div class="panel">
-                    <strong><a href="{% url 'fcard_selection' %}">Open Ended (Theory)</a></strong>
+                    <h5>Open Ended Quizzes</h5>
+                    <hr>
+                    {% open_ended_links %}
                 </div>
 
                 <div class="panel">
-                    <strong><a href="{% url 'quiz_selection' %}">Multiple Choice</a></strong>
+                    <h5>Multiple Choice Quizzes</h5>
+                    <hr>
+                    {% multiple_choice_links %}
                 </div>
 
                 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
