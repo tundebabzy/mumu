@@ -53,73 +53,8 @@
         </div>
         {% endif %}
 
-        {% block navigation %}
-        <!-- Navigation tins -------->
-        <nav class="top-bar hide-for-small" data-topbar>
-          <ul class="title-area">
-            <!-- Title Area -->
-            <li class="name">
-              <h1><a href="{% url 'home' %}"><img src="{{ STATIC_URL }}img/transparent.png" alt="mumu.com.ng" /></a></h1>
-            </li>
-            <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-            <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-          </ul>
-
-          <section class="top-bar-section">
-            <!-- Left Nav Section -->
-            <ul class="left">
-              
-              <li class="has-dropdown"><a href="#">Practice Types</a>
-                <ul class="dropdown">
-                  <li><a href="{% url 'fcard_selection' %}">Open ended</a></li>
-                  <li><a href="{% url 'quiz_selection' %}">Multiple choice</a></li>
-                </ul>
-              </li>
-              
-              <li><a href="{% url 'how_it_works' %}">How it works</a></li>
-              
-              {% comment %}<li><a href="{% url 'pricing' %}">Pricing</a></li>
-              <li class="divider"></li>{% endcomment %}
-            </ul>
-            <!-- Left Nav Section End -->
-
-            <!-- Right Nav Section -->
-            <ul class="right">
-              <li class="divider"></li>
-            {% if user.is_authenticated %}
-              <li class="has-dropdown"><a href="#">{{ user }}</a>
-                <ul class="dropdown">
-                  <li><label>ACCOUNT SETTINGS</label></li>
-                  <li class="has-dropdown"><a href="#" class="">Account Settings</a>
-
-                    <ul class="dropdown">
-                      <li><a href="{% url 'change_details' %}">Change Personal Details</a></li>
-                      <li><a href="{% url 'auth_password_change' %}">Change Password</a></li>
-                      {% comment %}<li><a href="{% url 'pricing' %}">Change Package</a></li>{% endcomment %}
-                      {% comment %}<li><a href="{% url 'history' %}">View Payment History</a></li>{% endcomment %}
-                    </ul>
-                  </li>
-                  
-                  <li><a href="{% url 'auth_logout' %}">Sign Out</a></li>
-                </ul>
-              </li>
-            {% else %}
-                <li><a href="{% url 'registration_register' %}">Register</a></li>
-                
-                <li><a href="{% url 'auth_login' %}">Sign In</a></li>
-            {% endif %}
-              
-              <li><a href="https://twitter.com/dotmumu">Follow @dotmumu</a></li>
-
-              <li><a class="score" href="#">{{ score }}</a></li>
-            </ul>
-
-          </section>
-        </nav>
-        {% endblock navigation %}
-
         {% block off-canvas-nav %}
-        <div class="off-canvas-wrap show-for-small">
+        <div class="off-canvas-wrap">
             <div class="inner-wrap">
                 <nav class="tab-bar">
                     <section class="left-small">
@@ -188,23 +123,39 @@
                 <section class="main-section">
                 <!-- content goes here -->
                     <div class="row">
-                        {% block main-container-off-canvas %}{% endblock main-container-off-canvas %}
+                        {% block main-container %}{% endblock main-container %}
                     </div>  <!-- row -->
-                    {% block footer-off-canvas %}{% endblock footer-off-canvas %}
+                    {% block footer %}
+            <div class="footer">
+                <div class="row">
+                    <div class="large-2 push-10 columns">
+                        <a href="https://twitter.com/dotmumu" alt="follow @dotmumu on twitter"><img src="{{ STATIC_URL }}img/twitter3.png" /></a>
+                        <a href="mailto:help@mumu.com.ng"><img src="{{ STATIC_URL }}img/mail3.png" /></a>
+                        <p></p>
+                    </div>
+                    <div class="large-10 pull-2 columns">
+                        <p>
+                        &copy; 2013-2014 tundebabzy. All rights reserved.
+                        Using this website is not a guarantee that
+                        you will pass the ICAN examination.
+                        I highly recommend that you read all ICAN
+                        recommended materials as well.
+                        This website is not affiliated to Institute of
+                        Chartered Accountants of Nigeria (ICAN).
+                        </p>
+                        <p class="hide"><a href="{% url 'all_questions' %}">Complete list of multiple-choice questions</a></p>
+                        <p class="hide"><a href="{% url 'all_flashcards' %}">Complete list of open-ended questions</a></p>
+                    </div>
+                </div>
+            </div>
+
+    {% endblock footer %}
                 </section>
                 <a class="exit-off-canvas"></a>
             </div>
         </div>
         {% endblock off-canvas-nav %}
-        <!-- End of navigation tins -------->
-
-        <section class="hide-for-small">
-            <div class="row">
-                {% block main-container %}{% endblock main-container %}
-            </div>  <!-- row -->
-            {% block footer %}
-            {% endblock footer %}            
-        </section>
+        <!-- End of off-canvas -------->
 
         {% block foundation-scripts %}
         <!-- load jQuery if necessary -->

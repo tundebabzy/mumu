@@ -1,5 +1,5 @@
-{% extends 'base_child.html' %}
-{% load quiz_listing %}
+{% extends 'base.html' %}
+{% load quiz_links %}
 {% load cache %}
 {% block title %}Mumu | ICAN Preparation Testing{% endblock title %}
 
@@ -18,7 +18,9 @@
                 <div class="panel">
                     <h5>For open ended (theory) questions, <a href="{% url 'fcard_selection' %}">Click here</a></h5>
                 </div>
-                {% categories domain %}
+                <div class="panel callout  radius">
+                    {% multiple_choice_links %}
+                </div>
 
                 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                     <!-- Mobile leaderboard top -->

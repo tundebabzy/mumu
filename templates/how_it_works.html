@@ -1,4 +1,4 @@
-{% extends 'base_child.html' %}
+{% extends 'base.html' %}
 {% block title %}Mumu| How it works {% endblock %}
 {% block main-container %}
             <div class="large-10 large-centered columns">
@@ -33,21 +33,18 @@
                         <p>We have ICAN pathfinders and study packs available for free download</p>
                     </div>
                     <div class="large-12 columns">
-                        <h3> Revise with open ended questions</h3>
-                        <p> There are hundreds of open ended questions in our
-                        database grouped by topics. The questions will be
-                        selected randomly and is a good way to check your
-                        readiness for open ended and fill-in-the-gap questions. </p>
-                        <a class="button" href="{% url 'fcard_selection' %}">Start</a>
+                        <h3> What Are Open Ended Questions?</h3>
+                        <p> We show you a simple question. You answer it aloud or in your mind (just try to answer it),
+                        click the 'View Answer' button and the answer is shown to you so you can assess yourself.
+                        <a href="{% url 'home' %}">Click here</a> to view the available open ended quizzes</p>
                     </div>  <!-- large-12 columns -->
                     <div class="large-12 columns">
-                        <h3> Revise with multiple choice questions</h3>
-                        <p> We also have many multiple choice questions grouped
-                        by level, paper and topic. The questions will also be
-                        selected randomly and is a good way to check your
-                        readiness for the multiple choice questions.</p>
-                        <a class="button" href="{% url 'quiz_selection' %}">Start</a>
-                    </div> <!-- large-12 columns -->
+                        <h3> What About Multiple Choice Questions?</h3>
+                        <p> Simple, we show you a question with a bunch of options to choose from. When you submit, you
+                        find out if you were right or wrong. We even put links to resources on the web concerning the
+                        question you just answered. <a href="{% url 'home' %}">Click here</a> to view the available
+                        multiple choice quizzes.</p>
+                     </div> <!-- large-12 columns -->
                     <div class="large-12 columns">
                         <h3> Keep track of your "Hotness"</h3>
                         <p> There is a "hotness bar" which shows after you 
