@@ -22,6 +22,8 @@ urlpatterns = patterns('',
             RedirectView.as_view(url='/static/robots.txt'),
     ),
 
+    url('^blog/', include('mumublog.urls')),
+
     url('^practise/', include('quizzer.urls')),
 
     # Steal some django-registration url so I can shoe horn my backend

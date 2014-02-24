@@ -1,5 +1,8 @@
 from django.contrib import admin
+from django.db import models
 from quizzer.models import *
+from mumublog.models import Article
+from epiceditor.widgets import AdminEpicEditorWidget
 
 class FilteredModelAdmin(admin.ModelAdmin):
     """
@@ -53,20 +56,33 @@ class CommentInline(admin.StackedInline):
     extra = 0
 
 class QuestionAdmin(FilteredModelAdmin):
-    from adminform import adminforms
+    #from adminform import adminforms
     inlines = [OptionInline, LinkInline, CommentInline]
     list_display = ['question_text', 'approved']
     exclude = ('created_by', 'approved', 'approved_by')
-    form = adminforms.QuestionForm
+    #form = adminforms.QuestionForm
     search_fields = ['question_text']
+    formfield_overrides = {
+        models.TextField: {'widget': AdminEpicEditorWidget },
+    }
 
 class FlashCardAdmin(FilteredModelAdmin):
-    from adminform import adminforms
+    #from adminform import adminforms
     list_display = ['question_text', 'approved']
     exclude = ('created_by', 'approved', 'approved_by')
-    form = adminforms.FlashCardForm
+    #form = adminforms.FlashCardForm
     search_fields = ['question_text']
+    formfield_overrides = {
+        models.TextField: {'widget': AdminEpicEditorWidget },
+    }
+
+class ArticleAdmin(admin.ModelAdmin):
+    exclude = ('slug',)
+    formfield_overrides = {
+        models.TextField: {'widget': AdminEpicEditorWidget}
+    }
 
 admin.site.register(Code)
 admin.site.register(FlashCard, FlashCardAdmin)
 admin.site.register(Question, QuestionAdmin)
+admin.site.register(Article, ArticleAdmin)
