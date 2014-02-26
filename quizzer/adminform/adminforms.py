@@ -1,6 +1,6 @@
 from django import forms
 from django.http import Http404
-from tinymce.widgets import TinyMCE
+from epiceditor.widgets import AdminEpicEditorWidget
 
 from quizzer.models import Question, FlashCard
 
@@ -9,11 +9,10 @@ class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
         widgets = {
-            'question_text': TinyMCE(mce_attrs={
-                'width': '100%'}),
+            'question_text': AdminEpicEditorWidget(),
             'code': forms.TextInput(),
-            'explanation': TinyMCE(mce_attrs={
-                'width': '100%'}),
+            'explanation': AdminEpicEditorWidget(),
+            'reference': AdminEpicEditorWidget(),
         }
 
     def save(self, request, commit):
@@ -45,9 +44,8 @@ class FlashCardForm(QuestionForm):
     class Meta:
         model = FlashCard
         widgets = {
-            'question_text': TinyMCE(mce_attrs={
-                'width': '100%'}),
+            'question_text': AdminEpicEditorWidget(),
             'code': forms.TextInput(),
-            'explanation': TinyMCE(mce_attrs={
-                'width': '100%'}),
+            'explanation': AdminEpicEditorWidget(),
+            'reference': AdminEpicEditorWidget(),
         }

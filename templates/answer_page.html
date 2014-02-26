@@ -1,4 +1,5 @@
 {% extends 'base_child.html' %}
+{% load markdownfilter %}
 {% block main-container %}
                 <div class="large-9 columns">
                     <h5 class="subheader">
@@ -14,11 +15,11 @@
                    {% if explanation %}
                    <div class="panel radius">
                         <h5>Question</h5>
-                        {{ question|safe }}
+                        {{ question|convert_markdown|safe }}
                     </div>
                     <div class="panel radius">
                         <h5>Explanation</h5>
-                        {{ explanation|safe }}
+                        {{ explanation|convert_markdown|safe }}
                     </div>
                     {% endif %}
                                         

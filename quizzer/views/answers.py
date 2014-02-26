@@ -35,15 +35,15 @@ class GradeQuestionView(TemplateView, SessionMixin):
                     answer__question=question).order_by('-time')[:7]
         
         kwargs.update({
-            'question': question, 'is_correct': answer.is_correct,
+            'question': question.question_text, 'is_correct': answer.is_correct,
             'explanation': question.explanation,
-            'links': question.link_set.all(),
+            'links': list(question.link_set.all()),
             'code': self.get_session_var('code'),
             'category': self.get_session_var('category'),
             'identifier': self.get_session_var('identifier'),
             'score': score,
             'total': total,
-            'last_7': answer_log_7
+            'last_7': list(answer_log_7) or None
         })
 
         return kwargs

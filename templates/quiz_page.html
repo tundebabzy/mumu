@@ -1,19 +1,15 @@
 {% extends 'base.html' %}
+{% load markdownfilter %}
 {% block main-container %}
     {% if question %}
             <div class="large-10 large-centered columns">
                 <span class="secondary radius label"><h4>Question</h4></span>
                 <div class="large-12 columns">
-                    <h4>{{ question }}</h4>
+                    <h4>{{ question|convert_markdown|safe }}</h4>
                     <hr />
                 
                     <form action="" method="POST">{% csrf_token %}
-                        {{ options.options.errors }}
-                        {% with form_options=options.options %}
-                            {% for option in options.options %}
-                                {{ option }}
-                            {% endfor %}
-                        {% endwith %}
+                        {{ options.as_normal }}
                         {% if not is_from_database_page %}
                         <input type="submit" value="Submit" class="tiny button" />
                         {% endif %}

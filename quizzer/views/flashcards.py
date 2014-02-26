@@ -33,8 +33,9 @@ class FlashCardEngineQuestion(TemplateView, SessionMixin):
 
     @cache_control(no_cache=True, must_revalidate=True, max_age=0)
     def get(self, request, *args, **kwargs):
+        session_key = kwargs['identifier']+'-'+kwargs['category']   # This is set in QuestionEngine.query_database
         if self.get_session_var('multiple-choice') or not self.get_session_var('open-ended'):
-            self.init_session_vars([kwargs['category'], 'multiple-choice'], 'open-ended')
+            self.init_session_vars([session_key, 'multiple-choice'], 'open-ended')
         return super(FlashCardEngineQuestion, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -58,7 +59,7 @@ class FlashCardEngineQuestion(TemplateView, SessionMixin):
         if time:
             return datetime.datetime.now() - time > datetime.timedelta(hours=3)
 
-    def query_database(self, category, code):
+    def query_database(self, category, identifier, code):
         """
         Get a list of `FlashCard` ids that are compatible with the
         supplied code and category
@@ -67,7 +68,7 @@ class FlashCardEngineQuestion(TemplateView, SessionMixin):
         qs = None
 
         if category == 'exam':
-            qs = self.model.objects.filter(code__code__startswith=code).values_list('id', flat=True)
+            qs = self.model.objects.filter(code__code__startswith=code, approved=True).values_list('id', flat=True)
 
         elif category == 'level' or category == 'paper':
             _qs = self.model.objects.filter(code__code__contains=code).values_list('code', flat=True)
@@ -79,7 +80,8 @@ class FlashCardEngineQuestion(TemplateView, SessionMixin):
             qs = self.model.objects.filter(code__code__endswith=code).values_list('id', flat=True)
 
         # Set session variables with the data
-        self.set_session_var(category, qs)
+        session_key = category+'-'+identifier
+        self.set_session_var(session_key, qs)
         self.set_time()
 
     def random_id(self, id_list):
@@ -96,10 +98,11 @@ class FlashCardEngineQuestion(TemplateView, SessionMixin):
         if not self.is_valid_category(kwargs['category']):
             raise Http404
 
-        if not self.get_session_var(kwargs['category']) or self.time_has_expired():
-            self.query_database(kwargs['category'], kwargs['code'])
+        session_key = kwargs['category']+'-'+kwargs['identifier']
+        if not self.get_session_var(session_key) or self.time_has_expired():
+            self.query_database(kwargs['category'], kwargs['identifier'], kwargs['code'])
 
-        flashcard_id = self.random_id(self.get_session_var(kwargs['category']))
+        flashcard_id = self.random_id(self.get_session_var(session_key))
         flashcard = self.model.objects.filter(id=flashcard_id).values('id', 'question_text')[0]
 
         return flashcard

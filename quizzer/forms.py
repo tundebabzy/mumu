@@ -2,6 +2,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 
 from registration.forms import RegistrationFormUniqueEmail
+from lib.renderers import RadioFieldRendererWithoutUl
 from quizzer.models import Question
 
 attrs_dict = {'class': 'required'}
@@ -36,7 +37,7 @@ class QuizzerForm(RegistrationFormUniqueEmail):
           
 # Question Option Form
 class OptionForm(forms.Form):
-    options = forms.ModelChoiceField(queryset=None, widget=forms.widgets.RadioSelect,
+    options = forms.ModelChoiceField(queryset=None, widget=forms.widgets.RadioSelect(**{'renderer': RadioFieldRendererWithoutUl}),
                 empty_label=None)
 
     # Add 1 extra arguments - `random_question`.
@@ -46,3 +47,12 @@ class OptionForm(forms.Form):
         super(OptionForm, self).__init__(*args, **kwargs)
         self.question = question      
         self.fields['options'].queryset = self.question.option_set.all()
+
+    def as_normal(self):
+        "Returns this form without those p or li or table tags."
+        return self._html_output(
+            normal_row = '%(errors)s%(field)s%(help_text)s',
+            error_row = '%s',
+            row_ender = '',
+            help_text_html = ' <span class="helptext">%s</span>',
+            errors_on_separate_row = False)

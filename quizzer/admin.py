@@ -1,14 +1,15 @@
 from django.contrib import admin
-from django.db import models
 from quizzer.models import *
 from mumublog.models import Article
 from epiceditor.widgets import AdminEpicEditorWidget
+
 
 class FilteredModelAdmin(admin.ModelAdmin):
     """
     Extends its parent by filtering returned queryset with its
     `created_by` attribute
     """
+
     def queryset(self, request):
         """
         Adds a filter constraint to queryset before executing the query
@@ -18,7 +19,7 @@ class FilteredModelAdmin(admin.ModelAdmin):
         queryset = super(FilteredModelAdmin, self).queryset(request)
         if not request.user.is_superuser and not 'Editors' in request.user.groups.values_list('name', flat=True):
             if self.has_change_permission(request):
-                queryset = queryset.filter(created_by__staff__user = request.user)
+                queryset = queryset.filter(created_by__staff__user=request.user)
         return queryset
 
     def save_form(self, request, form, change):
@@ -43,44 +44,47 @@ class FilteredModelAdmin(admin.ModelAdmin):
                 self.exclude = None
         return super(FilteredModelAdmin, self).get_form(request, obj, **kwargs)
 
+
 class OptionInline(admin.StackedInline):
     model = Option
     extra = 0
+
 
 class LinkInline(admin.StackedInline):
     model = Link
     extra = 0
 
+
 class CommentInline(admin.StackedInline):
     model = Comment
     extra = 0
 
+
 class QuestionAdmin(FilteredModelAdmin):
-    #from adminform import adminforms
+    from adminform import adminforms
+
     inlines = [OptionInline, LinkInline, CommentInline]
     list_display = ['question_text', 'approved']
     exclude = ('created_by', 'approved', 'approved_by')
-    #form = adminforms.QuestionForm
+    form = adminforms.QuestionForm
     search_fields = ['question_text']
-    formfield_overrides = {
-        models.TextField: {'widget': AdminEpicEditorWidget },
-    }
+
 
 class FlashCardAdmin(FilteredModelAdmin):
-    #from adminform import adminforms
+    from adminform import adminforms
+
     list_display = ['question_text', 'approved']
     exclude = ('created_by', 'approved', 'approved_by')
-    #form = adminforms.FlashCardForm
+    form = adminforms.FlashCardForm
     search_fields = ['question_text']
-    formfield_overrides = {
-        models.TextField: {'widget': AdminEpicEditorWidget },
-    }
+
 
 class ArticleAdmin(admin.ModelAdmin):
     exclude = ('slug',)
     formfield_overrides = {
         models.TextField: {'widget': AdminEpicEditorWidget}
     }
+
 
 admin.site.register(Code)
 admin.site.register(FlashCard, FlashCardAdmin)
