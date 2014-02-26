@@ -10,7 +10,7 @@ urlpatterns = patterns('',
                                                   template_name='bloglist.html'),
                            name='article_list'),
 
-                       url('^/page/(?P<page>[0-9]+)/$', ListView.as_view(
+                       url('^page/(?P<page>[0-9]+)/$', ListView.as_view(
                            template_name='bloglist.html', queryset=Article.objects.filter(approved=True),
                            http_method_names=['get'], paginate_by=2),
                            name='article_list_paged'),
