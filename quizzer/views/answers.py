@@ -25,7 +25,7 @@ class GradeQuestionView(TemplateView, SessionMixin):
         score = '?'
         total = '?'
         last_7 = '?'
-        answer_log_7 = None
+        answer_log_7 = ''
         
         if self.request.user.is_authenticated():
             answer_log = AnswerLogs.objects.select_related().filter(user=self.request.user.get_profile())
@@ -33,6 +33,7 @@ class GradeQuestionView(TemplateView, SessionMixin):
             total = answer_log.count()
             answer_log_7 = answer_log.select_related('answer').filter(
                     answer__question=question).order_by('-time')[:7]
+
         
         kwargs.update({
             'question': question.question_text, 'is_correct': answer.is_correct,
@@ -43,7 +44,7 @@ class GradeQuestionView(TemplateView, SessionMixin):
             'identifier': self.get_session_var('identifier'),
             'score': score,
             'total': total,
-            'last_7': list(answer_log_7) or None
+            'last_7': list(answer_log_7) or ''
         })
 
         return kwargs
