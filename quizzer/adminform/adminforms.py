@@ -9,10 +9,10 @@ class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
         widgets = {
-            'question_text': AdminEpicEditorWidget(),
+            'question_text': AdminEpicEditorWidget(themes={'preview': 'github.css'}),
             'code': forms.TextInput(),
-            'explanation': AdminEpicEditorWidget(),
-            'reference': AdminEpicEditorWidget(),
+            'explanation': AdminEpicEditorWidget(themes={'preview': 'github.css'}),
+            'reference': AdminEpicEditorWidget(themes={'preview': 'github.css'}),
         }
 
     def save(self, request, commit):
@@ -44,8 +44,8 @@ class FlashCardForm(QuestionForm):
     class Meta:
         model = FlashCard
         widgets = {
-            'question_text': AdminEpicEditorWidget(),
+            'question_text': AdminEpicEditorWidget(themes={'preview': 'github.css'}),
             'code': forms.TextInput(),
-            'explanation': AdminEpicEditorWidget(),
-            'reference': AdminEpicEditorWidget(),
+            'explanation': AdminEpicEditorWidget(themes={'preview': 'github.css'}),
+            'reference': AdminEpicEditorWidget(themes={'preview': 'github.css'}),
         }
