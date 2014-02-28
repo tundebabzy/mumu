@@ -58,7 +58,7 @@
             <div class="inner-wrap">
                 <nav class="tab-bar">
                     <section class="left-small">
-                        <a class="left-off-canvas-toggle menu-icon" >
+                        <a class="left-off-canvas-toggle menu-icon" id="stop1">
                                 <span></span>
                         </a>
                     </section>
@@ -93,6 +93,8 @@
                         <li><a href="{% url 'registration_register' %}">Register</a></li>
                         <li><a href="{% url 'auth_login' %}">Sign In</a></li>
                         {% endif %}
+                        <li><label>Resources</label></li>
+                        <li><a href="{% url 'downloads' %}">Downloads</a> </li>
 
                         <li><label>Follow us</label></li>
                         <li><a href="https://twitter.com/dotmumu">@dotmumu</a></li>
@@ -159,7 +161,6 @@
         <!-- End of off-canvas -------->
 
         {% block foundation-scripts %}
-        <!-- load jQuery if necessary -->
             <script src="{{ STATIC_URL }}js/jquery.js"></script>
             <script src="{{ STATIC_URL }}js/foundation.min.js"></script>
         {% endblock foundation-scripts %}
@@ -190,8 +191,17 @@
         </noscript>
         <!-- End Quantcast tag -->
         {% endblock quantcast %}
+
+        {% block joyride %}
+
+        {% endblock joyride %}
+
         <script>
-            $(document).foundation();
+            $(document).foundation(
+                {'joyride':
+                            {'cookie_monster': true}
+                }
+            ).foundation('joyride', 'start');
         </script>
     </body>
 </html>

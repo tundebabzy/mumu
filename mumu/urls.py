@@ -8,7 +8,17 @@ from quizzer.views.backend import QuizzerRegistrationView
 from django.contrib import admin
 admin.autodiscover()
 
+class RedirectViewX(RedirectView):
+    def get_redirect_url(self, **kwargs):
+        download_url = '/static/downloads/%s' % kwargs['pdfname']
+        return download_url
+
 urlpatterns = patterns('',
+    url('^downloads/(?P<pdfname>([a-zA-Z0-9-]+).pdf)$',
+            RedirectViewX.as_view(), name='download_link'
+    ),
+    url('^downloads/$', TemplateView.as_view(template_name='downloads.html'), name='downloads'
+    ),
     url('^favicon\.ico$',
             RedirectView.as_view(url='/static/img/favicon.ico'),
     ),

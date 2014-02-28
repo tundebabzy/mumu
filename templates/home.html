@@ -7,7 +7,7 @@
                 <!-- End of ad -->
 
                 <h2 class="subheader">There are hundreds of practise questions for your ICAN. How would you like to practise?</h2>
-                <p class="text-center"><a href="{% url 'how_it_works' %}">Still don't know what this website is about? Click here</a> </p>
+                <p class="text-center" id="stop2"><a href="{% url 'how_it_works' %}">Still don't know what this website is about? Click here</a> </p>
 
                 <div class="radius callout panel">
                     <h5>Open Ended Quizzes</h5>
@@ -26,3 +26,26 @@
 
             </div>
 {% endblock main-container %}
+
+{% block joyride %}
+        <ol class="joyride-list" data-joyride>
+            <li data-id="stop1" data-text="Next" data-options="tip_location: top">
+                <p>Hello and welcome. Anytime you need the navigation menu, click on this icon.</p>
+            </li>
+            <li data-id="stop2" data-text="Next">
+                <h4>About This Website:</h4>
+                <p>This website is probably the best online ICAN professional exam resource there is. Click on the link
+                    to get a full explanation of what this website is all about.</p>
+            </li>
+            <li data-button="End">
+                <h4>The sky is your limit!</h4>
+                <p>You can start practising for your exams</p>
+            </li>
+        </ol>
+{% endblock joyride %}
+
+{% block foundation-scripts %}
+        <script src="{{ STATIC_URL }}js/jquery.js"></script>
+        <script src="{{ STATIC_URL }}js/foundation.min.js"></script>
+        <script src="{{ STATIC_URL }}js/vendor/jquery.cookie.js"></script>
+{% endblock foundation-scripts %}
