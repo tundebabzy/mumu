@@ -53,8 +53,6 @@ urlpatterns = patterns('',
     url(r'^accounts/', include('registration.backends.default.urls')),
     
     url(r'^change/', include('accounts.urls')),
-    
-    url(r'^tinymce/', include('tinymce.urls')),
 
     url('^$', TemplateView.as_view(template_name='home.html'),
         name='home'
