@@ -196,10 +196,15 @@
 
         {% endblock joyride %}
 
-        <script>
+        <script type="text/javascript">
             $(document).foundation(
                 {'joyride':
-                            {'cookie_monster': true}
+                            {cookie_monster: !$.cookie('joyride') ? false : true,
+                            cookie_domain: true,
+                            post_ride_callback : function () {
+                                                                !$.cookie('joyride') ? $.cookie('joyride', 'ridden') : null;
+                                                            }
+                            }
                 }
             ).foundation('joyride', 'start');
         </script>
