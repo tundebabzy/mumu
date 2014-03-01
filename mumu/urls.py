@@ -10,11 +10,11 @@ admin.autodiscover()
 
 class RedirectViewX(RedirectView):
     def get_redirect_url(self, **kwargs):
-        download_url = '/static/downloads/%s' % kwargs['pdfname']
+        download_url = '/static/downloads/%s/%s' % (kwargs['folder'], kwargs['pdfname'])
         return download_url
 
 urlpatterns = patterns('',
-    url('^downloads/(?P<pdfname>([a-zA-Z0-9-]+).pdf)$',
+    url('^downloads/(?P<folder>([a-zA-Z0-9_]+))/(?P<pdfname>([a-zA-Z0-9-]+).pdf)$',
             RedirectViewX.as_view(), name='download_link'
     ),
     url('^downloads/$', TemplateView.as_view(template_name='downloads.html'), name='downloads'

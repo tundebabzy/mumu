@@ -45,7 +45,8 @@ class NavigationNode(template.Node):
             ns = '<dt>%s</dt>' % directory.replace('_', ' ').title()
             html += ns
             for file in file_storage.listdir('downloads/' + directory + '/')[1]:
-                ns = '<dd><a href="%s">%s</a></dd>' % (reverse('download_link',kwargs={'pdfname': file}),
+                ns = '<dd><a href="%s">%s</a></dd>' % (reverse('download_link',kwargs={'pdfname': file,
+                                                                                       'folder': directory}),
                                                        file.replace('-', ' '))
                 html += ns
         html += '</dl>'
