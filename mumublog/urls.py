@@ -5,7 +5,7 @@ from mumublog.models import Article
 __author__ = 'tunde'
 
 urlpatterns = patterns('',
-                       url('^$', ListView.as_view(paginate_by=2, http_method_names=['get'],
+                       url('^$', ListView.as_view(paginate_by=15, http_method_names=['get'],
                                                   queryset=Article.objects.filter(approved=True),
                                                   template_name='bloglist.html'),
                            name='article_list'),
