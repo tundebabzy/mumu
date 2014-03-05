@@ -186,7 +186,7 @@ class QuestionView(QuestionEngine):
         question = self.get_question(**kwargs)
         form_class = self.get_form_class()
         form = self.get_form(form_class, question)
-        return self.render_to_response(self.get_context_data(question=question, options=form))
+        return self.render_to_response(self.get_context_data(question=question.question_text, options=form))
 
     def get_context_data(self, **kwargs):
         kwargs.update({'is_from_database_page': True})
