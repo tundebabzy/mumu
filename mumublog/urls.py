@@ -6,7 +6,7 @@ __author__ = 'tunde'
 
 urlpatterns = patterns('',
                        url('^$', ListView.as_view(paginate_by=15, http_method_names=['get'],
-                                                  queryset=Article.objects.filter(approved=True),
+                                                  queryset=Article.objects.filter(approved=True).order_by('-last_edited'),
                                                   template_name='bloglist.html'),
                            name='article_list'),
 
@@ -16,7 +16,8 @@ urlpatterns = patterns('',
                            name='article_list_paged'),
 
                        url('^(?P<slug>[a-zA-Z0-9-]+)/$', DetailView.as_view(template_name='article.html',
-                                                              queryset=Article.objects.filter(approved=True),
+                                                              queryset=Article.objects.filter(
+                                                                  approved=True).order_by('-last_edited'),
                                                               http_method_names=['get']),
                            name='article'),
                        )

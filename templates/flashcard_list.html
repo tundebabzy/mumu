@@ -1,15 +1,16 @@
 {% extends 'base_child.html' %}
+{% load markdownfilter %}
 {% block main-container %}
-        <span class="secondary radius label"><h4>Complete List Of Open-Ended Questions</h4></span>
+        <h1>Complete List Of Open-Ended Questions</h1>
         {% if is_paginated %}
         {% for object in page_obj.object_list %}
-            <p><a href="{{ object.get_absolute_url }}">{{ object }}</a></p>
+            <p><a href="{{ object.get_absolute_url }}">{{ object.question_text|convert_markdown|safe }}</a><hr></p>
         {% endfor %}
         {% if page_obj.has_previous %}<a href="{% url 'all_flashcards_paged' page_obj.previous_page_number %}"> &leftarrow;</a> {% endif %}
         {% if page_obj.has_next %}<a href="{% url 'all_flashcards_paged' page_obj.next_page_number %}">&rightarrow;</a>{% endif %}
     {% else %}
         {% for object in object_list %}
-            <p><a href="{{ object.get_absolute_url }}">{{ object }}</a></p>
+            <p><a href="{{ object.get_absolute_url }}">{{ object.question_text|convert_markdown|safe }}</a><hr></p>
         {% endfor %}
     {% endif %}
 {% endblock main-container %}
