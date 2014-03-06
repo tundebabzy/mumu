@@ -6,8 +6,9 @@ from django.views.decorators.cache import cache_control
 from django.http import Http404
 
 from quizzer.models import FlashCard, Code
-from utils.decoder import ExamCodeDecoder
+from lib.decoder import ExamCodeDecoder
 from lib.mixins import SessionMixin
+
 
 __author__ = 'tunde'
 

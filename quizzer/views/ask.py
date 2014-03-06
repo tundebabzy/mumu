@@ -1,5 +1,6 @@
 import datetime
 import random
+
 from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse
 from django.http import Http404
@@ -8,10 +9,11 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.cache import cache_control
 
 from lib.mixins import SessionMixin
-from utils.utils import FormError
+from lib.utils import FormError
 from quizzer.models import Option, AnswerLogs, Question, Code
 from quizzer.forms import OptionForm
-from utils.decoder import ExamCodeDecoder
+from lib.decoder import ExamCodeDecoder
+
 
 __author__ = 'tunde'
 
