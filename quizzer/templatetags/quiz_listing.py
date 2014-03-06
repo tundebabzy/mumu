@@ -2,8 +2,8 @@ from django import template
 from django.template.defaultfilters import slugify
 
 from quizzer.models import Question, FlashCard
+from lib.decoder import ExamCodeDecoder
 
-from utils.decoder import ExamCodeDecoder
 
 register = template.Library()
 decoder = ExamCodeDecoder()

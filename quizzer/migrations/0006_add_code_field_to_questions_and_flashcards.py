@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
-from south.db import db
 from south.v2 import DataMigration
-from django.db import models
-from utils.decoder import ExamCodeDecoder
+
+from lib.decoder import ExamCodeDecoder
+
 
 class Migration(DataMigration):
     decoder = ExamCodeDecoder()

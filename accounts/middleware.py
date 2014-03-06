@@ -1,7 +1,9 @@
 # "Pirated copy" of AuthenticationMiddleware
 
 from django.utils.functional import SimpleLazyObject
-from utils import utils
+
+from lib import utils
+
 
 def get_last_active_payment(request):
     if not hasattr(request, '_cached_status'):

@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 from django import template
 
 from quizzer.models import FlashCard, Question
-from utils.decoder import ExamCodeDecoder
+from lib.decoder import ExamCodeDecoder
 
 
 __author__ = 'tunde'
