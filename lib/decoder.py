@@ -121,8 +121,7 @@ class ExamCodeDecoder:
         self.paper_code_key = paper_code_key
         self.topic_code_key = topic_code_key
 
-        #TODO: self.decoded should be static!
-        self.decoded = {}
+        self._decoded = {}
 
     def _decode(self, code):
         """
@@ -148,15 +147,15 @@ class ExamCodeDecoder:
 
         """
         if isinstance(code, unicode) and len(code) == 8:
-            self.decoded[self.exam_code_key] = self.exam_codes.get(code[0], None)
-            self.decoded[self.level_code_key] = self.level_codes.get(code[1:3], None)
-            self.decoded[self.paper_code_key] = self.paper_codes.get(code[3:5], None)
-            self.decoded[self.topic_code_key] = self.topic_codes.get(code[5:8], None)
+            self._decoded[self.exam_code_key] = self.exam_codes.get(code[0], None)
+            self._decoded[self.level_code_key] = self.level_codes.get(code[1:3], None)
+            self._decoded[self.paper_code_key] = self.paper_codes.get(code[3:5], None)
+            self._decoded[self.topic_code_key] = self.topic_codes.get(code[5:8], None)
 
-        if None in self.decoded.values():
-            self.decoded = {}
+        if None in self._decoded.values():
+            self._decoded = {}
 
-        return self.decoded
+        return self._decoded
         
     def code_to_text(self, code, key):
         """
