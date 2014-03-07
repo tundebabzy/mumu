@@ -58,7 +58,7 @@ class FormExtrasMixin(object):
         elif category == 'level' or category == 'paper':
             _qs = self.model.objects.filter(code__code__contains=code, approved=True).values_list('code', flat=True)
             temp_qs = Code.objects.filter(id__in=_qs).values_list('code', flat=True)
-            code_list = decoder.get_code_list(code, temp_qs, category)
+            code_list = decoder.filter_code_list_by_sub_code(code, temp_qs, category)
             qs = self.model.objects.filter(code__code__in=code_list, approved=True).values_list('id', flat=True)
 
         elif category == 'topic':
@@ -178,7 +178,7 @@ class QuestionEngine(FormView, SessionMixin, FormExtrasMixin):
 
     def get_context_data(self, **kwargs):
         decoder = ExamCodeDecoder()
-        selection = decoder.translate_sub_code(kwargs['code'], kwargs['category'])
+        selection = decoder.sub_code_to_text(kwargs['code'], kwargs['category'])
         kwargs.update({'selection': selection})
         return kwargs
 

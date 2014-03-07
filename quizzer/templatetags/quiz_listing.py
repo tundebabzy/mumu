@@ -22,7 +22,7 @@ class NavigationNode(template.Node):
         """ % (html_h_tag,
                self.get_domain(context), category_type,
                slugify(category_desc),
-               decoder.get_category_code(code, category_type),
+               decoder.text_to_sub_code(code, category_type),
                category_desc, count or 'Available', html_h_tag
         )
 
@@ -47,9 +47,9 @@ class NavigationNode(template.Node):
         temp_level, temp_paper = [], []
 
         for code in queryset:
-            level = decoder.translate_code(code, 'level')
-            paper = decoder.translate_code(code, 'paper')
-            topic = decoder.translate_code(code, 'topic')
+            level = decoder.code_to_text(code, 'level')
+            paper = decoder.code_to_text(code, 'paper')
+            topic = decoder.code_to_text(code, 'topic')
 
             if not level in temp_level:
                 category_html_level += self._gen_html('h5', 'level', level, code, context)
@@ -89,7 +89,7 @@ class NavigationNodeF(NavigationNode):
         """ % (html_h_tag,
                self.get_domain(context), category_type,
                slugify(category_desc),
-               decoder.get_category_code(code, category_type),
+               decoder.text_to_sub_code(code, category_type),
                category_desc, count or 'Available', html_h_tag
         )
 
