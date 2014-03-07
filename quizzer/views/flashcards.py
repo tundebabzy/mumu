@@ -74,7 +74,7 @@ class FlashCardEngineQuestion(TemplateView, SessionMixin):
         elif category == 'level' or category == 'paper':
             _qs = self.model.objects.filter(code__code__contains=code).values_list('code', flat=True)
             temp_qs = Code.objects.filter(id__in=_qs).values_list('code', flat=True)
-            code_list = decoder.get_code_list(code, temp_qs, category)
+            code_list = decoder.filter_code_list_by_sub_code(code, temp_qs, category)
             qs = self.model.objects.filter(code__code__in=code_list).values_list('id', flat=True)
 
         elif category == 'topic':

@@ -71,7 +71,7 @@ class NavigationNode(template.Node):
         paper_codes = list(set(trim_to_paper_code(codes)))
 
         for code in sorted(level_codes):
-            level_name = decoder.translate_sub_code(code, 'level')
+            level_name = decoder.sub_code_to_text(code, 'level')
             html = '''<h5><a href="%s">%s</a></h5>''' % (
                 reverse(context.render_context[self]['view_name'],
                         kwargs={'category': 'level', 'identifier': slugify(level_name), 'code': code},
@@ -82,7 +82,7 @@ class NavigationNode(template.Node):
         html_for_levels += '</div>'
 
         for code in sorted(paper_codes):
-            paper_name = decoder.translate_sub_code(code, 'paper')
+            paper_name = decoder.sub_code_to_text(code, 'paper')
             html = '''<h5><a href="%s">%s</a></h5>''' % (
                 reverse(context.render_context[self]['view_name'],
                         kwargs={'category': 'paper', 'identifier': slugify(paper_name), 'code': code},

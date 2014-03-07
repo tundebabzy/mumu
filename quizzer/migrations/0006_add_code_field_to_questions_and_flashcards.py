@@ -30,14 +30,14 @@ class Migration(DataMigration):
 
         all_question_objects = orm['quizzer.Question'].objects.all()
         for question in all_question_objects:
-            code = self.decoder.translate_to_code(question.topic.name)
+            code = self.decoder.get_code(question.topic.name)
             code_id = orm['quizzer.Code'].objects.get(code=code)
             question.code = code_id
             question.save()
 
         all_flashcard_objects = orm['quizzer.FlashCard'].objects.all()
         for flashcard in all_flashcard_objects:
-            code = self.decoder.translate_to_code(flashcard.topic.name)
+            code = self.decoder.get_code(flashcard.topic.name)
             code_id = orm['quizzer.Code'].objects.get(code=code)
             flashcard.code = code_id
             flashcard.save()
