@@ -58,9 +58,12 @@
                     <div class="columns large-12 small-12 medium-12">
                         <div class="row">
                             <div class="panel box-18 radius">
-                                <h4>Start by clicking any of the buttons below to start the quiz.
-                                    Click the <img src="{{ STATIC_URL }}img/wrench-32.svg"> icon above on the control
-                                    bar to choose and fine tune the quiz.</h4>
+                                <h4>Instructions</h4>
+                                <p>Click the <img src="{{ STATIC_URL }}img/wrench-32.svg"> icon above on the control
+                                    bar to choose and fine tune the quiz.</p>
+                                <p>Click the <img src="{{STATIC_URL }}img/power-off.svg"> button above to come back to these instructions</p>
+                                <p>Click the <img src="{{STATIC_URL }}img/refresh.svg"> button above to start from the very beginning</p>
+                                <p>Now click any of the buttons below to start</p>
 
                                 <a id='open-ended' class="expand radius secondary button" href="{% url 'fcard_selection' %}">Open Ended</a>
                                 <a id="multiple-choice" class="expand radius secondary button" href="{% url 'quiz_selection' %}">Multiple Choice</a>
