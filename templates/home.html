@@ -2,28 +2,42 @@
 {% load quiz_links %}
 {% block title %}Mumu| ICAN Revision {% endblock %}
 {% block main-container %}
-            <div class="large-10 columns">
-                <!-- ad -->
-                <!-- End of ad -->
+            <div class="large-12 columns">
+                <div class="height-50"></div>
+                <pre>icanprep</pre>
+                <h3>is a mobile phone optimised resource for Institute of Chartered Accountants of
+                    Nigeria (ICAN) professional students. Our goal is to be a free and comprehensive online destination
+                    for students to prepare for examinations without the need for traditional brick and mortar classrooms.</h3>
+                <br>
+                <div class="row">
+                    <div class="large-4 columns">
+                        <div class="radius panel box-18 box-shadow fill-white">
+                            <h3 class="color-green">Test Yourself</h3><hr>
+                            <h5 class="color-sky-blue">We have quizzes with many questions for you to repeatedly test
+                            yourself on all the topics you are going to face in the exams.</h5>
+                            <a class="large expand radius secondary button " href="{% url 'quiz_loader' %}">Start</a>
+                        </div>
+                    </div>
 
-                <h2 class="subheader">There are hundreds of practise questions for your ICAN. How would you like to practise?</h2>
-                <p class="text-center" id="stop2"><a href="{% url 'how_it_works' %}">Still don't know what this website is about? Click here</a> </p>
+                    <div class="large-4 columns">
+                        <div class="radius panel box-18 box-shadow fill-white">
+                            <h3 class="color-green">Learn With Videos</h3><hr>
+                            <h5 class="color-sky-blue">Videos are available to explain tricky topics and concepts and give you tips for passing
+                            the exam. No subscription, no payment!</h5>
+                            <a class="large expand radius secondary disabled button " href="#">Coming Soon</a>
+                        </div>
+                    </div>
 
-                <div class="radius callout panel">
-                    <h5>Open Ended Quizzes</h5>
-                    <hr>
-                    {% open_ended_links %}
+                    <div class="large-4 columns">
+                        <div class="radius panel box-18 box-shadow fill-white">
+                            <h3 class="color-green">Giveaways </h3><hr>
+                            <h5 class="color-sky-blue">If you are not feeling motivated enough to read, why not try our
+                                games and challenges and get rewarded. There are many to choose from...</h5>
+                            <a class="large expand radius secondary disabled button " href="#">Coming Soon</a>
+                        </div>
+                    </div>
+
                 </div>
-
-                <!-- ad -->
-                <!-- end of ad -->
-
-                <div class="radius callout panel">
-                    <h5>Multiple Choice Quizzes</h5>
-                    <hr>
-                    {% multiple_choice_links %}
-                </div>
-
             </div>
 {% endblock main-container %}
 

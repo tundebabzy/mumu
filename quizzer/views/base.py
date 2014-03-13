@@ -8,7 +8,7 @@ from quizzer.models import Question
 __author__ = 'tunde'
 
 class QuizSelectionView(TemplateView, SessionMixin):
-    template_name = 'select.html'
+    template_name = 'quizzer_select_links.html'
 
     def reset_quiz_session(self):
         self.remove_session_var(['question', 'multiple-choice', 'open-ended'])
@@ -34,4 +34,4 @@ class QuizSelectionView(TemplateView, SessionMixin):
 
 
 class FlashCardSelectionView(QuizSelectionView):
-    template_name = 'topic_list.html'
+    template_name = 'flashcard_select_links.html'

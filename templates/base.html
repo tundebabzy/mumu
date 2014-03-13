@@ -43,7 +43,7 @@
         
     </head>
     
-    <body>
+    <body class="color">
         {% if messages %}
         <div data-alert class="alert-box ">
             {% for message in messages %}
@@ -63,7 +63,12 @@
                         </a>
                     </section>
                     <section class="middle tab-bar-section">
-                        <h1 class="title"><a href="{% url 'home' %}"><img src="{{ STATIC_URL }}img/transparent.png" alt="mumu.com.ng" /></a></h1>
+                        <h1 class="title"><a href="{% url 'home' %}"><img src="{{ STATIC_URL }}img/logo-white.svg" alt="mumu.com.ng" /></a></h1>
+                    </section>
+                    <section class="right-small">
+                        <a class="right-off-canvas-toggle menu-icon">
+                                <img src="{{ STATIC_URL }}img/wrench.svg">
+                        </a>
                     </section>
 
                     {% if score %}
@@ -77,12 +82,12 @@
                 </nav>
                 <aside class="left-off-canvas-menu">
                     <ul class="off-canvas-list">
-                        <li><label>Welcome</label></li>
-                        <li><a href="{% url 'how_it_works' %}">How it works</a></li>
-                        
-                        <li><label>Practice Types</label></li>
-                        <li><a href="{% url 'fcard_selection' %}">Open ended</a></li>
-                        <li><a href="{% url 'quiz_selection' %}">Multiple choice</a></li>
+                        <li><label>Prep Center</label></li>
+                        <li><a href="{% url 'quiz_loader' %}">Quizzes</a></li>
+                        {% comment %}
+                        <li><a class="disabled">Videos</a></li>
+                        <li><a class="disabled">Giveaways</a></li>
+                        {% endcomment %}
 
                         {% if user.is_authenticated %}
                         <li><label>Account Settings</label></li>
@@ -90,6 +95,7 @@
                         <li><a href="{% url 'auth_password_change' %}">Change Password</a></li>
                         <li><a href="{% url 'auth_logout' %}">Sign Out</a></li>
                         {% else %}
+                        <li><label>Register</label></li>
                         <li><a href="{% url 'registration_register' %}">Register</a></li>
                         <li><a href="{% url 'auth_login' %}">Sign In</a></li>
                         {% endif %}
@@ -104,22 +110,10 @@
                 </aside>
                 
                 <aside class="right-off-canvas-menu">
-                    <ul class="off-canvas-list">
-                        {% if user.is_authenticated %}
-                        <li><label>Score</label></li>
-                        <li><a href="#"><span class="radius label">{{ score }}</span> out of <span class="radius label">{{ total }}</span></a></li>
-
-                        {% if last_7 %}
-                        <li><label>Your Last 7 attempts</label></li>
-                        {% for q in last_7 %}
-                        <li><a href="#"><span class="radius label">{% if q.answer.is_true %}Correct{% else %}Wrong{% endif %}</span></a></li>
-                        {% endfor %}
-                        {% endif %}
-                        
-                        {% else %}
-                        <li><label>Scoring unavailable</label></li>
-                        <li><a href="#">Log in or Sign in to track your scores</a></li>
-                        {% endif %}
+                    <img src="{{ STATIC_URL }}img/ajax-loader.gif" id="loader" class="hide">
+                    <ul class="off-canvas-list selectboard" id="list">
+                        <li><label>Nothing here yet. Click one of the buttons in the main area and this place will be
+                        populated automatically.</label></li>
                     </ul>
                 </aside>
                 
@@ -146,8 +140,6 @@
                         This website is not affiliated to Institute of
                         Chartered Accountants of Nigeria (ICAN).
                         </p>
-                        <p class="hide"><a href="{% url 'all_questions' %}">Complete list of multiple-choice questions</a></p>
-                        <p class="hide"><a href="{% url 'all_flashcards' %}">Complete list of open-ended questions</a></p>
                     </div>
                 </div>
             </div>

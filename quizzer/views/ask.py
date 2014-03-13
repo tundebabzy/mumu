@@ -31,7 +31,7 @@ class FormExtrasMixin(object):
     """
     model = Question
     template_list_index = 0
-    valid_category = ('level','paper')
+    valid_category = ('level','paper', 'topic')
 
     def is_valid_category(self, category):
         return category in self.valid_category
@@ -75,6 +75,7 @@ class FormExtrasMixin(object):
         session and then return the Question
         """
         if not self.is_valid_category(kwargs['category']):
+            print 'not valid category'
             raise Http404
 
         session_key = kwargs['identifier']+'-'+kwargs['category']

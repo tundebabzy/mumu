@@ -1,24 +1,9 @@
-{% extends 'base_child.html' %}
-{% block main-container %}
-        <div class="small-12 large-10 large-centered columns">
-            <span class="secondary radius label"><h4>Question</h4></span>
-            <h4>{{ flashcard_question|safe }}</h4>
-            <nav class="forward-crumbs">
-                <ul>
-                    {% if is_from_database_page %}
-                    <li><a href="{% url 'flashcard_answer_2' id %}">View Answer</a></li>
-                    {% else %}
-                    <li><a href="{% url 'flashcard_answer' category identifier code id %}">View Answer</a></li>
-                    <li><a href="{% url 'next_flashcard' category identifier code %}">Skip Question</a></li>
-                    {% endif %}
-                    {% block removable_link %}{% endblock %}
-                </ul>
-            </nav>
-            <nav class="dark-nav-bar">
-                <ul>
-                    <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'fcard_selection' %}">Choose Topic</a></li>
-                </ul>
-            </nav>
-        </div>  <!-- small-12 .... -->
-{% endblock main-container %}
+<div class="box-18 panel radius">
+        <h4>{{ flashcard_question|safe }}</h4>
+        <nav class="forward-crumbs">
+            <ul>
+                <li><a id="submit" href="{% url 'flashcard_answer' category identifier code id %}">View Answer</a></li>
+                <li><a id="skip" href="{% url 'next_flashcard' category identifier code %}">Skip Question</a></li>
+            </ul>
+        </nav>
+</div>
