@@ -80,14 +80,11 @@
 
             </div>
 {% endblock main-container %}
-{% block foundation-scripts %}
-            <script src="{{ STATIC_URL }}js/jquery.js"></script>
-            <script src="{{ STATIC_URL }}js/foundation.min.js"></script>
-            <script src="{{ STATIC_URL }}js/jquery.cookie.js"></script>
+{% block other-scripts %}
             <script src="{{ STATIC_URL }}js/preploader.js"></script>
             <script src="{{ STATIC_URL }}js/prepengine.js"></script>
             <script type="text/javascript">
                 IcanPrepLoader.init();
                 IcanPrepEngine.init();
             </script>
-        {% endblock foundation-scripts %}
+{% endblock other-scripts %}

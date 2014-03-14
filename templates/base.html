@@ -25,7 +25,7 @@
         {% endblock css %}
 
         {% block script %}
-        <script async src="{{ STATIC_URL }}js/modernizr.js"></script>
+        <script src="{{ STATIC_URL }}js/modernizr.js"></script>
         {% endblock script %}
 
         {% block google-analytics %}
@@ -153,9 +153,9 @@
         <!-- End of off-canvas -------->
 
         {% block foundation-scripts %}
-            <script src="{{ STATIC_URL }}js/jquery.js"></script>
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
             <script src="{{ STATIC_URL }}js/foundation.min.js"></script>
-            <script src="{{ STATIC_URL }}js/jquery.cookie.js"></script>
+            <script type="text/javascript">$(document).foundation();</script>
         {% endblock foundation-scripts %}
 
         {% block quantcast %}
@@ -185,21 +185,8 @@
         <!-- End Quantcast tag -->
         {% endblock quantcast %}
 
-        {% block joyride %}
+        {% block other-scripts %}
 
-        {% endblock joyride %}
-
-        <script type="text/javascript">
-            $(document).foundation(
-                {'joyride':
-                            {cookie_monster: !$.cookie('joyride') ? false : true,
-                            cookie_domain: true,
-                            post_ride_callback : function () {
-                                                                !$.cookie('joyride') ? $.cookie('joyride', 'ridden') : null;
-                                                            }
-                            }
-                }
-            ).foundation('joyride', 'start');
-        </script>
+        {% endblock other-scripts %}
     </body>
 </html>
