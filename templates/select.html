@@ -7,10 +7,10 @@
             <div class="large-12 medium-12 small-12 columns">
                 <img src="{{ STATIC_URL }}img/ajax-loader.gif" id="main-loader" class="hide">
                 <div class="height-1"></div>
-                <div class="row">
+                <div class="row hide" id="tool-buttons">
                     <ul class="right button-group secondary" id="control">
-                        <li><a href="#" id="hard-reset" class="small button"><img src="{{ STATIC_URL }}img/power-off.svg"></a></li>
-                        <li><a href="#" id="refresh" class="small button"><img src="{{ STATIC_URL }}img/refresh.svg"></a></li>
+                        <li><a href="#" id="hard-reset" class="tiny secondary button"><img src="{{ STATIC_URL }}img/power-off.svg"></a></li>
+                        <li><a href="#" id="refresh" class="tiny secondary button"><img src="{{ STATIC_URL }}img/refresh.svg"></a></li>
                     </ul>
                 </div>
 
@@ -32,8 +32,8 @@
                         <div class="panel fill-white radius box-18">
                             <p>If the level you are writing is not available in the drop-down, please put your email into
                                 the field below so we can notify you when material becomes available.</p>
-                            <div class="row">
-                                <form id="inform-me" method="post">{% csrf_token %}
+                            <div class="row" id="notify-box">
+                                <form action="{% url 'notify-me' %}" id="inform-me" method="post" data-abide>{% csrf_token %}
                                     <select name="inform-me"><!--  -->
                                             <option value="foundation">Foundation</option>
                                             <option value="pe1">PE 1</option>
@@ -41,10 +41,11 @@
                                         </select>
                                     <div class="row collapse">
                                         <div class="large-10 medium-10 small-10 columns">
-                                            <input type="text" placeholder="you@somebody.com">
+                                            <input type="email" placeholder="you@somebody.com" name="email" required>
+                                            <small class="error">A valid email address is required.</small>
                                         </div>
                                         <div class="large-2 medium-2 small-2 columns">
-                                            <input type="submit" class="button postfix secondary small radius" value="Go" />
+                                            <input type="submit" id="notify-me" class="button postfix secondary small radius" value="Go">
                                         </div>
                                     </div>
                                 </form>
@@ -54,7 +55,7 @@
                     </div>
 
                 </div>
-                <div class="row" id="quiz-box">
+                <div class="row hide" id="quiz-box">
                     <div class="columns large-12 small-12 medium-12">
                         <div class="row">
                             <div class="panel box-18 radius">

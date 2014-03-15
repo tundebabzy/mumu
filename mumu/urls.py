@@ -2,7 +2,11 @@ from django.conf.urls import patterns, include, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.views.generic import TemplateView, RedirectView
 from registration.backends.default.views import ActivationView
+
+from accounts.forms import NotifyMeForm
+from accounts.views.notify import NotifyMeView
 from quizzer.views.backend import QuizzerRegistrationView
+
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -12,6 +16,7 @@ class RedirectViewX(RedirectView):
     def get_redirect_url(self, **kwargs):
         download_url = '/static/downloads/%s/%s' % (kwargs['folder'], kwargs['pdfname'])
         return download_url
+
 
 urlpatterns = patterns('',
     url('^downloads/(?P<folder>([a-zA-Z0-9_]+))/(?P<pdfname>([a-zA-Z0-9-]+).pdf)$',
@@ -31,6 +36,8 @@ urlpatterns = patterns('',
     url('^robots\.txt$',
             RedirectView.as_view(url='/static/robots.txt'),
     ),
+
+    url('^notify-me/$', NotifyMeView.as_view(form_class=NotifyMeForm), name='notify-me'),
 
     url('^blog/', include('mumublog.urls')),
 
