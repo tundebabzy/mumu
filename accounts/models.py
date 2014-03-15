@@ -38,3 +38,10 @@ class Researcher(models.Model):
 
     def __unicode__(self):
         return self.staff.user.__unicode__()
+
+class NotifyMe(models.Model):
+    email = models.EmailField(u'email address')
+    level_name = models.CharField(max_length=15)
+
+    def __unicode__(self):
+        return '%s:%s' %(self.level_name, self.email)
