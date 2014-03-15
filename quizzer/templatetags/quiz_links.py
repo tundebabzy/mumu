@@ -18,6 +18,9 @@ def trim_to_level_code(the_list):
 def trim_to_paper_code(the_list):
     return [value[3:5] for value in the_list]
 
+def trim_to_topic_code(the_list):
+    return [value[5:] for value in the_list]
+
 
 @register.tag(name="open_ended_links")
 def get_categories(parser, token):
@@ -64,37 +67,33 @@ class NavigationNode(template.Node):
         Create the HTML to be rendered in the template dynamically
         :rtype : Unicode
         """
-        html_for_levels = '<div class="large-6 columns"><h4 class="subheader">Levels</h3>'
-        html_for_papers = '<div class="large-6 columns"><h4 class="subheader">Papers</h3>'
         codes = self.get_values_list(context.render_context[self]['model'], context)
-        level_codes = list(set(trim_to_level_code(codes)))
+        html_for_papers = '<li><label>Paper</label></li>'
+        html_for_topics = '<li><label>Topics</label></li>'
         paper_codes = list(set(trim_to_paper_code(codes)))
-
-        for code in sorted(level_codes):
-            level_name = decoder.sub_code_to_text(code, 'level')
-            html = '''<h5><a href="%s">%s</a></h5>''' % (
-                reverse(context.render_context[self]['view_name'],
-                        kwargs={'category': 'level', 'identifier': slugify(level_name), 'code': code},
-                ),
-                level_name
-            )
-            html_for_levels += html
-        html_for_levels += '</div>'
+        topic_codes = list(set(trim_to_topic_code(codes)))
 
         for code in sorted(paper_codes):
             paper_name = decoder.sub_code_to_text(code, 'paper')
-            html = '''<h5><a href="%s">%s</a></h5>''' % (
+            html = '''<li><a href="%s">%s</a></li>''' % (
                 reverse(context.render_context[self]['view_name'],
                         kwargs={'category': 'paper', 'identifier': slugify(paper_name), 'code': code},
                 ),
                 paper_name
             )
             html_for_papers += html
-        html_for_papers += '</div>'
 
-        final_html = """<div class="row">%s %s</div>""" % (html_for_levels, html_for_papers)
+        for code in sorted(topic_codes):
+            topic_name = decoder.sub_code_to_text(code, 'topic')
+            html2 = '''<li><a href="%s">%s</a></li>''' % (
+                reverse(context.render_context[self]['view_name'],
+                        kwargs={'category': 'topic', 'identifier': slugify(topic_name), 'code': code},
+                        ),
+                topic_name
+            )
+            html_for_topics += html2
 
-        return final_html
+        return html_for_papers+html_for_topics
 
 
     def get_values_list(self, model, context, key='key'):

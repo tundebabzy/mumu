@@ -7,7 +7,7 @@ from accounts.forms import UserNamesChangeForm
 class UpdateUserNamesView(UpdateView):
     form_class = UserNamesChangeForm
     template_name = 'registration/info_change.html'
-    success_url_view_name = 'quiz_selection'
+    success_url_view_name = 'quiz_loader'
     
     def get_success_url(self):
         messages.add_message(self.request, messages.INFO, 

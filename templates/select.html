@@ -4,14 +4,87 @@
 {% block title %}Mumu | ICAN Preparation Testing{% endblock title %}
 
 {% block main-container %}
-            <div class="large-10 large-centered columns">
-
-                <div class="panel">
-                    <h5>For open ended (theory) questions, <a href="{% url 'fcard_selection' %}">Click here</a></h5>
+            <div class="large-12 medium-12 small-12 columns">
+                <img src="{{ STATIC_URL }}img/ajax-loader.gif" id="main-loader" class="hide">
+                <div class="height-1"></div>
+                <div class="row hide" id="tool-buttons">
+                    <ul class="right button-group secondary" id="control">
+                        <li><a href="#" id="hard-reset" class="tiny secondary button"><img src="{{ STATIC_URL }}img/power-off.svg"></a></li>
+                        <li><a href="#" id="refresh" class="tiny secondary button"><img src="{{ STATIC_URL }}img/refresh.svg"></a></li>
+                    </ul>
                 </div>
-                <div class="panel callout  radius">
+
+                <div class="row hide" id="info-forms">
+                    <div class="columns large-6 medium-6">
+                        <div class="panel fill-white radius box-18">
+                            <p>Please tell us what level you are writing so that we can initialise your quiz. It will be
+                                saved so we won't ask you again unless we need to and you can adjust it later.</p>
+                            <form id="ask-form">
+                                <select name="userRoute">
+                                    <option value="01">Intermediate</option>
+                                </select>
+                                <input type="submit" value="Save & Start" class="expand button secondary radius">
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="columns large-6 medium-6">
+                        <div class="panel fill-white radius box-18">
+                            <p>If the level you are writing is not available in the drop-down, please put your email into
+                                the field below so we can notify you when material becomes available.</p>
+                            <div class="row" id="notify-box">
+                                <form action="{% url 'notify-me' %}" id="inform-me" method="post" data-abide>{% csrf_token %}
+                                    <select name="inform-me"><!--  -->
+                                            <option value="foundation">Foundation</option>
+                                            <option value="pe1">PE 1</option>
+                                            <option value="pe2">PE 2</option>
+                                        </select>
+                                    <div class="row collapse">
+                                        <div class="large-10 medium-10 small-10 columns">
+                                            <input type="email" placeholder="you@somebody.com" name="email" required>
+                                            <small class="error">A valid email address is required.</small>
+                                        </div>
+                                        <div class="large-2 medium-2 small-2 columns">
+                                            <input type="submit" id="notify-me" class="button postfix secondary small radius" value="Go">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <p> We promise to keep your email safe and not to sell it to anybody.</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row hide" id="quiz-box">
+                    <div class="columns large-12 small-12 medium-12">
+                        <div class="row">
+                            <div class="panel box-18 radius">
+                                <h4>Click any of the buttons below to start.</h4>
+                                <a id='open-ended' class="expand radius secondary button" href="{% url 'fcard_selection' %}">Open Ended</a>
+                                <a id="multiple-choice" class="expand radius secondary button" href="{% url 'quiz_selection' %}">Multiple Choice</a>
+                            </div>
+                            <div class="panel radius callout">
+                                <h4>Click the menu button at the right to fine tune the quiz.</h4>
+                                <h4>Click the <img src="{{STATIC_URL }}img/power-off.svg">button above to start from the very beginning</h4>
+                                <h4>Click the <img src="{{STATIC_URL }}img/refresh.svg">button above to come back to these instructions</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% comment %}
+                <div class="panel callout radius">
                     {% multiple_choice_links %}
                 </div>
+                {% endcomment %}
 
-            </div>  <!-- large-10 large-centered columns -->
+            </div>
 {% endblock main-container %}
+{% block other-scripts %}
+            <script src="{{ STATIC_URL }}js/preploader.js"></script>
+            <script src="{{ STATIC_URL }}js/prepengine.js"></script>
+            <script type="text/javascript">
+                IcanPrepLoader.init();
+                IcanPrepEngine.init();
+            </script>
+{% endblock other-scripts %}

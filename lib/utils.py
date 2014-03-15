@@ -36,4 +36,4 @@ class FormError(ErrorList):
 
     def error_html(self):
         if not self: return u''
-        return mark_safe(u'<div class="error">%s</div>' % ''.join([u'<small>%s</small>' % e for e in self]))
+        return mark_safe(u'%s' % ''.join([u'<small class="error">%s</small>' % e for e in self]))

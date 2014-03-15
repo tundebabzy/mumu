@@ -1,7 +1,7 @@
-{% extends 'base_child.html' %}
 {% load markdownfilter %}
-{% block main-container %}
-                <div class="large-9 columns">
+    <div class="panel box-18 radius">
+            <div class="row">
+                <div class="large-12 medium-12 small-12">
                     <h5 class="subheader">
                     {% for answer in last_answers %}
                         {% if answer.answer.is_correct %}
@@ -12,56 +12,46 @@
                     {% endfor %}
                     {% if is_correct %}<span class="success label">correct{% else %}<span class="alert label">wrong!{% endif %}</span>
                     </h5>
-                   {% if explanation %}
-                   <div class="panel radius">
-                        <h5>Question</h5>
+                </div>
+            </div>
+            <div class="row">
+                    <div class="large-12 medium-12 small-12">
                         {{ question|convert_markdown|safe }}
-                    </div>
-                    <div class="panel radius">
-                        <h5>Explanation</h5>
+
+                        {% if explanation %}
+                        <hr>
                         {{ explanation|convert_markdown|safe }}
-                    </div>
-                    {% endif %}
-                                        
-                    {% if links %}
-                    <div class="panel radius">
-                        <h5>Links</h5>
+                        {% endif %}
+
+                        {% if links %}
+                        <hr>
                         <ul>
                         {% for link in links %}
                             <li><a href="{{ link }}">{{ link.description }}</a></li>
                         {% endfor %}
                         </ul>
+                        {% endif %}
+
+                        {% if last_7 %}
+                        <hr>
+                        <h4>Your Last 7 Attempts</h4><hr />
+                        {% for q in last_7 %}
+                        <span class="radius label">{% if q.answer.is_correct %}Correct{% else %}Wrong{% endif %}</span><br/><br/>
+                        {% endfor %}
+                        {% endif %}
                     </div>
-                    {% endif %}
+                    <div class="large-12 medium-12 small-12">
+                        <nav class="forward-crumbs">
+                            <ul>
+                                {% if category %}
+                                <li><a href="{% url 'next_question' category identifier code %}" id="next-question">Next Question</a></li>
+                                {% comment %}<li><a href="/practise/multiple-choice/{{ category }}/{{ identifier }}/random/">Next Question</a></li>{% endcomment %}
+                                {% else %}
+                                <li><a href="{% url 'quiz_selection' %}">Choose Multiple Choice Quiz</a></li>
 
-                    <nav class="forward-crumbs">
-                        <ul>
-                            {% if category %}
-                            <li><a href="{% url 'next_question' category identifier code %}">Next Question</a></li>
-                            {% comment %}<li><a href="/practise/multiple-choice/{{ category }}/{{ identifier }}/random/">Next Question</a></li>{% endcomment %}
-                            {% else %}
-                            <li><a href="{% url 'quiz_selection' %}">Choose Multiple Choice Quiz</a></li>
-                            
-                            {% endif %}
-                        </ul>
-                    </nav>
-                
-                    <nav class="dark-nav-bar">
-                        <ul>
-                            <li><a href="{% url 'home' %}">Home</a></li>
-                            <li><a href="{% url 'quiz_selection' %}">Choose Topic (Multiple-choice)</a></li>
-                        </ul>
-                    </nav>
-
-                </div> <!-- large-10 .... -->
-                <div class="large-3 columns hide-for-small">
-                    {% if last_7 %}
-                    
-                    <h4>Your Last 7 Attempts</h4><hr />
-                    {% for q in last_7 %}
-                    <span class="radius label">{% if q.answer.is_correct %}Correct{% else %}Wrong{% endif %}</span><br/><br/>
-                    {% endfor %}
-                    
-                    {% endif %}
-                </div>
-{% endblock %}
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+            </div>
+    </div>
