@@ -58,15 +58,19 @@
                 <div class="row hide" id="quiz-box">
                     <div class="columns large-12 small-12 medium-12">
                         <div class="row">
-                            <div class="panel box-18 radius">
-                                <h4>Click any of the buttons below to start.</h4>
-                                <a id='open-ended' class="expand radius secondary button" href="{% url 'fcard_selection' %}">Open Ended</a>
-                                <a id="multiple-choice" class="expand radius secondary button" href="{% url 'quiz_selection' %}">Multiple Choice</a>
-                            </div>
-                            <div class="panel radius callout">
-                                <h4>Click the menu button at the right to fine tune the quiz.</h4>
-                                <h4>Click the <img src="{{STATIC_URL }}img/power-off.svg">button above to start from the very beginning</h4>
-                                <h4>Click the <img src="{{STATIC_URL }}img/refresh.svg">button above to come back to these instructions</h4>
+                            <div class="panel box-18 radius fill-white">
+                                <div class="panel radius">
+                                    <h5>Click the menu button on the top-right to fine tune the quiz</h5>
+                                </div>
+                                <div class="panel radius">
+                                    <h5>Click any of the buttons below to start.</h5>
+                                    <a id='open-ended' class="expand radius secondary button" href="{% url 'fcard_selection' %}">Open Ended</a>
+                                    <a id="multiple-choice" class="expand radius secondary button" href="{% url 'quiz_selection' %}">Multiple Choice</a>
+                                </div>
+                                <div class="panel radius">
+                                    <h5>Click the <img src="{{STATIC_URL }}img/power-off.svg">button above to start from the very beginning</h5>
+                                    <h5>Click the <img src="{{STATIC_URL }}img/refresh.svg">button above to come back to these instructions</h5>
+                                </div>
                             </div>
                         </div>
                     </div>
