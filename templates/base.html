@@ -10,14 +10,22 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width" />
         <meta name="author" content="Babatunde Akinyanmi" />
+        <meta name="description" content="Free resource for practicing for Institute of Chartered Accountants of Nigeria examinations"
         <meta name="google-site-verification" content="AkYA2HCeEUN3D3pz-NvDLJ0Z9hQfop9OjPAR_X8lp0E" />
+
+        <!-- For the worl d's most an noy ying browser - Internet Explorer -->
+        <meta name="application-name" content="IcanPrep"/>
+        <meta name="msapplication-starturl" content="http://icanprep.com/"/>
+        <meta name="msapplication-tooltip" content="IcanPrep: Free ICAN examination preparation resource"/>
+        <meta name="msapplication-task" content="name=Practise;action-uri=http://icanprep.com/practise/quiz/;icon-uri={{ STATIC_URL }}img/favicon.ico />
         {% endblock meta %}
         
-        <title>{% block title %}ICAN examination revision{% endblock title %}</title>
+        <title>{% block title %}IcanPrep{% endblock title %}</title>
 
         {% block favicon %}
         <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.png" />
         <link rel="apple-touch-icon-precomposed" href="{{ STATIC_URL }}img/favicon.png" />
+        <link rel="icon" type="image/x-icon" href="{{ STATIC_URL }}img/favicon.ico" />
         {% endblock favicon %}
         
         {% block css %}
