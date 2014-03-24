@@ -18,8 +18,8 @@ class QuestionForm(forms.ModelForm):
     def save(self, request, commit):
         profile = request.user.get_profile()
 
-        # The created_by field is hidden to Researchers. If instance.created_by
-        # is empty, its most likely a Researcher in the Admin
+        # The created_by field is hidden to Researchers. If instance.created_by is empty, its most likely a Researcher
+        # in the Admin. Only researchers are allowed to add questions to the database
         try:
             c = self.instance.created_by
         except:
@@ -30,12 +30,13 @@ class QuestionForm(forms.ModelForm):
                 raise Http404
             
 
-        # self.instance.approved is False by default. Researchers are not
-        # shown the approved check button so if instance.approved
-        # becomes False then it means an Editor is using the site
+        # self.instance.approved is False by default. Researchers are not shown the approved check button so if
+        # instance.approved becomes False then it means an Editor is using the site. Only editors are allowed to
+        # approve
         if self.instance.approved:
             try:
                 editor = profile.editor_set.all()[0]
+                self.instance.approved_by = editor
             except:
                 raise Http404
         return super(QuestionForm, self).save(commit=False)

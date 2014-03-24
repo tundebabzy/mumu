@@ -41,7 +41,7 @@ class FilteredModelAdmin(admin.ModelAdmin):
         """
         if self.exclude:
             if request.user.is_superuser or 'Editors' in request.user.groups.values_list('name', flat=True):
-                self.exclude = None
+                self.exclude = ('created_by', 'approved_by')
         return super(FilteredModelAdmin, self).get_form(request, obj, **kwargs)
 
 
