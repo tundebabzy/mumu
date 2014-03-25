@@ -1,7 +1,8 @@
+{% load markdownfilter %}
 <div class="panel box-18 radius">
         <h4>{{ question|safe }}</h4>
         <hr />
-        <h4>{{ explanation|safe }}</h4>
+        {{ explanation|convert_markdown|safe }}
         {% if category and identifier and code %}
         <nav class="forward-crumbs">
             <ul>
