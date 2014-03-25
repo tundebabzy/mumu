@@ -36,7 +36,7 @@
                         <hr>
                         <h4>Your Last 7 Attempts</h4><hr />
                         {% for q in last_7 %}
-                        <span class="radius label">{% if q.answer.is_correct %}Correct{% else %}Wrong{% endif %}</span><br/><br/>
+                        <span class="radius label">{% if q.answer.is_correct %}Correct{% else %}Wrong{% endif %}</span>
                         {% endfor %}
                         {% endif %}
                     </div>
