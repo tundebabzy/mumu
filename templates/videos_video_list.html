@@ -12,8 +12,7 @@
                 {% if is_paginated %}
                     {% for object in page_obj.object_list %}
                 <div class="row">
-
-                        <img src="{{ object.get_pafy_object.thumb }}" alt="video thumbnail" />
+                    <img class="left" src="{{ object.get_pafy_object.thumb }}" alt="video thumbnail" />
 
                     <div class="columns large-10 medium-10 small-10">
                         <h4><a href="{{ object.get_absolute_url }}">{{ object.get_pafy_object.title }}</a></h4>
@@ -32,8 +31,7 @@
 
                     {% for object in object_list %}
                 <div class="row">
-
-                        <img class="left" alt="video thumbnail" src="{{ object.get_pafy_object.thumb }}" />
+                    <img class="left" alt="video thumbnail" src="{{ object.get_pafy_object.thumb }}" />
 
                     <div class="columns large-10 medium-10 small-8">
                         <h5><a href="{{ object.get_absolute_url }}">{{ object.get_pafy_object.title }}</a></h5>
