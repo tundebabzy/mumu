@@ -12,13 +12,16 @@
                 {% if is_paginated %}
                     {% for object in page_obj.object_list %}
                 <div class="row">
-                    <img class="left" src="{{ object.get_pafy_object.thumb }}" alt="video thumbnail" />
-
                     <div class="columns large-10 medium-10 small-10">
-                        <h4><a href="{{ object.get_absolute_url }}">{{ object.get_pafy_object.title }}</a></h4>
-                        <p>Duration: {{ object.get_pafy_object.duration }}
-                        Rating: {{ object.get_pafy_object.rating|floatformat:-2 }}<br>
-                        Views: {{ object.get_pafy_object.viewcount }}</p>
+                        <div class="large-9 medium-7 columns">
+                            <h5><a href="{{ object.get_absolute_url }}">{{ object.get_pafy_object.title }}</a></h5>
+                            <p>Duration: {{ object.get_pafy_object.duration }}<br>
+                            Rating: {{ object.get_pafy_object.rating|floatformat:-2 }}<br>
+                            Views: {{ object.get_pafy_object.viewcount }}</p>
+                        </div>
+                        <div class="large-3 medium-5 columns hide-for-small">
+                            <img class="hide-for-small" src="{{ object.get_pafy_object.thumb }}" alt="video thumbnail" />
+                        </div>
                     </div>
                     <hr>
                 </div>
@@ -31,13 +34,16 @@
 
                     {% for object in object_list %}
                 <div class="row">
-                    <img class="left" alt="video thumbnail" src="{{ object.get_pafy_object.thumb }}" />
-
-                    <div class="columns large-10 medium-10 small-8">
-                        <h5><a href="{{ object.get_absolute_url }}">{{ object.get_pafy_object.title }}</a></h5>
-                        <p>Duration: {{ object.get_pafy_object.duration }}<br>
-                        Rating: {{ object.get_pafy_object.rating|floatformat:-2 }}<br>
-                        Views: {{ object.get_pafy_object.viewcount }}</p>
+                    <div class="columns large-12 medium-12 small-12">
+                        <div class="large-9 medium-8 columns">
+                            <h5><a href="{{ object.get_absolute_url }}">{{ object.get_pafy_object.title }}</a></h5>
+                            <p>Duration: {{ object.get_pafy_object.duration }}<br>
+                            Rating: {{ object.get_pafy_object.rating|floatformat:-2 }}<br>
+                            Views: {{ object.get_pafy_object.viewcount }}</p>
+                        </div>
+                        <div class="large-3 medium-5 columns hide-for-small">
+                            <img class="hide-for-small" src="{{ object.get_pafy_object.thumb }}" alt="video thumbnail" />
+                        </div>
                     </div>
                     <hr>
                 </div>
