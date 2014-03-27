@@ -1,6 +1,7 @@
 from django.db import models
 import pafy
 
+
 class Video(models.Model):
     url = models.URLField()
     youtube_description = models.TextField()
