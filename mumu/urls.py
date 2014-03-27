@@ -61,6 +61,8 @@ urlpatterns = patterns('',
     
     url(r'^change/', include('accounts.urls')),
 
+    url(r'^videos/', include('videos.urls')),
+
     url('^$', TemplateView.as_view(template_name='home.html'),
         name='home'
     ),

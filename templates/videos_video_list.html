@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block main-container %}
+            <div class="large-10 columns">
+                <br><br>
+                <h5>Here's a collection of relevant YouTube videos which we have curated. Some of the videos are very
+                    long. You can use tools like <a href="http://www.wontube.com/free-youtube-downloader.html">WonTube</a>
+                    (Android), <a href="http://m.tubemate.net/">TubeMate</a>(Android) to download videos but please note
+                    that not all videos can be LEGALLY downloaded.
+                </h5>
+                <hr>
+
+                {% if is_paginated %}
+                    {% for object in page_obj.object_list %}
+                <div class="row">
+
+                        <img src="{{ object.get_pafy_object.thumb }}" alt="video thumbnail" />
+
+                    <div class="columns large-10 medium-10 small-10">
+                        <h4><a href="{{ object.get_absolute_url }}">{{ object.get_pafy_object.title }}</a></h4>
+                        <p>Duration: {{ object.get_pafy_object.duration }}
+                        Rating: {{ object.get_pafy_object.rating|floatformat:-2 }}<br>
+                        Views: {{ object.get_pafy_object.viewcount }}</p>
+                    </div>
+                    <hr>
+                </div>
+                    {% endfor %}
+
+                    {% if page_obj.has_previous %}<a href="{% url 'video_list_paged' page_obj.previous_page_number %}"> &leftarrow;</a> {% endif %}
+                    {% if page_obj.has_next %}<a href="{% url 'video_list_paged' page_obj.next_page_number %}">&rightarrow;</a>{% endif %}
+
+                {% else %}
+
+                    {% for object in object_list %}
+                <div class="row">
+
+                        <img class="left" alt="video thumbnail" src="{{ object.get_pafy_object.thumb }}" />
+
+                    <div class="columns large-10 medium-10 small-8">
+                        <h5><a href="{{ object.get_absolute_url }}">{{ object.get_pafy_object.title }}</a></h5>
+                        <p>Duration: {{ object.get_pafy_object.duration }}<br>
+                        Rating: {{ object.get_pafy_object.rating|floatformat:-2 }}<br>
+                        Views: {{ object.get_pafy_object.viewcount }}</p>
+                    </div>
+                    <hr>
+                </div>
+                    {% endfor %}
+                {% endif %}
+
+            </div>
+
+{% endblock main-container %}
