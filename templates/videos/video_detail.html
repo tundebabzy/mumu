@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
 {% block main-container %}
         <div class="large-12 medium-12 small-12 columns">
-            <a href="" class="large button">Download The Video</a>
+            <br><br>
         </div>
-        <div class="large-6 columns">
-                <iframe width="480" height="360" src="//www.youtube.com/embed/{{ video.remove_http }}"
+        <div class="large-6 columns show-for-medium-up">
+                <iframe width="420" height="315" src="//www.youtube.com/embed/{{ video.remove_http }}"
+                        frameborder="0" allowfullscreen>
+                </iframe>
+        </div>
+        <div class="large-6 columns show-for-small">
+                <iframe src="//www.youtube.com/embed/{{ video.remove_http }}"
                         frameborder="0" allowfullscreen>
                 </iframe>
         </div>
