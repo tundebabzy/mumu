@@ -16,4 +16,4 @@ class Video(models.Model):
         return pafy.new(url=self.url)
 
     def remove_http(self):
-        return self.url[7:]
+        return self.url.replace('http://youtu.be/', '')
