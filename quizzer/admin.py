@@ -1,7 +1,5 @@
 from django.contrib import admin
 from quizzer.models import *
-from mumublog.models import Article
-from epiceditor.widgets import AdminEpicEditorWidget
 
 
 class FilteredModelAdmin(admin.ModelAdmin):
@@ -78,15 +76,6 @@ class FlashCardAdmin(FilteredModelAdmin):
     form = adminforms.FlashCardForm
     search_fields = ['question_text']
 
-
-class ArticleAdmin(admin.ModelAdmin):
-    exclude = ('slug',)
-    formfield_overrides = {
-        models.TextField: {'widget': AdminEpicEditorWidget}
-    }
-
-
 admin.site.register(Code)
 admin.site.register(FlashCard, FlashCardAdmin)
 admin.site.register(Question, QuestionAdmin)
-admin.site.register(Article, ArticleAdmin)
