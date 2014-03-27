@@ -1,5 +1,4 @@
-from django.conf.urls import patterns, include, url
-from django.views.generic import TemplateView, ListView
+from django.conf.urls import patterns, url
 
 from accounts.views import UpdateUserNamesView
 
