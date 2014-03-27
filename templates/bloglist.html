@@ -2,13 +2,8 @@
 {% load markdownfilter %}
 {% block main-container %}
             <div class="large-10 columns">
-                <!-- ad -->
-                <!-- End of ad -->
                 <h1>Our Blog</h1>
                 <hr>
-
-                <!-- ad -->
-                <!-- end of ad -->
 
                 {% if is_paginated %}
                     {% for object in page_obj.object_list %}
